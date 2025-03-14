@@ -75,7 +75,7 @@ export default ({authSession}) => {
           setUserSearch("");
         }
 
-        if (downloadData.state.error){
+        if (downloadData.alertbox.state){
           setAlertState(downloadData.alertbox.state);
           setAlertTitle(downloadData.alertbox.title);
           setAlertTitle(downloadData.alertbox.title);
