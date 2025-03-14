@@ -1,7 +1,7 @@
 import Event from "@/class/EventClass";
 import textRefactor from "./textRefactor";
 import { changeUTC, changeFormat } from "./dateRefactor";
-import DownloadState from "@/class/downloadStateClass";
+import DownloadData from "@/class/downloadDataClass";
 
 let noData = "no data"
 
@@ -51,12 +51,22 @@ const downloadFile = async(data) =>{
         })
     }).then((r) => {return r.json()});
 
+    console.log(respDataTrue)
 
     if (!respDataTrue?.error){
         // setLoadingLabel("Création du fichier, veuillez patienter");
 
         if (respDataTrue["@odata.count"] <= 0){
-            return new DownloadState(manageError(noData, setIsLoading), false);
+            // return new DownloadData({isExpired : manageError(noData, setIsLoading), rewrite : false});
+            let err = manageError(noData, setIsLoading);
+            return new DownloadData(
+                {
+                    state : err.data.state,
+                    label : err.data.label,
+                    isExpired : err.isExpired,
+                    rewrite : false,
+                    error : true
+                });
         }
         setLoadingLabel(`Exportation des ${respDataTrue["@odata.count"]} évènements, veuillez patienter`);
         let request = `https://graph.microsoft.com/v1.0/users/${userSearch || authSession.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&select=subject,organizer,start,end&top=1000`; //authSession.user?.email temp, after, need to change for room
@@ -96,42 +106,92 @@ const downloadFile = async(data) =>{
             }
 
             createDownload(fileData, fileName, fileType);
-            return new DownloadState(false, true);
+            // return new DownloadData(false, true);
+            return new DownloadData(
+                {
+                    state : "check",
+                    label : "Téléchargement réussi",
+                    rewrite : true,
+                    error : true
+                });
         }
         else{
-            return new DownloadState(manageError(response.error.message, setIsLoading), false);
+            // return new DownloadData(manageError(response.error.message, setIsLoading), false);
+            let err = manageError(response.error.message, setIsLoading);
+            return new DownloadData(
+                {
+                    state : err.data.state,
+                    label : err.data.label,
+                    isExpired : err.isExpired,
+                    rewrite : false,
+                    error : true
+                });
         }
     }
     else{
-        return new DownloadState(manageError(respDataTrue.error.message, setIsLoading), false);
+        console.log(respDataTrue.error);
+        // return new DownloadData(manageError(respDataTrue.error.message, setIsLoading), false);
+        let err = manageError(respDataTrue.error.message, setIsLoading);
+        return new DownloadData(
+            {
+                state : err.data.state,
+                label : err.data.label,
+                isExpired : err.isExpired,
+                rewrite : false,
+                error : true
+            });
     }
 }
 
 const manageError = (error, setIsLoading) =>{
+
+    let state = "";
+    let title = "";
+    let label = "";
+    let value = "";
+
+    let isExpired = false;
+
+
     if (textRefactor(error).includes("date") && textRefactor(error).includes("maximum")){
-        alert("Dates incorrectes. La période entre la date de début et la date fin est trop élevé.");
+        state = "info";
+        label = "Dates incorrectes. La période entre la date de début et la date fin est trop élevé.";
     }
     else if (textRefactor(error).includes("date") && textRefactor(error).includes("earlier")){
-        alert("Dates incorrectes. La date de fin précède la date de début.");
+        state = "info";
+        label = "Dates incorrectes. La date de fin précède la date de début.";
     }
     else if (textRefactor(error).includes("date")){
-        alert("Dates incorrectes.");
+        state = "info";
+        label = "Dates incorrectes.";
     }
     else if (textRefactor(error).includes("object") && textRefactor(error).includes("not found") && textRefactor(error).includes("store")){
-        alert("Utilisateur incorrect ou calendrier de l'utilisateur inacessible");
+        state = "info";
+        label = "Utilisateur incorrect ou calendrier de l'utilisateur inacessible.";
     }
     else if (textRefactor(error).includes("user") && textRefactor(error).includes("is invalid")){
-        alert(`L'utilisateur n'existe pas.`);
+        state = "info";
+        label = `L'utilisateur n'existe pas.`;
     }
     else if (textRefactor(error).includes(noData)){
-        alert(`Aucune données n'existent dans la période fournie.`);
+        state = "info";
+        label = `Aucune données n'existent dans la période fournie.`;
     }
     else{
-        alert("Jeton d'accès expiré. Vous allez être déconnecté.");
-        return true;
+        state = "warning";
+        label = "Jeton d'accès expiré. Vous allez être déconnecté.";
+        isExpired = true;
     }
     setIsLoading(false);
-    return false;
+    return {
+        isExpired : isExpired,
+        data : {
+            state : state,
+            title : title,
+            label : label,
+            value : value
+        }
+    };
 }
 
 export default downloadFile;

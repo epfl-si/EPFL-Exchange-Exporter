@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ExportExtSelect from "./ExportExtSelect";
 import ExportDownloadButton from "./ExportDownloadButton";
@@ -13,6 +13,7 @@ import downloadFile from "@/services/exportManager"
 import disconnect from "@/services/disconnect";
 
 import csvIcons from "/public/img/csv.png"
+import AlertBox from "./AlertBox";
 
 export default ({authSession}) => {
 
@@ -25,7 +26,12 @@ export default ({authSession}) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [loadingLabel, setLoadingLabel] = useState("");
+  const [isCheck, setIsCheck] = useState(false);
 
+  const [alertState, setAlertState] = useState("check");
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertLabel, setAlertLabel] = useState("Téléchargement réussi");
+  const [alertButtonValue, setAlertButtonValue] = useState("OK");
 
   return (
     <>
@@ -35,7 +41,7 @@ export default ({authSession}) => {
         setLoadingLabel("Vérification des données");
         setIsLoading(true);
 
-        let state = await downloadFile(
+        let downloadData = await downloadFile(
           {
             authSession : authSession,
             filename : fileName,
@@ -48,17 +54,35 @@ export default ({authSession}) => {
           }
         );
 
-        if (state.isExpired){
+        console.log(downloadData);
+
+        if (downloadData.state.isExpired){
+          setAlertState(downloadData.alertbox.state);
+          setAlertTitle(downloadData.alertbox.title);
+          setAlertLabel(downloadData.alertbox.label);
+          setAlertButtonValue(downloadData.alertbox.button.value);
+
+          setIsCheck(true);
           // disconnect();
         }
 
-        else if (state.rewrite){
+        if (downloadData.state.rewrite){
           setIsLoading(false);
           setExportExt("");
           setFileName("");
           setStartDate("");
           setEndDate("");
           setUserSearch("");
+        }
+
+        if (downloadData.state.error){
+          setAlertState(downloadData.alertbox.state);
+          setAlertTitle(downloadData.alertbox.title);
+          setAlertTitle(downloadData.alertbox.title);
+          setAlertLabel(downloadData.alertbox.label);
+          setAlertButtonValue(downloadData.alertbox.button.value);
+
+          setIsCheck(true);
         }
       }}
       className="flex flex-col m-auto bg-[#EEEEEE] p-10 gap-10 rounded-xl">
@@ -100,6 +124,36 @@ export default ({authSession}) => {
       {
         isLoading ?
         <Loading label={loadingLabel}/>
+        :
+        <></>
+      }
+      {
+        isCheck ?
+        <AlertBox data={
+          {
+            state: alertState,
+            title: alertTitle,
+            label: alertLabel,
+            button:
+            {
+              value: alertButtonValue,
+              setter : setIsCheck
+            }
+          }
+        }/>
+        // true ?
+        // <AlertBox data={
+        //   {
+        //     state: alertState,
+        //     title: alertTitle,
+        //     label: alertLabel,
+        //     button:
+        //     {
+        //       value: alertButtonValue,
+        //       setter : setIsCheck
+        //     }
+        //   }
+        // }/>
         :
         <></>
       }
