@@ -12,7 +12,6 @@ import Loading from "./Loading";
 import downloadFile from "@/services/exportManager"
 import disconnect from "@/services/disconnect";
 
-import csvIcons from "/public/img/csv.png"
 import AlertBox from "./AlertBox";
 
 export default ({authSession}) => {
@@ -75,7 +74,7 @@ export default ({authSession}) => {
           setUserSearch("");
         }
 
-        if (downloadData.alertbox.state){
+        if (downloadData.alertbox.state && !downloadData.state.isExpired){
           setAlertState(downloadData.alertbox.state);
           setAlertTitle(downloadData.alertbox.title);
           setAlertTitle(downloadData.alertbox.title);
@@ -96,8 +95,17 @@ export default ({authSession}) => {
           <ExportDatePicker value={endDate} setter={setEndDate} label="Fin" required={true}/>
         </div>
 
-        <div className="flex">
+        <div>
           <ExportNameFileSetter value={fileName} setter={setFileName} required={true} />
+          <datalist id="filenameDataList">
+            <option
+            value={[authSession?.user?.email.replace("@epfl.ch", "").split(".").map((x)=> x = x.slice(0, 3)).join(""), startDate, endDate].join("_")}>
+              {[authSession?.user?.email.replace("@epfl.ch", "").split(".").map((x)=> x = x.slice(0, 3)).join(""), startDate, endDate].join("_")}
+            </option>
+          </datalist>
+        </div>
+
+        <div className="flex justify-between">
           <ExportExtSelect value={exportExt} setter={setExportExt} required={true}/>
         </div>
 
@@ -119,7 +127,6 @@ export default ({authSession}) => {
         <div className="flex justify-center">
           <ExportDownloadButton/>
         </div>
-
       </form>
       {
         isLoading ?

@@ -23,7 +23,7 @@ export default ({authSession}) =>{
                     {
                     authSession ?
                         <div className="flex flex-col text-center">
-                            <span>Connected as {authSession?.user?.email}</span>
+                            <span>Connecté en tant que <b>{authSession?.user?.email}</b></span>
                         </div>
                     :
                     <></>

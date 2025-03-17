@@ -4,14 +4,15 @@ import BackgroundTasks from "./BackgroundTasks";
 
 import textRefactor from "@/services/textRefactor";
 
-import checkImg from "/public/img/check1.gif";
-import infoImg from "/public/img/info1.gif";
-import warningImg from "/public/img/warning1.gif";
+import checkImg from "/public/img/check.gif";
+import infoImg from "/public/img/info.gif";
+import warningImg from "/public/img/warning.gif";
+
 
 export default ({data}) =>{
     return (
       <BackgroundTasks>
-        <div className="bg-white w-60 h-68 text-center shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-xl flex flex-col justify-between">
+        <div className="bg-white w-60 h-68 text-center shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-xl flex flex-col justify-between animate-[ping_.3s_ease-in-out_forwards_reverse]">
           {data.title ?
             <span className="text-left font-bold">{data.title}</span>
             : <></>

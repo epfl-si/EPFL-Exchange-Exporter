@@ -1,5 +1,5 @@
 import { signOut } from "next-auth/react";
 
 export default () =>{
-  signOut();
+  signOut({ callbackUrl: '/logout', redirect:true });
 };

@@ -64,8 +64,7 @@ const downloadFile = async(data) =>{
                     state : err.data.state,
                     label : err.data.label,
                     isExpired : err.isExpired,
-                    rewrite : false,
-                    error : true
+                    rewrite : false
                 });
         }
         setLoadingLabel(`Exportation des ${respDataTrue["@odata.count"]} évènements, veuillez patienter`);
@@ -111,8 +110,7 @@ const downloadFile = async(data) =>{
                 {
                     state : "check",
                     label : "Téléchargement réussi",
-                    rewrite : true,
-                    error : true
+                    rewrite : true
                 });
         }
         else{
@@ -123,8 +121,7 @@ const downloadFile = async(data) =>{
                     state : err.data.state,
                     label : err.data.label,
                     isExpired : err.isExpired,
-                    rewrite : false,
-                    error : true
+                    rewrite : false
                 });
         }
     }
@@ -137,8 +134,7 @@ const downloadFile = async(data) =>{
                 state : err.data.state,
                 label : err.data.label,
                 isExpired : err.isExpired,
-                rewrite : false,
-                error : true
+                rewrite : false
             });
     }
 }

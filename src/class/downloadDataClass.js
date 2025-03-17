@@ -1,5 +1,5 @@
 export default class DownloadData{
-    constructor({state="", title="", label="", value="", isExpired="", rewrite="", error=""}){
+    constructor({state="", title="", label="", value="", isExpired="", rewrite=""}){
         this.alertbox =
         {
             state: state,
@@ -13,8 +13,7 @@ export default class DownloadData{
         this.state =
         {
             isExpired: isExpired,
-            rewrite: rewrite,
-            error: error
+            rewrite: rewrite
         };
     }
 };
