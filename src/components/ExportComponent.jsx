@@ -99,8 +99,8 @@ export default ({authSession}) => {
           <ExportNameFileSetter value={fileName} setter={setFileName} required={true} />
           <datalist id="filenameDataList">
             <option
-            value={[authSession?.user?.email.replace("@epfl.ch", "").split(".").map((x)=> x = x.slice(0, 3)).join(""), startDate, endDate].join("_")}>
-              {[authSession?.user?.email.replace("@epfl.ch", "").split(".").map((x)=> x = x.slice(0, 3)).join(""), startDate, endDate].join("_")}
+            value={[userSearch.replace("@epfl.ch", "").split(".").map((x)=> x = x.slice(0, 3)).join(""), startDate, endDate].join("_")}>
+              {[userSearch.replace("@epfl.ch", "").split(".").map((x)=> x = x.slice(0, 3)).join(""), startDate, endDate].join("_")}
             </option>
           </datalist>
         </div>
