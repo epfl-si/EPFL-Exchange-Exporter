@@ -1,5 +1,4 @@
 export default ({value, setter, label, required=false}) => {
-
   return (
   <div className="flex items-start flex-col">
     {label ? <label className="text-black select-none">{label}</label> : <></>}
@@ -15,7 +14,7 @@ export default ({value, setter, label, required=false}) => {
       value={value}
       id="default-datepicker"
       type="date"
-      className="border border-[#007480] text-black text-sm rounded-lg block w-full ps-10 p-2.5 outline-none invalid:border-gray-500 focus:border-[#004248]"/>
+      className="invalid:border border-[#007480] text-[#007480] border invalid:text-black text-sm rounded-lg block w-full ps-10 p-2.5 outline-none invalid:border-gray-500 focus:border-[#004248]"/>
     </div>
   </div>
   );

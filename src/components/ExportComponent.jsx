@@ -22,6 +22,7 @@ export default ({authSession}) => {
   const [endDate, setEndDate] = useState("");
   const [fileName, setFileName] = useState("");
   const [exportExt, setExportExt] = useState("");
+  const [exportExtCheckName, setExportExtCheckName] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [loadingLabel, setLoadingLabel] = useState("");
@@ -32,9 +33,12 @@ export default ({authSession}) => {
   const [alertLabel, setAlertLabel] = useState("Téléchargement réussi");
   const [alertButtonValue, setAlertButtonValue] = useState("OK");
 
+  const [isClicked, setIsClicked] = useState(false);
+
   return (
     <>
       <form onSubmit={async(e) => {
+        console.log("bloup");
         e.preventDefault();
 
         setLoadingLabel("Vérification des données");
@@ -66,8 +70,10 @@ export default ({authSession}) => {
         }
 
         if (downloadData.state.rewrite){
+          setIsClicked(false);
           setIsLoading(false);
           setExportExt("");
+          setExportExtCheckName("");
           setFileName("");
           setStartDate("");
           setEndDate("");
@@ -76,7 +82,6 @@ export default ({authSession}) => {
 
         if (downloadData.alertbox.state && !downloadData.state.isExpired){
           setAlertState(downloadData.alertbox.state);
-          setAlertTitle(downloadData.alertbox.title);
           setAlertTitle(downloadData.alertbox.title);
           setAlertLabel(downloadData.alertbox.label);
           setAlertButtonValue(downloadData.alertbox.button.value);
@@ -106,7 +111,7 @@ export default ({authSession}) => {
         </div>
 
         <div className="flex justify-between">
-          <ExportExtSelect value={exportExt} setter={setExportExt} required={true}/>
+          <ExportExtSelect value={exportExt} setter={setExportExt} required={true} isLastMissing={userSearch && startDate && endDate && fileName && isClicked} checkName={{value : exportExtCheckName, setter : setExportExtCheckName}}/>
         </div>
 
         {/* <div className="flex">
@@ -125,7 +130,7 @@ export default ({authSession}) => {
         </div> */}
 
         <div className="flex justify-center">
-          <ExportDownloadButton/>
+          <ExportDownloadButton isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked}/>
         </div>
       </form>
       {
