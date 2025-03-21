@@ -4,6 +4,7 @@ import { changeUTC, changeFormat } from "./dateRefactor";
 import DownloadData from "@/class/downloadDataClass";
 
 let noData = "no data"
+let muchData = "too much data"
 
 const getCSV = (data)=>{
 
@@ -56,9 +57,9 @@ const downloadFile = async(data) =>{
     if (!respDataTrue?.error){
         // setLoadingLabel("Création du fichier, veuillez patienter");
 
-        if (respDataTrue["@odata.count"] <= 0){
+        if (respDataTrue["@odata.count"] <= 0 || respDataTrue["@odata.count"] > 1000){
             // return new DownloadData({isExpired : manageError(noData, setIsLoading), rewrite : false});
-            let err = manageError(noData, setIsLoading);
+            let err = manageError(respDataTrue["@odata.count"] <= 0 ? noData : `${muchData},${respDataTrue["@odata.count"]}`, setIsLoading);
             return new DownloadData(
                 {
                     state : err.data.state,
@@ -173,9 +174,14 @@ const manageError = (error, setIsLoading) =>{
         state = "info";
         label = `Aucune données n'existent dans la période fournie.`;
     }
+    else if (textRefactor(error).includes(muchData)){
+        state = "info";
+        label = `Il y a trop de données dans la période fournie. Le maximum autorisé est 1000, ${error.split(',')[1]} sont présentes dans la période donnée.`;
+    }
     else{
         state = "warning";
-        label = "Jeton d'accès expiré. Vous allez être déconnecté.";
+        // label = "Jeton d'accès expiré. Vous allez être déconnecté.";
+        label = "Jeton d'accès expiré. Rafraîchissez la page ou reconnectez-vous.";
         isExpired = true;
     }
     setIsLoading(false);

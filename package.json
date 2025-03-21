@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroui/date-picker": "^2.3.16",
+    "flowbite": "^3.1.2",
     "flowbite-react": "^0.10.2",
     "next": "^15.2.1",
     "next-auth": "^5.0.0-beta.25",
+    "next-intl": "^4.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

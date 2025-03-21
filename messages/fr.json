@@ -1,0 +1,9 @@
+{
+  "HomePage": {
+    "title": "Bonjour Monde!",
+    "about": "Aller sur la page d'info"
+  },
+  "LogOutPage":{
+    "title": "Vous avez bien été déconnecté"
+  }
+}

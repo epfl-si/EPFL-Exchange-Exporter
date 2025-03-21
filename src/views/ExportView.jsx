@@ -4,31 +4,33 @@ import ExportComponent from "@/components/ExportComponent";
 import Loading from "@/components/Loading";
 
 import connect from "@/services/connect";
+import { signIn, useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 
 export default ({authSession}) =>{
 
-    if (!authSession){
-        connect();
-    }
+    const session = useSession();
+
+    // if (!authSession){
+    //     connect();
+    // }
 
     return (
         <>
             {
-                !authSession ?
-                <Loading label="Connection à votre compte"/>
+                !session?.data ?
+                    <>
+                        <h1>Bonjour</h1>
+                    </>
                 :
-                <div className="flex flex-col justify-center">
-                    <ExportComponent authSession={authSession}/>
-                    {
-                    authSession ?
-                        <div className="flex flex-col text-center">
-                            <span>Connecté en tant que <b>{authSession?.user?.email}</b></span>
-                        </div>
+                    session?.status == "loading" ?
+                        <Loading label="Connection à votre compte"/>
                     :
-                    <></>
-                    }
-                </div>
+                        <div className="flex flex-col justify-center">
+                            <ExportComponent authSession={session?.data}/>
+                        </div>
             }
         </>
     );

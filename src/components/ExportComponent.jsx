@@ -13,6 +13,7 @@ import downloadFile from "@/services/exportManager"
 import disconnect from "@/services/disconnect";
 
 import AlertBox from "./AlertBox";
+import { useSearchParams } from "next/navigation";
 
 export default ({authSession}) => {
 
@@ -34,6 +35,8 @@ export default ({authSession}) => {
   const [alertButtonValue, setAlertButtonValue] = useState("OK");
 
   const [isClicked, setIsClicked] = useState(false);
+
+  const searchParams = useSearchParams();
 
   return (
     <>
@@ -169,6 +172,7 @@ export default ({authSession}) => {
         :
         <></>
       }
+      <input type="button" onClick={()=>{console.log(searchParams)}} value={"hello"}/>
     </>
   );
 };

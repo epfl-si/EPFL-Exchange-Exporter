@@ -6,11 +6,18 @@ import { useEffect, useState } from "react";
 
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
+import { useSession } from "next-auth/react";
 
 const Header = () =>{
 
     const [session, setSession] = useState("");
     const [imageUrl, setImageUrl] = useState("");
+
+    // const session = useSession();
+
+    // console.log(session);
+    // console.log(session?.data);
+    // console.log(session?.data?.user?.image);
 
     useEffect(() =>{
         const api = async() =>{
@@ -41,7 +48,7 @@ const Header = () =>{
                 <img src="https://www.epfl.ch/wp-content/themes/wp-theme-2018/assets/svg/epfl-logo.svg" className="w-28 border-r border-r-[#c1c1c1] pr-4"/>
                 <Link href={"/"} className="hover:text-[#FF0000] hover:cursor-pointer">
                     <h1 className="text-2xl hover:text-[#FF0000] hover:cursor-pointer pl-2 ml-1">
-                        Réservations en ligne
+                        Exchange Exporter - EEE
                     </h1>
                 </Link>
             </div>
@@ -50,7 +57,10 @@ const Header = () =>{
                     !session ?
                     <LoginButton/>
                     :
-                    <LogoutButton imageUrl={imageUrl} session={session}/>
+                    <>
+                        <span className="place-self-center">{session?.user?.email}</span>
+                        <LogoutButton imageUrl={imageUrl} session={session}/>
+                    </>
                 }
             </div>
         </header>

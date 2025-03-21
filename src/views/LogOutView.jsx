@@ -4,6 +4,8 @@ import Loading from "@/components/Loading";
 
 import { signOut } from "next-auth/react";
 
+import { useTranslations } from "next-intl";
+
 
 export default ({authSession}) =>{
 
@@ -11,13 +13,15 @@ export default ({authSession}) =>{
         signOut();
     }
 
+    const t = useTranslations("LogOutPage");
+
     return (
         <>
             {
                 authSession ?
                 <Loading label="Déconnexion de votre compte"/>
                 :
-                <h1>Vous avez bien été déconnecté</h1>
+                <h1>{t("title")}</h1>
             }
         </>
     );
