@@ -1,5 +1,6 @@
 "use client";
 
+import About from "@/components/About";
 import ExportComponent from "@/components/ExportComponent";
 import Loading from "@/components/Loading";
 
@@ -8,11 +9,15 @@ import { signIn, useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
+import { useTranslations } from "next-intl";
+
 
 export default ({authSession}) =>{
 
+
     const session = useSession();
 
+    const t = useTranslations("Loading");
     // if (!authSession){
     //     connect();
     // }
@@ -20,13 +25,13 @@ export default ({authSession}) =>{
     return (
         <>
             {
-                !session?.data ?
+                session?.status == "unauthenticated" ?
                     <>
-                        <h1>Bonjour</h1>
+                        <About/>
                     </>
                 :
                     session?.status == "loading" ?
-                        <Loading label="Connection à votre compte"/>
+                        <Loading label={t("connect")}/> //"Connection à votre compte"
                     :
                         <div className="flex flex-col justify-center">
                             <ExportComponent authSession={session?.data}/>
