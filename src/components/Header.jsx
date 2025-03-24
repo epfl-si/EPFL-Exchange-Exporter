@@ -8,11 +8,14 @@ import { useSession } from "next-auth/react";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import LangSwitcher from "./LangSwitcher";
+import { usePathname } from "@/i18n/navigation";
 
 const Header = () =>{
 
     const [session, setSession] = useState("");
     const [imageUrl, setImageUrl] = useState("");
+
+    const pathname = usePathname();
 
     // const session = useSession();
 
@@ -56,7 +59,10 @@ const Header = () =>{
             <div className="flex gap-3">
                 {
                     !session ?
-                    <LoginButton/>
+                        pathname == "/" ?
+                            <LoginButton/>
+                        :
+                            <LoginButton redirection={true}/>
                     :
                     <>
                         <span className="place-self-center">{session?.user?.email}</span>

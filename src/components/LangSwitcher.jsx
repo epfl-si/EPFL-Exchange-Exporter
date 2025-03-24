@@ -7,10 +7,6 @@ import { startTransition } from "react";
 
 export default () =>{
     const lang = useLocale();
-    console.log("###");
-    console.log(lang);
-    console.log("###");
-
     const router = useRouter();
     const pathname = usePathname();
     const params = useParams();
