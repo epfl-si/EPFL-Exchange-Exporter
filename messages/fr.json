@@ -26,5 +26,8 @@
   },
   "Loading":{
     "connect" : "Chargement"
+  },
+  "Footer":{
+    "source" : "code source"
   }
 }

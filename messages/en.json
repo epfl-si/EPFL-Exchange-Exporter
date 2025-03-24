@@ -26,5 +26,8 @@
   },
   "Loading":{
     "connect" : "Loading"
+  },
+  "Footer":{
+    "source" : "source code"
   }
 }
