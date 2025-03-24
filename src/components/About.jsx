@@ -5,14 +5,14 @@ import { useTranslations } from "use-intl";
 export default () =>{
     const t = useTranslations("HomePage");
     return (
-        <section>
+        <section className="w-[980px] flex flex-col gap-4">
             <div>
                 <h1 className="text-6xl">{t("eee-title")}</h1>
-                <p>{t("eee-paragraph")}</p>
+                <p className="ml-2">{t("eee-paragraph")}</p>
             </div>
             <div>
                 <h2 className="text-6xl">{t("guid-title")}</h2>
-                <p>{t("guid-paragraph")}</p>
+                <p className="ml-2">{t("guid-paragraph")}</p>
             </div>
         </section>
     );

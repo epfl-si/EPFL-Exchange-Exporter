@@ -26,18 +26,22 @@ const getCSV = (data)=>{
     return result;
 }
 
-const createDownload = (fileData, fileName, fileType) =>{
+const createDownload = (fileData, fileName, fileType, isBackend=false) =>{
     const blob = new Blob([fileData], { type: "text/plain" });
+    if (isBackend){
+        return blob;
+    }
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.download = `${fileName}.${fileType}`;
     link.href = url;
     link.click();
+    return blob;
 }
 
 const downloadFile = async(data) =>{
 
-    let {authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading} = data;
+    let {authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading, isBackend} = data;
 
     console.log(new Date(new Date(startDate).setHours(1)).getUTCDate());
     console.log(new Date(new Date(endDate).setHours(23)).getUTCDate());
@@ -68,7 +72,9 @@ const downloadFile = async(data) =>{
                     rewrite : false
                 });
         }
-        setLoadingLabel(`Exportation des ${respDataTrue["@odata.count"]} évènements, veuillez patienter`);
+        if (!isBackend){
+            setLoadingLabel(`Exportation des ${respDataTrue["@odata.count"]} évènements, veuillez patienter`);
+        }
         let request = `https://graph.microsoft.com/v1.0/users/${userSearch || authSession.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&select=subject,organizer,start,end&top=1000`; //authSession.user?.email temp, after, need to change for room
 
         let response = await fetch(request, {
@@ -103,6 +109,9 @@ const downloadFile = async(data) =>{
                 default:
                     fileData = `file extension "${fileType}" doesn't recognize.`
                     break;
+            }
+            if (isBackend){
+                return createDownload(fileData, fileName, fileType, isBackend);
             }
 
             createDownload(fileData, fileName, fileType);
