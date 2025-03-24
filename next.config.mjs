@@ -1,5 +1,3 @@
-// const createNextIntlPlugin = require('next-intl/plugin');
-// import createNextIntlPlugin from 'next-intl/dist/types/plugin';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin();

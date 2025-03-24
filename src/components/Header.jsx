@@ -3,10 +3,11 @@
 import Link from "next/link";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
-import { useSession } from "next-auth/react";
+import LangSwitcher from "./LangSwitcher";
 
 const Header = () =>{
 
@@ -62,6 +63,7 @@ const Header = () =>{
                         <LogoutButton imageUrl={imageUrl} session={session}/>
                     </>
                 }
+                <LangSwitcher/>
             </div>
         </header>
     );

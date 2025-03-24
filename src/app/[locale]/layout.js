@@ -41,11 +41,13 @@ export default async function LocaleLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex flex-col`}
         >
         <SessionProvider>
-          <Header/>
-          <main className="m-auto">
-              <NextIntlClientProvider>{children}</NextIntlClientProvider>
-          </main>
-          <Footer/>
+          <NextIntlClientProvider>
+            <Header/>
+            <main className="m-auto">
+                {children}
+            </main>
+            <Footer/>
+          </NextIntlClientProvider>
         </SessionProvider>
       </body>
     </html>

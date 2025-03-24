@@ -1,16 +1,21 @@
 "use client";
+
+import { useTranslations } from "next-intl";
+
 // import csvImg from "/public/img/icons8-csv-100.png";
 // import jsonImg from "/public/img/icons8-json-100.png";
 
 export default ({value, setter, isLastMissing, checkName, required=false}) => {
+  const t = useTranslations("Form");
+
   const allChoices = [
     {
       name : "csv",
-      plot : "Débutant"
+      plot : t("csv")
     },
     {
       name : "json",
-      plot : "Professionnel"
+      plot : t("json")
     },
     // {
     //   name : "test",

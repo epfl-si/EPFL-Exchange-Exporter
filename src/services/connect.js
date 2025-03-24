@@ -3,5 +3,5 @@
 import { signIn } from "next-auth/react";
 
 export default () =>{
-  signIn("microsoft-entra-id", { redirectTo: "/" });
+  signIn("microsoft-entra-id");
 };

@@ -15,6 +15,8 @@ import disconnect from "@/services/disconnect";
 import AlertBox from "./AlertBox";
 import { useSearchParams } from "next/navigation";
 
+import { useTranslations } from "next-intl";
+
 export default ({authSession}) => {
 
   const [userSearch, setUserSearch] = useState("");
@@ -37,6 +39,8 @@ export default ({authSession}) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const searchParams = useSearchParams();
+
+  const t = useTranslations("Form");
 
   return (
     <>
@@ -95,16 +99,16 @@ export default ({authSession}) => {
       className="flex flex-col m-auto bg-[#EEEEEE] p-10 gap-10 rounded-xl">
 
         <div className="flex justify-center">
-          <SearchBar value={userSearch} setter={setUserSearch} placeholder={"Email de salle (WIP)"} user={authSession?.user?.email || ""} required={true}/>
+          <SearchBar value={userSearch} setter={setUserSearch} placeholder={t("room")} user={authSession?.user?.email || ""} required={true}/>
         </div>
 
         <div className="flex gap-3 justify-between">
-          <ExportDatePicker value={startDate} setter={setStartDate} label="Début" required={true}/>
-          <ExportDatePicker value={endDate} setter={setEndDate} label="Fin" required={true}/>
+          <ExportDatePicker value={startDate} setter={setStartDate} label={t("start")} required={true}/>
+          <ExportDatePicker value={endDate} setter={setEndDate} label={t("end")} required={true}/>
         </div>
 
         <div>
-          <ExportNameFileSetter value={fileName} setter={setFileName} required={true} />
+          <ExportNameFileSetter value={fileName} setter={setFileName} required={true} placeholder={t("filename")} />
           <datalist id="filenameDataList">
             <option
             value={[userSearch.replace("@epfl.ch", "").split(".").map((x)=> x = x.slice(0, 3)).join(""), startDate, endDate].join("_")}>
@@ -133,7 +137,7 @@ export default ({authSession}) => {
         </div> */}
 
         <div className="flex justify-center">
-          <ExportDownloadButton isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked}/>
+          <ExportDownloadButton isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={t("download")}/>
         </div>
       </form>
       {

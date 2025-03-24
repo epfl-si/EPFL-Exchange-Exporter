@@ -1,5 +1,5 @@
 // "use client";
-export default ({value, setter, required=false}) => {
+export default ({value, setter, placeholder, required=false}) => {
   return (
     // <>
       // <input
@@ -26,7 +26,7 @@ export default ({value, setter, required=false}) => {
       className="select-none absolute text-sm text-[#007480] duration-300 transform -translate-y-4 scale-75 top-2 left-3 z-10 origin-[0] bg-[#EEEEEE] px-3 peer-placeholder-shown:text-gray-500 peer-focus:text-[#004248] peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:left-3 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Nom de fichier</label> */}
       <label
       htmlFor="floating_outlined"
-      className="select-none absolute text-sm text-[#007480] duration-300 transform -translate-y-4 scale-75 top-2 left-3 z-10 origin-[0] bg-[#EEEEEE] px-2 peer-placeholder-shown:text-gray-500 peer-focus:text-[#004248] peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:left-3 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Nom de fichier</label>
+      className="cursor-text select-none absolute text-sm text-[#007480] duration-300 transform -translate-y-4 scale-75 top-2 left-3 z-10 origin-[0] bg-[#EEEEEE] px-2 peer-placeholder-shown:text-gray-500 peer-focus:text-[#004248] peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:left-3 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{placeholder}</label>
     </div>
   );
 };
