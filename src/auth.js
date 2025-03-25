@@ -85,7 +85,7 @@ async function refreshAccessToken(token) {
       },
       body: new URLSearchParams({
         client_id: process.env.AUTH_MICROSOFT_ENTRA_ID_ID,
-        scope: `${process.env.AUTH_MICROSOFT_ENTRA_ID_ID}%2f.default openid profile offline_access`,
+        scope: `https://graph.microsoft.com/.default`,
         refresh_token: token.refreshToken,
         redirect_uri : "http://localhost:3000/api/auth/callback/microsoft-entra-id",
         grant_type: "refresh_token",
@@ -94,21 +94,22 @@ async function refreshAccessToken(token) {
       // body: formData.toString()
     })
 
-    console.log("before");
+    // console.log("before");
 
-    throw {response: response, params : {
-      client_id: process.env.AUTH_MICROSOFT_ENTRA_ID_ID,
-      scope: `${process.env.AUTH_MICROSOFT_ENTRA_ID_ID}%2f.default openid profile offline_access`,
-      refresh_token: token.refreshToken,
-      redirect_uri : "http://localhost:3000/api/auth/callback/microsoft-entra-id",
-      grant_type: "refresh_token",
-      client_secret: process.env.AUTH_MICROSOFT_ENTRA_ID_SECRET,
-    }, url:url};
+    // throw {response: response, params : {
+    //   client_id: process.env.AUTH_MICROSOFT_ENTRA_ID_ID,
+    //   scope: `${process.env.AUTH_MICROSOFT_ENTRA_ID_ID}%2f.default openid profile offline_access`,
+    //   refresh_token: token.refreshToken,
+    //   redirect_uri : "http://localhost:3000/api/auth/callback/microsoft-entra-id",
+    //   grant_type: "refresh_token",
+    //   client_secret: process.env.AUTH_MICROSOFT_ENTRA_ID_SECRET,
+    // }, url:url};
 
     //Error of refresh token here
     const refreshedTokens = await response.json()
 
     console.log("after");
+    console.log(token.refreshToken);
     console.log(refreshedTokens);
     console.log("after");
 
@@ -193,14 +194,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
       }
 
-
+      console.log("a");
       // Return previous token if the access token has not expired yet
       if (Date.now() < token.accessTokenExpires) {
+        console.log("b");
         return token
       }
-
+      console.log("c");
       // Access token has expired, try to update it
-      return refreshAccessToken(token)
+      let updated = refreshAccessToken(token);
+      console.log(updated);
+      return updated;
     },
     async session({ session, token }) {
       if (token){
