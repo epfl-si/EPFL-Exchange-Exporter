@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ExportExtSelect from "./ExportExtSelect";
 import ExportDownloadButton from "./ExportDownloadButton";
@@ -40,11 +40,61 @@ export default ({authSession}) => {
 
   const searchParams = useSearchParams();
 
+  const downloadButtonRef = useRef()
+  const formRef = useRef()
+
   const t = useTranslations("Form");
+
+  useEffect(()=>{
+    let startDate = new Date(searchParams.get("start"));
+    let endDate = new Date(searchParams.get("end"));
+    let room = searchParams.get("room");
+    let filename = searchParams.get("filename");
+    let extension = searchParams.get("extension");
+
+
+    if (startDate){
+      let day = ("0" + startDate.getDate()).slice(-2);
+      let month = ("0" + (startDate.getMonth() + 1)).slice(-2);
+
+      let start = startDate.getFullYear()+"-"+(month)+"-"+(day) ;
+      setStartDate(start);
+    }
+
+    if (endDate){
+      let day = ("0" + endDate.getDate()).slice(-2);
+      let month = ("0" + (endDate.getMonth() + 1)).slice(-2);
+
+      let end = endDate.getFullYear()+"-"+(month)+"-"+(day) ;
+      setEndDate(end);
+    }
+
+    if (room){
+      setUserSearch(room);
+    }
+
+    if (filename){
+      setFileName(filename);
+    }
+
+    if (extension){
+      setExportExt(extension);
+      setExportExtCheckName(extension);
+    }
+
+  }, [])
+
+  useEffect(()=>{
+    if (userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate && searchParams.has("download")){
+      formRef.current.requestSubmit();
+    }
+  },[userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate])
 
   return (
     <>
-      <form onSubmit={async(e) => {
+      <form
+      ref={formRef}
+      onSubmit={async(e) => {
         console.log("bloup");
         e.preventDefault();
 
@@ -137,7 +187,7 @@ export default ({authSession}) => {
         </div> */}
 
         <div className="flex justify-center">
-          <ExportDownloadButton isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={t("download")}/>
+          <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={t("download")}/>
         </div>
       </form>
       {
@@ -176,7 +226,6 @@ export default ({authSession}) => {
         :
         <></>
       }
-      <input type="button" onClick={()=>{console.log(searchParams)}} value={"hello"}/>
     </>
   );
 };

@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { startTransition } from "react";
 
 export default () =>{
@@ -10,13 +10,19 @@ export default () =>{
     const router = useRouter();
     const pathname = usePathname();
     const params = useParams();
+    const searchParams = useSearchParams();
 
     const onSelectChange = (eee) =>{
         const nextLocale = eee.target.value;
+        console.log(pathname);
+        console.log(params);
+        console.log(searchParams.toString());
+        console.log(nextLocale);
+        let newPath = pathname + searchParams.toString()
         startTransition(()=>{
             router.replace(
                 {pathname, params},
-                {locale : nextLocale}
+                {locale : pathname == "/" ? `${nextLocale}?${searchParams.toString()}` : nextLocale}
             )
         })
     }

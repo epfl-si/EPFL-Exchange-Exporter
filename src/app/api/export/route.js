@@ -22,23 +22,20 @@ export async function GET(request) {
 
   // return new NextResponse(blob, {headers: headers});
   const headersReq = request.nextUrl.searchParams;
+
+  const requiredParams = ["room", "start", "end", "filename", "extension"]
+
+  for (let param of requiredParams){
+    if (!request.nextUrl.searchParams.has(param)){
+      return new NextResponse([`Missing following argument : ${param}`]);
+    }
+  }
+
   const room = headersReq.get("room");
   const start = headersReq.get("start");
   const end = headersReq.get("end");
   const filename = headersReq.get("filename");
   const extension = headersReq.get("extension");
-
-  if (room){
-    if (start){
-
-    }
-    else{
-      return new NextResponse(["Missing other arguments"]);
-    }
-  }
-  else{
-    return new NextResponse(["Missing room arguments"]);
-  }
 
   const fakeFunc = (a)=>{
     return null;

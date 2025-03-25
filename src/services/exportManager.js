@@ -115,7 +115,6 @@ const downloadFile = async(data) =>{
             }
 
             createDownload(fileData, fileName, fileType);
-            // return new DownloadData(false, true);
             return new DownloadData(
                 {
                     state : "check",
@@ -124,7 +123,6 @@ const downloadFile = async(data) =>{
                 });
         }
         else{
-            // return new DownloadData(manageError(response.error.message, setIsLoading), false);
             let err = manageError(response.error.message, setIsLoading);
             return new DownloadData(
                 {
@@ -137,7 +135,6 @@ const downloadFile = async(data) =>{
     }
     else{
         console.log(respDataTrue.error);
-        // return new DownloadData(manageError(respDataTrue.error.message, setIsLoading), false);
         let err = manageError(respDataTrue.error.message, setIsLoading);
         return new DownloadData(
             {
@@ -175,6 +172,10 @@ const manageError = (error, setIsLoading) =>{
         state = "info";
         label = "Utilisateur incorrect ou calendrier de l'utilisateur inacessible.";
     }
+    else if (textRefactor(error).includes("mailbox") && textRefactor(error).includes("inactive") && textRefactor(error).includes("hosted on-premise")){
+        state = "info";
+        label = "Utilisateur incorrect, son adresse n'est pas une adresse active.";
+    }
     else if (textRefactor(error).includes("user") && textRefactor(error).includes("is invalid")){
         state = "info";
         label = `L'utilisateur n'existe pas.`;
@@ -189,7 +190,6 @@ const manageError = (error, setIsLoading) =>{
     }
     else{
         state = "warning";
-        // label = "Jeton d'accès expiré. Vous allez être déconnecté.";
         label = "Jeton d'accès expiré. Rafraîchissez la page ou reconnectez-vous.";
         isExpired = true;
     }
