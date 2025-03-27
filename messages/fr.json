@@ -8,6 +8,7 @@
   "Form": {
     "room": "Email de salle",
     "start": "Début",
+    "period": "Période",
     "end": "Fin",
     "filename": "Nom de fichier",
     "extension": "Extension",
@@ -29,5 +30,14 @@
   },
   "Footer":{
     "source" : "code source"
+  },
+  "DatePicker":{
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "period": "Les {period} derniers jours",
+    "currentMonth": "Mois actuel",
+    "pastMonth": "Mois dernier",
+    "cancel": "Annuler",
+    "apply": "Appliquer"
   }
 }

@@ -5,15 +5,16 @@ import { useEffect, useRef, useState } from "react";
 import ExportExtSelect from "./ExportExtSelect";
 import ExportDownloadButton from "./ExportDownloadButton";
 import ExportNameFileSetter from "./ExportNameFileSetter";
-import ExportDatePicker from "./ExportDatePicker";
+import ExportDoubleDatePicker from "./ExportDoubleDatePicker";
 import SearchBar from "./SearchBar";
 import Loading from "./Loading";
+import AlertBox from "./AlertBox";
+import LinkGeneratorButton from "./LinkGeneratorButton"
 
 import downloadFile from "@/services/exportManager"
 import disconnect from "@/services/disconnect";
 
-import AlertBox from "./AlertBox";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import { useTranslations } from "next-intl";
 
@@ -38,6 +39,9 @@ export default ({authSession}) => {
 
   const [isClicked, setIsClicked] = useState(false);
 
+  const [dateIsRequired, setDateIsRequired] = useState(true);
+
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const downloadButtonRef = useRef()
@@ -46,14 +50,19 @@ export default ({authSession}) => {
   const t = useTranslations("Form");
 
   useEffect(()=>{
-    let startDate = new Date(searchParams.get("start"));
-    let endDate = new Date(searchParams.get("end"));
+    let startDate = searchParams.get("start");
+    let endDate = searchParams.get("end");
     let room = searchParams.get("room");
     let filename = searchParams.get("filename");
     let extension = searchParams.get("extension");
 
+    if (startDate && endDate){
+      setDateIsRequired(false);
+    }
+
 
     if (startDate){
+      startDate = new Date(startDate)
       let day = ("0" + startDate.getDate()).slice(-2);
       let month = ("0" + (startDate.getMonth() + 1)).slice(-2);
 
@@ -62,6 +71,7 @@ export default ({authSession}) => {
     }
 
     if (endDate){
+      endDate = new Date(endDate)
       let day = ("0" + endDate.getDate()).slice(-2);
       let month = ("0" + (endDate.getMonth() + 1)).slice(-2);
 
@@ -87,6 +97,7 @@ export default ({authSession}) => {
   useEffect(()=>{
     if (userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate && searchParams.has("download")){
       formRef.current.requestSubmit();
+      setDateIsRequired(true);
     }
   },[userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate])
 
@@ -132,9 +143,10 @@ export default ({authSession}) => {
           setExportExt("");
           setExportExtCheckName("");
           setFileName("");
-          setStartDate("");
-          setEndDate("");
+          setStartDate(null);
+          setEndDate(null);
           setUserSearch("");
+          router.replace('/', undefined, { shallow: true });
         }
 
         if (downloadData.alertbox.state && !downloadData.state.isExpired){
@@ -149,12 +161,20 @@ export default ({authSession}) => {
       className="flex flex-col m-auto bg-[#EEEEEE] p-10 gap-10 rounded-xl">
 
         <div className="flex justify-center">
-          <SearchBar value={userSearch} setter={setUserSearch} placeholder={t("room")} user={authSession?.user?.email || ""} required={true}/>
+          <SearchBar value={userSearch} setter={setUserSearch} placeholder={t("room")} user={authSession?.user?.email || ""} authSession={authSession} required={true}/>
         </div>
 
-        <div className="flex gap-3 justify-between">
-          <ExportDatePicker value={startDate} setter={setStartDate} label={t("start")} required={true}/>
-          <ExportDatePicker value={endDate} setter={setEndDate} label={t("end")} required={true}/>
+        <div>
+        {/* <div className="flex gap-3 justify-between"> */}
+          {/* <ExportDatePicker value={startDate} setter={setStartDate} label={t("start")} required={true}/>
+          <ExportDatePicker value={endDate} setter={setEndDate} label={t("end")} required={true}/> */}
+          <ExportDoubleDatePicker
+          startValue={startDate}
+          startSetter={setStartDate}
+          endValue={endDate}
+          endSetter={setEndDate}
+          label={t("period")}
+          required={dateIsRequired}/>
         </div>
 
         <div>
@@ -167,7 +187,7 @@ export default ({authSession}) => {
           </datalist>
         </div>
 
-        <div className="flex justify-between">
+        <div>
           <ExportExtSelect value={exportExt} setter={setExportExt} required={true} isLastMissing={userSearch && startDate && endDate && fileName && isClicked} checkName={{value : exportExtCheckName, setter : setExportExtCheckName}}/>
         </div>
 

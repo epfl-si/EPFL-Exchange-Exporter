@@ -8,6 +8,7 @@
   "Form": {
     "room": "Email room",
     "start": "Begin",
+    "period": "Period",
     "end": "End",
     "filename": "File name",
     "extension": "Extension",
@@ -29,5 +30,14 @@
   },
   "Footer":{
     "source" : "source code"
+  },
+  "DatePicker":{
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "period": "Last {period} days",
+    "currentMonth": "Current month",
+    "pastMonth": "Past month",
+    "cancel": "Cancel",
+    "apply": "Apply"
   }
 }
