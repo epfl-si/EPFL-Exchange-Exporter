@@ -27,9 +27,13 @@ export default () =>{
         })
     }
     return (
-        <select defaultValue={lang} onChange={(eee) => onSelectChange(eee)}>
-            <option value={"fr"}>FR</option>
-            <option value={"en"}>EN</option>
+        <select defaultValue={lang} onChange={(eee) => onSelectChange(eee)} className="bg-transparent">
+            <option value={"fr"}>
+                🇫🇷 FR
+            </option>
+            <option value={"en"}>
+                🇬🇧 EN
+            </option>
         </select>
     );
 };
