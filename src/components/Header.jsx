@@ -64,10 +64,8 @@ const Header = () =>{
                         :
                             <LoginButton redirection={true}/>
                     :
-                    <>
-                        <span className="place-self-center">{session?.user?.email}</span>
                         <LogoutButton imageUrl={imageUrl} session={session}/>
-                    </>
+
                 }
                 <LangSwitcher/>
             </div>
