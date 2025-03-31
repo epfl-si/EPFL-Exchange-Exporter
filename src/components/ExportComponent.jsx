@@ -18,15 +18,18 @@ import { useSearchParams, useRouter } from "next/navigation";
 
 import { useTranslations } from "next-intl";
 
+import dayjs from "dayjs";
+import ExportResetButton from "./ExportResetButton";
+
 export default ({authSession}) => {
 
   const [userSearch, setUserSearch] = useState("");
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [fileName, setFileName] = useState("");
-  const [exportExt, setExportExt] = useState("");
-  const [exportExtCheckName, setExportExtCheckName] = useState("");
+  const [fileName, setFileName] = useState("exportation");
+  const [exportExt, setExportExt] = useState("csv");
+  const [exportExtCheckName, setExportExtCheckName] = useState("csv");
 
   const [isLoading, setIsLoading] = useState(false);
   const [loadingLabel, setLoadingLabel] = useState("");
@@ -38,6 +41,7 @@ export default ({authSession}) => {
   const [alertButtonValue, setAlertButtonValue] = useState("OK");
 
   const [isClicked, setIsClicked] = useState(false);
+  const [isReset, setIsReset] = useState(false);
 
   const [dateIsRequired, setDateIsRequired] = useState(true);
 
@@ -48,6 +52,67 @@ export default ({authSession}) => {
   const formRef = useRef()
 
   const t = useTranslations("Form");
+
+  useEffect(()=>{
+    if (userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate && searchParams.has("download")){
+      formRef.current.requestSubmit();
+      setDateIsRequired(true);
+    }
+  },[userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate])
+
+  const checkIfWanted = (key)=>{
+    switch(key){
+        case "room":
+            return userSearch;
+        case "start":
+          return startDate;
+        case "end":
+            return endDate;
+        case "filename":
+            return fileName;
+        case "extension":
+            return exportExt;
+    }
+    return true;
+  }
+
+  const resetData = ()=>{
+    router.replace('/', undefined, { shallow: true });
+    setIsClicked(false);
+    setIsLoading(false);
+    setExportExt("");
+    setExportExtCheckName("");
+    setFileName("");
+    setStartDate(null);
+    setEndDate(null);
+    setUserSearch("");
+  }
+
+  useEffect(()=>{
+    //define date format
+    let startD = dayjs(startDate).format("YYYY-MM-DD");
+    let endD = dayjs(endDate).format("YYYY-MM-DD")
+
+    //get filename in params
+    let filename = !isReset ? fileName : ""; // Let empty here, because if you don't, at reseting it will write this string instead of reseting.
+    setIsReset(false);
+
+    //redefine filename if name doesn't provide
+    let fn = `exportation_meetings_${userSearch.split("@")[0]}_from_${startD}_to_${endD}`;
+    setFileName((filename.split("_")[0] == "exportation") && (startDate || endDate || userSearch) ? fn : filename)
+
+    //redefine link
+    let data = {
+      room: userSearch,
+      start: startDate ? startD : startDate,
+      end: endDate ? endD : endDate,
+      filename: fileName,
+      extension: exportExt
+    }
+    let lk = Object.entries(data).map((entry) => ({[entry[0]] : entry[1]})).filter((x)=> Object.values(x)[0] != "" && checkIfWanted(Object.keys(x)[0])).map((x) => `${Object.keys(x)[0]}=${Object.values(x)[0]}`).join("&");
+    router.replace(`/${lk ? "?" + lk : ""}`, undefined, { shallow: true });
+
+  },[userSearch, fileName, exportExt, startDate, endDate])
 
   useEffect(()=>{
     let startDate = searchParams.get("start");
@@ -62,21 +127,15 @@ export default ({authSession}) => {
 
 
     if (startDate){
+      console.log(startDate); //2023-12-30
+      console.log([2, 1, 0].map((index) => startDate.split("-")[index]).join("/")); //30/12/2023
       startDate = new Date(startDate)
-      let day = ("0" + startDate.getDate()).slice(-2);
-      let month = ("0" + (startDate.getMonth() + 1)).slice(-2);
-
-      let start = startDate.getFullYear()+"-"+(month)+"-"+(day) ;
-      setStartDate(start);
+      setStartDate(startDate);
     }
 
     if (endDate){
       endDate = new Date(endDate)
-      let day = ("0" + endDate.getDate()).slice(-2);
-      let month = ("0" + (endDate.getMonth() + 1)).slice(-2);
-
-      let end = endDate.getFullYear()+"-"+(month)+"-"+(day) ;
-      setEndDate(end);
+      setEndDate(endDate);
     }
 
     if (room){
@@ -94,19 +153,11 @@ export default ({authSession}) => {
 
   }, [])
 
-  useEffect(()=>{
-    if (userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate && searchParams.has("download")){
-      formRef.current.requestSubmit();
-      setDateIsRequired(true);
-    }
-  },[userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate])
-
   return (
     <>
       <form
       ref={formRef}
       onSubmit={async(e) => {
-        console.log("bloup");
         e.preventDefault();
 
         setLoadingLabel("Vérification des données");
@@ -134,19 +185,11 @@ export default ({authSession}) => {
           setAlertButtonValue(downloadData.alertbox.button.value);
 
           setIsCheck(true);
-          // disconnect();
         }
 
         if (downloadData.state.rewrite){
-          setIsClicked(false);
-          setIsLoading(false);
-          setExportExt("");
-          setExportExtCheckName("");
-          setFileName("");
-          setStartDate(null);
-          setEndDate(null);
-          setUserSearch("");
-          router.replace('/', undefined, { shallow: true });
+          setIsReset(true);
+          resetData();
         }
 
         if (downloadData.alertbox.state && !downloadData.state.isExpired){
@@ -165,9 +208,6 @@ export default ({authSession}) => {
         </div>
 
         <div>
-        {/* <div className="flex gap-3 justify-between"> */}
-          {/* <ExportDatePicker value={startDate} setter={setStartDate} label={t("start")} required={true}/>
-          <ExportDatePicker value={endDate} setter={setEndDate} label={t("end")} required={true}/> */}
           <ExportDoubleDatePicker
           startValue={startDate}
           startSetter={setStartDate}
@@ -179,33 +219,16 @@ export default ({authSession}) => {
 
         <div>
           <ExportNameFileSetter value={fileName} setter={setFileName} required={true} placeholder={t("filename")} />
-          <datalist id="filenameDataList">
-            <option
-            value={[userSearch.replace("@epfl.ch", "").split(".").map((x)=> x = x.slice(0, 3)).join(""), startDate, endDate].join("_")}>
-              {[userSearch.replace("@epfl.ch", "").split(".").map((x)=> x = x.slice(0, 3)).join(""), startDate, endDate].join("_")}
-            </option>
-          </datalist>
         </div>
 
         <div>
           <ExportExtSelect value={exportExt} setter={setExportExt} required={true} isLastMissing={userSearch && startDate && endDate && fileName && isClicked} checkName={{value : exportExtCheckName, setter : setExportExtCheckName}}/>
         </div>
 
-        {/* <div className="flex">
-          <ExportNameFileSetter value={fileName} setter={setFileName} required={true}/>
+        <div className="grid w-full gap-6 md:grid-cols-2">
+          <LinkGeneratorButton data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
+          <ExportResetButton func={resetData} setter={setIsReset}/>
         </div>
-
-        <div className="flex">
-          <button className="bg-[#FF0000] hover:bg-[#B51F1F] active:bg-[#891818] text-white font-bold py-2 px-4 rounded inline-flex items-center" type="submit">
-            <span>✔️</span>
-            <span>CSV</span>
-          </button>
-          <button className="bg-[#FF0000] hover:bg-[#B51F1F] active:bg-[#891818] text-white font-bold py-2 px-4 rounded inline-flex items-center" type="submit">
-            <img alt="Csv icons created by mpanicon - Flaticon" src={csvIcons.src} className="w-10"/>
-            <span>JSON</span>
-          </button>
-        </div> */}
-
         <div className="flex justify-center">
           <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={t("download")}/>
         </div>
@@ -230,19 +253,6 @@ export default ({authSession}) => {
             }
           }
         }/>
-        // true ?
-        // <AlertBox data={
-        //   {
-        //     state: alertState,
-        //     title: alertTitle,
-        //     label: alertLabel,
-        //     button:
-        //     {
-        //       value: alertButtonValue,
-        //       setter : setIsCheck
-        //     }
-        //   }
-        // }/>
         :
         <></>
       }
