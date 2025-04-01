@@ -14,7 +14,11 @@
     "extension": "Extension",
     "csv": "Débutant",
     "json": "Professionnel",
-    "download": "Télécharger"
+    "download": "Télécharger",
+    "reset": "Réinitialiser",
+    "linkGenerator": "Générateur de lien",
+    "parameters": "Paramètres",
+    "autoDownload": "Téléchargement automatique"
   },
   "LogOutPage":{
     "title": "Vous avez bien été déconnecté"

@@ -12,7 +12,6 @@ import AlertBox from "./AlertBox";
 import LinkGeneratorButton from "./LinkGeneratorButton"
 
 import downloadFile from "@/services/exportManager"
-import disconnect from "@/services/disconnect";
 
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -176,8 +175,6 @@ export default ({authSession}) => {
           }
         );
 
-        console.log(downloadData);
-
         if (downloadData.state.isExpired){
           setAlertState(downloadData.alertbox.state);
           setAlertTitle(downloadData.alertbox.title);
@@ -226,8 +223,8 @@ export default ({authSession}) => {
         </div>
 
         <div className="grid w-full gap-6 md:grid-cols-2">
-          <LinkGeneratorButton data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
-          <ExportResetButton func={resetData} setter={setIsReset}/>
+          <LinkGeneratorButton label={t("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
+          <ExportResetButton label={t("reset")} func={resetData} setter={setIsReset}/>
         </div>
         <div className="flex justify-center">
           <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={t("download")}/>

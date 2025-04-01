@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
+
 import BackgroundTasks from "./BackgroundTasks";
 import CopyButton from "./CopyButton";
 
+import { useTranslations } from "next-intl";
+
 export default ({setPopupOpen, data}) =>{
+
+    const t = useTranslations("Form");
 
     const checkIfWanted = (key)=>{
         switch(key){
@@ -44,7 +49,7 @@ export default ({setPopupOpen, data}) =>{
         <BackgroundTasks>
             <div className="bg-white w-96 h-96 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-xl flex flex-col justify-between animate-[ping_.15s_ease-in-out_forwards_reverse] p-2">
                 <div className="flex justify-between">
-                    <span>Link Generator</span>
+                    <span>{t("linkGenerator")}</span>
                     <button type="button" onClick={()=>setPopupOpen(false)}>
                         {/* Icon From HeroIcons, made by Tailwind CSS */}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ed333b" className="size-6">
@@ -57,27 +62,27 @@ export default ({setPopupOpen, data}) =>{
                     <CopyButton link={createLink(isAutoDownload)}/>
                 </div>
                 <div>
-                    <h4>Parameters</h4>
+                    <h4>{t("parameters")}</h4>
                     <div className="ml-4">
                         <div>
                             <input className="accent-red-600" id="room" type="checkbox" defaultChecked onChange={()=>{ setWantedRoom(!wantedRoom)}}/>
-                            <label htmlFor="room">Room</label>
+                            <label htmlFor="room">{t("room")}</label>
                         </div>
                         <div>
                             <input className="accent-red-600" id="period" type="checkbox" defaultChecked onChange={()=>{ setWantedPeriod(!wantedPeriod)}}/>
-                            <label htmlFor="period">Period</label>
+                            <label htmlFor="period">{t("period")}</label>
                         </div>
                         <div>
                             <input className="accent-red-600" id="filename" type="checkbox" defaultChecked onChange={()=>{ setWantedFilename(!wantedFilename)}}/>
-                            <label htmlFor="filename">Filename</label>
+                            <label htmlFor="filename">{t("filename")}</label>
                         </div>
                         <div>
                             <input className="accent-red-600" id="extension" type="checkbox" defaultChecked onChange={()=>{ setWantedExtension(!wantedExtension)}}/>
-                            <label htmlFor="extension">Extension</label>
+                            <label htmlFor="extension">{t("extension")}</label>
                         </div>
                         <div>
                             <input className="accent-red-600" id="autodownload" type="checkbox" disabled={!(wantedRoom && wantedPeriod && wantedFilename && wantedExtension)} checked={isAutoDownload} onChange={()=>{setIsAutoDownload(!isAutoDownload);}}/>
-                            <label htmlFor="autodownload">Automatic download</label>
+                            <label htmlFor="autodownload">{t("autoDownload")}</label>
                         </div>
                     </div>
                 </div>
