@@ -16,7 +16,6 @@ export default ({link}) =>{
 
     return (
         <>
-            {/* <button className={`kshadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-lg w-10 h-10 flex justify-center items-center ${ isCopy ? "cursor-not-allowed" : ""}`} type="button" onClick={() => {copyToClipboard()}}> */}
             <button className={`flex justify-center items-center ${ isCopy ? "cursor-default" : ""}`} type="button" onClick={() => {copyToClipboard()}}>
                 {
                     !isCopy ?

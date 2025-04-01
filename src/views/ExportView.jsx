@@ -1,26 +1,18 @@
 "use client";
 
-import About from "@/components/About";
+import About from "@/views/About";
 import ExportComponent from "@/components/ExportComponent";
 import Loading from "@/components/Loading";
 
-import connect from "@/services/connect";
-import { signIn, useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
-
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
 
-export default ({authSession}) =>{
-
+export default () =>{
 
     const session = useSession();
 
     const t = useTranslations("Loading");
-    // if (!authSession){
-    //     connect();
-    // }
 
     return (
         <>

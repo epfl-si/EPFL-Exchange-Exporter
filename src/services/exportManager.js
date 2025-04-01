@@ -43,9 +43,6 @@ const downloadFile = async(data) =>{
 
     let {authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading, isBackend} = data;
 
-    console.log(new Date(new Date(startDate).setHours(1)).getUTCDate());
-    console.log(new Date(new Date(endDate).setHours(23)).getUTCDate());
-
     startDate = startDate ? new Date(new Date(startDate).setHours(1)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(0)).setHours(1)).toISOString();
     endDate = endDate ? new Date(new Date(endDate).setHours(23)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(27)).setHours(1)).toISOString();
 
@@ -56,13 +53,9 @@ const downloadFile = async(data) =>{
         })
     }).then((r) => {return r.json()});
 
-    console.log(respDataTrue)
-
     if (!respDataTrue?.error){
-        // setLoadingLabel("Création du fichier, veuillez patienter");
 
         if (respDataTrue["@odata.count"] <= 0 || respDataTrue["@odata.count"] > 1000){
-            // return new DownloadData({isExpired : manageError(noData, setIsLoading), rewrite : false});
             let err = manageError(respDataTrue["@odata.count"] <= 0 ? noData : `${muchData},${respDataTrue["@odata.count"]}`, setIsLoading);
             return new DownloadData(
                 {
@@ -84,9 +77,6 @@ const downloadFile = async(data) =>{
             })
         }).then((r) => {return r.json()});
 
-        console.log(request)
-        console.log(response)
-
         if (!response?.error){
 
             let data = response.value
@@ -101,7 +91,6 @@ const downloadFile = async(data) =>{
             switch(fileType){
                 case "csv":
                     fileData = getCSV(data);
-                    console.log(fileData);
                     break;
                 case "json":
                     fileData = JSON.stringify(data, null, 2);
@@ -134,7 +123,6 @@ const downloadFile = async(data) =>{
         }
     }
     else{
-        console.log(respDataTrue.error);
         let err = manageError(respDataTrue.error.message, setIsLoading);
         return new DownloadData(
             {

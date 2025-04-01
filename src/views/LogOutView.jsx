@@ -6,7 +6,6 @@ import { signOut } from "next-auth/react";
 
 import { useTranslations } from "next-intl";
 
-
 export default ({authSession}) =>{
 
     if (authSession){

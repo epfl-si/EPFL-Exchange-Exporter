@@ -2,8 +2,6 @@ import disconnect from "@/services/disconnect";
 
 import { useTranslations } from "next-intl";
 
-import userPP from "/public/img/user.png"
-
 export default ({imageUrl, session}) =>{
 
   const t = useTranslations("SignOut");
@@ -15,7 +13,7 @@ export default ({imageUrl, session}) =>{
             session?.user?.image ?
               <img
               className="rounded-3xl w-10 h-10 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] hover:cursor-pointer"
-              src={imageUrl || session?.user?.image || userPP.src}/>
+              src={imageUrl || session?.user?.image}/>
             :
               <div className="rounded-3xl w-10 h-10 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] hover:cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="2 2 20 20" strokeWidth="1" stroke="currentColor" className="size-10">

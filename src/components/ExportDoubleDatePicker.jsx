@@ -10,18 +10,17 @@ export default ({startValue, startSetter, endValue, endSetter, label, required=f
 
   return (
   <div className="flex items-start flex-col">
-    {label ? <label className="text-black select-none">{label}</label> : <></>}
+    {label ? <label className="text-black select-none" htmlFor="test">{label}</label> : <></>}
 
     {/* https://react-tailwindcss-datepicker.vercel.app/install - Uses tailwind css and day.js */}
     <Datepicker
-    // separator="to"
+    inputId="test"
     required={required}
     value={{startDate: startValue, endDate: endValue}}
-    onChange={newValue => {startSetter(newValue.startDate); endSetter(newValue.endDate); console.log(params)}}
+    onChange={newValue => {startSetter(newValue.startDate); endSetter(newValue.endDate);}}
     displayFormat="DD/MM/YYYY"
     popoverDirection="down"
-    containerClassName="relative z-20 w-full"
-    // inputClassName="relative w-full text-center"
+    containerClassName={`relative z-20 w-full border rounded-lg ${startValue || endValue ? "border-[#FF0000]" : "border-gray-500"} [&>*]:outline-none`}
     primaryColor={"red"}
     startWeekOn="mon"
     i18n={params.locale}

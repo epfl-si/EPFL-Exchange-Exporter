@@ -17,12 +17,6 @@ const Header = () =>{
 
     const pathname = usePathname();
 
-    // const session = useSession();
-
-    // console.log(session);
-    // console.log(session?.data);
-    // console.log(session?.data?.user?.image);
-
     useEffect(() =>{
         const api = async() =>{
             let response = await fetch("/api/auth/session").then((res) => res.json());

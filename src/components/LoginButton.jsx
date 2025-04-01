@@ -1,4 +1,3 @@
-
 import connect from "@/services/connect";
 
 import { useTranslations } from "next-intl";

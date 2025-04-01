@@ -14,11 +14,6 @@ export default () =>{
 
     const onSelectChange = (eee) =>{
         const nextLocale = eee.target.value;
-        console.log(pathname);
-        console.log(params);
-        console.log(searchParams.toString());
-        console.log(nextLocale);
-        let newPath = pathname + searchParams.toString()
         startTransition(()=>{
             router.replace(
                 {pathname, params},
