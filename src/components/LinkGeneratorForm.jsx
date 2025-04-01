@@ -41,6 +41,10 @@ export default ({setPopupOpen, data}) =>{
     //Handler to reset checkbox of auto download if one of other checkbox is missing.
     useEffect(()=>{
         setLink(createLink());
+        setWantedRoom(wantedRoom && data.room)
+        setWantedPeriod(wantedPeriod && data.start && data.end)
+        setWantedFilename(wantedFilename && data.filename)
+        setWantedExtension(wantedExtension && data.extension)
         setIsAutoDownload(isAutoDownload && (wantedRoom && wantedPeriod && wantedFilename && wantedExtension))
     },[wantedRoom, wantedPeriod, wantedFilename, wantedExtension, isAutoDownload])
 
@@ -65,19 +69,19 @@ export default ({setPopupOpen, data}) =>{
                     <h4>{t("parameters")}</h4>
                     <div className="ml-4">
                         <div>
-                            <input className="accent-red-600" id="room" type="checkbox" defaultChecked onChange={()=>{ setWantedRoom(!wantedRoom)}}/>
+                            <input className="accent-red-600" id="room" type="checkbox" disabled={!data.room} checked={wantedRoom} onChange={()=>{ setWantedRoom(!wantedRoom)}}/>
                             <label htmlFor="room">{t("room")}</label>
                         </div>
                         <div>
-                            <input className="accent-red-600" id="period" type="checkbox" defaultChecked onChange={()=>{ setWantedPeriod(!wantedPeriod)}}/>
+                            <input className="accent-red-600" id="period" type="checkbox" disabled={!(data.start || data.end)} checked={wantedPeriod} onChange={()=>{ setWantedPeriod(!wantedPeriod)}}/>
                             <label htmlFor="period">{t("period")}</label>
                         </div>
                         <div>
-                            <input className="accent-red-600" id="filename" type="checkbox" defaultChecked onChange={()=>{ setWantedFilename(!wantedFilename)}}/>
+                            <input className="accent-red-600" id="filename" type="checkbox" disabled={!data.filename} checked={wantedFilename} onChange={()=>{ setWantedFilename(!wantedFilename)}}/>
                             <label htmlFor="filename">{t("filename")}</label>
                         </div>
                         <div>
-                            <input className="accent-red-600" id="extension" type="checkbox" defaultChecked onChange={()=>{ setWantedExtension(!wantedExtension)}}/>
+                            <input className="accent-red-600" id="extension" type="checkbox" disabled={!data.extension} checked={wantedExtension} onChange={()=>{ setWantedExtension(!wantedExtension)}}/>
                             <label htmlFor="extension">{t("extension")}</label>
                         </div>
                         <div>
