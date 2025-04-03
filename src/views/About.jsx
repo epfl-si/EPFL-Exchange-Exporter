@@ -7,7 +7,7 @@ export default () =>{
     return (
         <section className="w-[980px] flex flex-col gap-4">
             <div>
-                <h1 className="text-6xl">{t("eee-title")}</h1>
+                <h2 className="text-6xl">{t("eee-title")}</h2>
                 <p className="ml-2">{t("eee-paragraph")}</p>
             </div>
             <div>

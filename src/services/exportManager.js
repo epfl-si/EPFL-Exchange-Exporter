@@ -62,7 +62,8 @@ const downloadFile = async(data) =>{
                     state : err.data.state,
                     label : err.data.label,
                     isExpired : err.isExpired,
-                    rewrite : false
+                    rewrite : false,
+                    error : err.error
                 });
         }
         if (!isBackend){
@@ -118,7 +119,8 @@ const downloadFile = async(data) =>{
                     state : err.data.state,
                     label : err.data.label,
                     isExpired : err.isExpired,
-                    rewrite : false
+                    rewrite : false,
+                    error : err.error
                 });
         }
     }
@@ -129,7 +131,8 @@ const downloadFile = async(data) =>{
                 state : err.data.state,
                 label : err.data.label,
                 isExpired : err.isExpired,
-                rewrite : false
+                rewrite : false,
+                error : err.error
             });
     }
 }
@@ -184,6 +187,7 @@ const manageError = (error, setIsLoading) =>{
     setIsLoading(false);
     return {
         isExpired : isExpired,
+        error: error,
         data : {
             state : state,
             title : title,

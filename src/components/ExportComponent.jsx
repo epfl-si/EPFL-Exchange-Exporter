@@ -38,6 +38,7 @@ export default ({authSession}) => {
   const [alertTitle, setAlertTitle] = useState("");
   const [alertLabel, setAlertLabel] = useState("Téléchargement réussi");
   const [alertButtonValue, setAlertButtonValue] = useState("OK");
+  const [downloadError, setDownloadError] = useState("");
 
   const [isClicked, setIsClicked] = useState(false);
   const [isReset, setIsReset] = useState(false);
@@ -175,6 +176,8 @@ export default ({authSession}) => {
           }
         );
 
+        setDownloadError(downloadData.error);
+
         if (downloadData.state.isExpired){
           setAlertState(downloadData.alertbox.state);
           setAlertTitle(downloadData.alertbox.title);
@@ -243,6 +246,7 @@ export default ({authSession}) => {
             state: alertState,
             title: alertTitle,
             label: alertLabel,
+            error: downloadError,
             button:
             {
               value: alertButtonValue,

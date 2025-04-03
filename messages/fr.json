@@ -18,7 +18,16 @@
     "reset": "Réinitialiser",
     "linkGenerator": "Générateur de lien",
     "parameters": "Paramètres",
-    "autoDownload": "Téléchargement automatique"
+    "autoDownload": "Téléchargement automatique",
+    "errPeriodTooHigh": "Dates incorrectes. La période entre la date de début et la date fin est trop élevé.",
+    "errPeriodEndBeforeStart": "Dates incorrectes. La date de fin précède la date de début.",
+    "errPeriodInvalid": "Dates incorrectes.",
+    "errUserUnavailable": "Utilisateur incorrect ou calendrier de l'utilisateur inacessible.",
+    "errUserDisabled": "Utilisateur incorrect, son adresse n'est pas une adresse active.",
+    "errNoUser": "L'utilisateur n'existe pas.",
+    "errNoData": "Aucune données n'existent dans la période fournie.",
+    "errTooMuchData": "Il y a trop de données dans la période fournie. Le maximum autorisé est 1000, {nb} sont présentes dans la période donnée.",
+    "errTokenExpired": "Jeton d'accès expiré. Rafraîchissez la page ou reconnectez-vous."
   },
   "LogOutPage":{
     "title": "Vous avez bien été déconnecté"

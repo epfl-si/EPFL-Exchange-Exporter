@@ -18,7 +18,16 @@
     "reset": "Reset",
     "linkGenerator": "Link Generator",
     "parameters": "Parameters",
-    "autoDownload": "Automatic download"
+    "autoDownload": "Automatic download",
+    "errPeriodTooHigh": "Incorrect dates. The period between the start date and the end date is too long.",
+    "errPeriodEndBeforeStart": "Incorrect dates. The end date is before the start date.",
+    "errPeriodInvalid": "Incorrect dates.",
+    "errUserUnavailable": "Incorrect user or user calendar inaccessible.",
+    "errUserDisabled": "Incorrect user, their address is not an active address.",
+    "errNoUser": "The user does not exist.",
+    "errNoData": "No data exists in the period provided.",
+    "errTooMuchData": "There is too much data in the provided period. The maximum allowed is 1000, {nb} are present in the given period.",
+    "errTokenExpired": "Access token expired. Refresh the page or log in again."
   },
   "LogOutPage":{
     "title": "You have been disconnected"
