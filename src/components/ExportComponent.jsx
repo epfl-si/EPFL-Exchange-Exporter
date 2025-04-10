@@ -46,6 +46,8 @@ export default ({authSession}) => {
 
   const [dateIsRequired, setDateIsRequired] = useState(true);
 
+  const [alertboxChoices, setAlertboxChoices] = useState();
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -233,18 +235,18 @@ export default ({authSession}) => {
           <LinkGeneratorButton label={t("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
           <ExportResetButton
           label={t("reset")}
-          setter={(val)=>{setIsCheck(true)}}
+          setter={(val)=>{setAlertboxChoices(val); setIsCheck(true)}}
           setterValue={
             {
               label: t("resetLabel"),
               data: [
                 {
                   value : t("resetCancel"),
-                  setter : (state)=>{setIsCheck(state); }
+                  setter : (state)=>{setIsCheck(state); setAlertboxChoices();}
                 },
                 {
                   value : t("resetAccept"),
-                  setter : (state)=>{setIsCheck(state); resetData(); setIsReset(true);}
+                  setter : (state)=>{setIsCheck(state); resetData(); setAlertboxChoices(); setIsReset(true);}
                 }
               ]
             }
@@ -273,7 +275,8 @@ export default ({authSession}) => {
             {
               value: alertButtonValue,
               setter : setIsCheck
-            }
+            },
+            choices: alertboxChoices
           }
         }/>
         :
