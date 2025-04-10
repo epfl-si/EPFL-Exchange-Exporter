@@ -63,11 +63,12 @@ const downloadFile = async(data) =>{
                     label : err.data.label,
                     isExpired : err.isExpired,
                     rewrite : false,
-                    error : err.error
+                    error : err.error,
+                    errorName : err.errorName
                 });
         }
         if (!isBackend){
-            setLoadingLabel(`Exportation des ${respDataTrue["@odata.count"]} évènements, veuillez patienter`);
+            setLoadingLabel({label: "loaderNbData", nb: respDataTrue["@odata.count"]});
         }
         let request = `https://graph.microsoft.com/v1.0/users/${userSearch || authSession.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&select=subject,organizer,start,end&top=1000`; //authSession.user?.email temp, after, need to change for room
 
@@ -109,6 +110,7 @@ const downloadFile = async(data) =>{
                 {
                     state : "check",
                     label : "Téléchargement réussi",
+                    errorName : "DownloadSuccess",
                     rewrite : true
                 });
         }
@@ -120,7 +122,8 @@ const downloadFile = async(data) =>{
                     label : err.data.label,
                     isExpired : err.isExpired,
                     rewrite : false,
-                    error : err.error
+                    error : err.error,
+                    errorName : err.errorName
                 });
         }
     }
@@ -132,7 +135,8 @@ const downloadFile = async(data) =>{
                 label : err.data.label,
                 isExpired : err.isExpired,
                 rewrite : false,
-                error : err.error
+                error : err.error,
+                errorName : err.errorName
             });
     }
 }
@@ -144,50 +148,62 @@ const manageError = (error, setIsLoading) =>{
     let label = "";
     let value = "";
 
+    let errorName = "";
+
     let isExpired = false;
 
 
     if (textRefactor(error).includes("date") && textRefactor(error).includes("maximum")){
         state = "info";
         label = "Dates incorrectes. La période entre la date de début et la date fin est trop élevé.";
+        errorName = "errPeriodTooHigh"
     }
     else if (textRefactor(error).includes("date") && textRefactor(error).includes("earlier")){
         state = "info";
         label = "Dates incorrectes. La date de fin précède la date de début.";
+        errorName = "errPeriodEndBeforeStart"
     }
     else if (textRefactor(error).includes("date")){
         state = "info";
         label = "Dates incorrectes.";
+        errorName = "errPeriodInvalid"
     }
     else if (textRefactor(error).includes("object") && textRefactor(error).includes("not found") && textRefactor(error).includes("store")){
         state = "info";
         label = "Utilisateur incorrect ou calendrier de l'utilisateur inacessible.";
+        errorName = "errUserUnavailable"
     }
     else if (textRefactor(error).includes("mailbox") && textRefactor(error).includes("inactive") && textRefactor(error).includes("hosted on-premise")){
         state = "info";
         label = "Utilisateur incorrect, son adresse n'est pas une adresse active.";
+        errorName = "errUserDisabled"
     }
     else if (textRefactor(error).includes("user") && textRefactor(error).includes("is invalid")){
         state = "info";
         label = `L'utilisateur n'existe pas.`;
+        errorName = "errNoUser"
     }
     else if (textRefactor(error).includes(noData)){
         state = "info";
         label = `Aucune données n'existent dans la période fournie.`;
+        errorName = "errNoData"
     }
     else if (textRefactor(error).includes(muchData)){
         state = "info";
         label = `Il y a trop de données dans la période fournie. Le maximum autorisé est 1000, ${error.split(',')[1]} sont présentes dans la période donnée.`;
+        errorName = "errTooMuchData"
     }
     else{
         state = "warning";
         label = "Jeton d'accès expiré. Rafraîchissez la page ou reconnectez-vous.";
+        errorName = "errTokenExpired"
         isExpired = true;
     }
     setIsLoading(false);
     return {
         isExpired : isExpired,
         error: error,
+        errorName: errorName,
         data : {
             state : state,
             title : title,

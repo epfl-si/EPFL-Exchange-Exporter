@@ -24,8 +24,8 @@ export default ({authSession}) => {
 
   const [userSearch, setUserSearch] = useState("");
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [fileName, setFileName] = useState("exportation");
   const [exportExt, setExportExt] = useState("csv");
   const [exportExtCheckName, setExportExtCheckName] = useState("csv");
@@ -39,6 +39,7 @@ export default ({authSession}) => {
   const [alertLabel, setAlertLabel] = useState("Téléchargement réussi");
   const [alertButtonValue, setAlertButtonValue] = useState("OK");
   const [downloadError, setDownloadError] = useState("");
+  const [downloadErrorName, setDownloadErrorName] = useState("");
 
   const [isClicked, setIsClicked] = useState(false);
   const [isReset, setIsReset] = useState(false);
@@ -90,15 +91,15 @@ export default ({authSession}) => {
 
   useEffect(()=>{
     //define date format
-    let startD = dayjs(startDate).format("YYYY-MM-DD");
-    let endD = dayjs(endDate).format("YYYY-MM-DD")
+    let startD = startDate != null ? dayjs(startDate).format("YYYY-MM-DD") : startDate;
+    let endD = endDate != null ? dayjs(endDate).format("YYYY-MM-DD") : endDate;
 
     //get filename in params
     let filename = !isReset ? fileName : ""; // Let empty here, because if you don't, at reseting it will write this string instead of reseting.
     setIsReset(false);
 
     //redefine filename if name doesn't provide
-    let fn = `exportation_meetings_${userSearch.split("@")[0]}_from_${startD}_to_${endD}`;
+    let fn = `exportation_meetings_${userSearch.split("@")[0]}${startD ? `_from_${startD}` : ""}${endD ? `_to_${endD}` : ""}`;
     setFileName((filename.split("_")[0] == "exportation") && (startDate || endDate || userSearch) ? fn : filename)
 
     //redefine link
@@ -109,7 +110,7 @@ export default ({authSession}) => {
       filename: fileName,
       extension: exportExt
     }
-    let lk = Object.entries(data).map((entry) => ({[entry[0]] : entry[1]})).filter((x)=> Object.values(x)[0] != "" && checkIfWanted(Object.keys(x)[0])).map((x) => `${Object.keys(x)[0]}=${Object.values(x)[0]}`).join("&");
+    let lk = Object.entries(data).map((entry) => ({[entry[0]] : entry[1]})).filter((x)=> Object.values(x)[0] != "" && Object.values(x)[0] != null  && checkIfWanted(Object.keys(x)[0])).map((x) => `${Object.keys(x)[0]}=${Object.values(x)[0]}`).join("&");
     router.replace(`/${lk ? "?" + lk : ""}`, undefined, { shallow: true });
 
   },[userSearch, fileName, exportExt, startDate, endDate])
@@ -160,7 +161,7 @@ export default ({authSession}) => {
       onSubmit={async(e) => {
         e.preventDefault();
 
-        setLoadingLabel("Vérification des données");
+        setLoadingLabel({label: "loaderCheckData"});
         setIsLoading(true);
 
         let downloadData = await downloadFile(
@@ -177,6 +178,9 @@ export default ({authSession}) => {
         );
 
         setDownloadError(downloadData.error);
+        setDownloadErrorName(downloadData.errorName);
+
+        console.log(downloadData);
 
         if (downloadData.state.isExpired){
           setAlertState(downloadData.alertbox.state);
@@ -227,7 +231,24 @@ export default ({authSession}) => {
 
         <div className="grid w-full gap-6 md:grid-cols-2">
           <LinkGeneratorButton label={t("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
-          <ExportResetButton label={t("reset")} func={resetData} setter={setIsReset}/>
+          <ExportResetButton
+          label={t("reset")}
+          setter={(val)=>{setIsCheck(true)}}
+          setterValue={
+            {
+              label: t("resetLabel"),
+              data: [
+                {
+                  value : t("resetCancel"),
+                  setter : (state)=>{setIsCheck(state); }
+                },
+                {
+                  value : t("resetAccept"),
+                  setter : (state)=>{setIsCheck(state); resetData(); setIsReset(true);}
+                }
+              ]
+            }
+          }/>
         </div>
         <div className="flex justify-center">
           <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={t("download")}/>
@@ -235,7 +256,7 @@ export default ({authSession}) => {
       </form>
       {
         isLoading ?
-        <Loading label={loadingLabel}/>
+        <Loading label={loadingLabel.nb ? t("loaderNbData", {nb: loadingLabel.nb}) : t("loaderCheckData")}/>
         :
         <></>
       }
@@ -247,6 +268,7 @@ export default ({authSession}) => {
             title: alertTitle,
             label: alertLabel,
             error: downloadError,
+            errorName: downloadErrorName,
             button:
             {
               value: alertButtonValue,
