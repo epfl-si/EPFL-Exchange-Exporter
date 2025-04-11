@@ -48,7 +48,7 @@ export default ({value, setter, placeholder, user, authSession, required=false})
                     pattern=".+@epfl\.ch"
                     title="example@epfl.ch"
                     required={required}
-                    className={`text-xl block py-2.5 px-3 w-full text-slate-700 bg-transparent border ${propals.length > 0 ? "group-focus-within:border-b-0" : ""} rounded-xl ${propals.length > 0 ? "group-focus-within:rounded-b-none" : ""} appearance-none border-[#FF0000] focus:outline-none focus:ring-0 focus:border-[#B51F1F] peer peer-border-[#FF0000] invalid:border-gray-500`}
+                    className={`text-xl block py-2.5 px-3 w-full text-slate-700 bg-transparent border ${propals.length > 0 ? "group-focus-within:border-b-0" : ""} rounded-lg ${propals.length > 0 ? "group-focus-within:rounded-b-none" : ""} appearance-none border-[#FF0000] focus:outline-none focus:ring-0 focus:border-[#B51F1F] peer peer-border-[#FF0000] invalid:border-gray-500`}
                     placeholder=""
                     value={value}
                     autoComplete="off"
@@ -60,13 +60,13 @@ export default ({value, setter, placeholder, user, authSession, required=false})
                 </div>
                 <ul className={`group-focus-within:text-black group-focus-within:absolute group-focus-within:left-0 group-focus-within:right-0 group-focus-within:top-full group-focus-within:bg-white group-focus-within:z-[21] group-focus-within:block
                 hover:text-black hover:absolute hover:left-0 hover:right-0 hover:top-full hover:bg-white hover:z-[21] hover:block
-                ${propals.length > 0 ? "border-b border-l border-r border-[#B51F1F] rounded-b-xl" : ""}
+                ${propals.length > 0 ? "border-b border-l border-r border-[#B51F1F] rounded-b-lg" : ""}
                 hidden select-none`}>
                     {propals.map((p) =>
                         <li key={Math.round(Math.random() * 3011)}
                         tabIndex={0}
                         onClick={(e) => {setter(e.target.textContent); setPropals([]);}}
-                        className="cursor-pointer hover:bg-[#8E8E8E] pl-1 pr-1 last:rounded-b-xl"
+                        className="cursor-pointer hover:bg-[#8E8E8E] pl-1 pr-1 last:rounded-b-lg"
                         >
                             {p}
                         </li>

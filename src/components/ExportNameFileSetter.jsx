@@ -5,7 +5,7 @@ export default ({value, setter, placeholder, required=false}) => {
       <input
       id="floating_outlined"
       required={required}
-      className="text-xl block py-2.5 px-3 w-full text-slate-700 bg-transparent border rounded-xl appearance-none border-[#FF0000] focus:outline-none focus:ring-0 focus:border-[#B51F1F] peer peer-border-[#FF0000] invalid:border-gray-500"
+      className="text-xl block py-2.5 px-4 font-light w-full text-slate-700 bg-transparent border rounded-lg appearance-none border-[#FF0000] focus:outline-none focus:ring-0 focus:border-[#B51F1F] peer peer-border-[#FF0000] invalid:border-gray-500"
       placeholder=""
       value={value}
       autoComplete="off"

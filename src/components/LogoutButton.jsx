@@ -23,7 +23,7 @@ export default ({imageUrl, session}) =>{
           }
       </summary>
       <div className="text-black absolute right-0 top-full mt-1 bg-white z-20 block rounded-lg shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f]">
-        <button onClick={() => disconnect()} className="hover:text-[#FF0000] hover:cursor-pointer m-1">{t("label")}</button>
+        <button onClick={() => disconnect()} className="hover:text-[#FF0000] hover:cursor-pointer m-1 w-fit">{t("label")}</button>
       </div>
     </details>
   );
