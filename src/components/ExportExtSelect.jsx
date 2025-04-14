@@ -7,12 +7,10 @@ export default ({value, setter, isLastMissing, checkName, required=false}) => {
 
   const allChoices = [
     {
-      name : "csv",
-      plot : t("csv")
+      name : "csv"
     },
     {
-      name : "json",
-      plot : t("json")
+      name : "json"
     }
   ]
   return (
@@ -38,7 +36,7 @@ export default ({value, setter, isLastMissing, checkName, required=false}) => {
       </ul>
       {
         !value && isLastMissing ?
-        <span className="text-red-600 font-bold absolute select-none">Veuillez sélectionner une extension.</span>
+        <span className="text-red-600 font-bold absolute select-none">{t("errExtension")}</span>
         :
         <></>
       }
