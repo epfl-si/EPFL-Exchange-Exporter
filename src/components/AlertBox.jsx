@@ -8,7 +8,7 @@ import checkImg from "/public/img/check.gif";
 import infoImg from "/public/img/info.gif";
 import warningImg from "/public/img/warning.gif";
 import { useTranslations } from "use-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default ({data}) =>{
@@ -18,6 +18,15 @@ export default ({data}) =>{
   const getTranslateErrorMsg = (error, errorName) =>{
     return errorName == "errTooMuchData" ? t(errorName, {nb: error.split(',')[1]}) : t(errorName);
   }
+
+  useEffect(()=>{
+    const handleKeyDown = (e) =>{
+      if (e.keyCode== 27){
+        data.button.setter(false);
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown, true);
+  })
 
   const [errorMsg, setErrorMsg] = useState(!data.choices ? getTranslateErrorMsg(data.error, data.errorName) : "");
 
