@@ -69,24 +69,24 @@ export default ({setPopupOpen, data}) =>{
                     <h4>{t("parameters")}</h4>
                     <div className="ml-4">
                         <div>
-                            <input className="accent-red-600" id="room" type="checkbox" disabled={!data.room} checked={wantedRoom} onChange={()=>{ setWantedRoom(!wantedRoom)}}/>
-                            <label htmlFor="room">{t("room")}</label>
+                            <input className="peer accent-red-600" id="room" type="checkbox" disabled={!data.room} checked={wantedRoom} onChange={()=>{ setWantedRoom(!wantedRoom)}}/>
+                            <label htmlFor="room" className="peer-disabled:text-gray-400">{t("room")}</label>
                         </div>
                         <div>
-                            <input className="accent-red-600" id="period" type="checkbox" disabled={!(data.start || data.end)} checked={wantedPeriod} onChange={()=>{ setWantedPeriod(!wantedPeriod)}}/>
-                            <label htmlFor="period">{t("period")}</label>
+                            <input className="peer accent-red-600" id="period" type="checkbox" disabled={!(data.start || data.end)} checked={wantedPeriod} onChange={()=>{ setWantedPeriod(!wantedPeriod)}}/>
+                            <label htmlFor="period" className="peer-disabled:text-gray-400">{t("period")}</label>
                         </div>
                         <div>
-                            <input className="accent-red-600" id="filename" type="checkbox" disabled={!data.filename} checked={wantedFilename} onChange={()=>{ setWantedFilename(!wantedFilename)}}/>
-                            <label htmlFor="filename">{t("filename")}</label>
+                            <input className="peer accent-red-600" id="filename" type="checkbox" disabled={!data.filename} checked={wantedFilename} onChange={()=>{ setWantedFilename(!wantedFilename)}}/>
+                            <label htmlFor="filename" className="peer-disabled:text-gray-400">{t("filename")}</label>
                         </div>
                         <div>
-                            <input className="accent-red-600" id="extension" type="checkbox" disabled={!data.extension} checked={wantedExtension} onChange={()=>{ setWantedExtension(!wantedExtension)}}/>
-                            <label htmlFor="extension">{t("extension")}</label>
+                            <input className="peer accent-red-600" id="extension" type="checkbox" disabled={!data.extension} checked={wantedExtension} onChange={()=>{ setWantedExtension(!wantedExtension)}}/>
+                            <label htmlFor="extension" className="peer-disabled:text-gray-400">{t("extension")}</label>
                         </div>
                         <div>
-                            <input className="accent-red-600" id="autodownload" type="checkbox" disabled={!(wantedRoom && wantedPeriod && wantedFilename && wantedExtension)} checked={isAutoDownload} onChange={()=>{setIsAutoDownload(!isAutoDownload);}}/>
-                            <label htmlFor="autodownload">{t("autoDownload")}</label>
+                            <input className="peer accent-red-600" id="autodownload" type="checkbox" disabled={!(wantedRoom && wantedPeriod && wantedFilename && wantedExtension)} checked={isAutoDownload} onChange={()=>{setIsAutoDownload(!isAutoDownload);}}/>
+                            <label htmlFor="autodownload" className="peer-disabled:text-gray-400">{t("autoDownload")}</label>
                         </div>
                     </div>
                 </div>
