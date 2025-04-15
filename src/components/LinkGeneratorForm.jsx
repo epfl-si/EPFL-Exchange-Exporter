@@ -49,6 +49,16 @@ export default ({setPopupOpen, data}) =>{
     },[wantedRoom, wantedPeriod, wantedFilename, wantedExtension, isAutoDownload])
 
 
+    useEffect(()=>{
+        const handleKeyDown = (e) =>{
+            if (e.keyCode== 27){
+                setPopupOpen(false);
+            }
+        }
+        document.addEventListener('keydown', handleKeyDown, true);
+    })
+
+
     return (
         <BackgroundTasks>
             <div className="bg-white w-96 h-96 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-xl flex flex-col justify-between animate-[ping_.15s_ease-in-out_forwards_reverse] p-2">

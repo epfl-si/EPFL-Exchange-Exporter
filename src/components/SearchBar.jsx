@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 
-import textRefactor from "@/services/textRefactor";
-
 import InputText from "./InputText";
+
+import textRefactor from "@/services/textRefactor";
+import closingHandler from "@/services/closingHandler";
 
 export default ({value, setter, placeholder, user, authSession, required=false}) =>{
 
@@ -46,17 +47,6 @@ export default ({value, setter, placeholder, user, authSession, required=false})
         setPropals([]);
     }
 
-    const handleSelectedPropals = (e) =>{
-        switch(e.keyCode){
-            case 13:
-            case 32:
-                handleClickedPropals(e);
-                break;
-            default:
-                break;
-        }
-    }
-
     const [isValid, setIsValid] = useState();
 
     return (
@@ -80,7 +70,7 @@ export default ({value, setter, placeholder, user, authSession, required=false})
                         <li key={Math.round(Math.random() * 3011)}
                         tabIndex={0}
                         onClick={(e) => handleClickedPropals(e)}
-                        onKeyDown={(e)=> handleSelectedPropals(e)}
+                        onKeyDown={(e)=> {closingHandler(e) ? (handleClickedPropals(e)) : ("")}}
                         className="cursor-pointer hover:bg-[#8E8E8E] pl-1 pr-1 last:rounded-b-lg"
                         >
                             {p}
