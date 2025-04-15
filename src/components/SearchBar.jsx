@@ -41,6 +41,22 @@ export default ({value, setter, placeholder, user, authSession, required=false})
         )
     }
 
+    const handleClickedPropals = (e) =>{
+        setter(e.target.textContent);
+        setPropals([]);
+    }
+
+    const handleSelectedPropals = (e) =>{
+        switch(e.keyCode){
+            case 13:
+            case 32:
+                handleClickedPropals(e);
+                break;
+            default:
+                break;
+        }
+    }
+
     const [isValid, setIsValid] = useState();
 
     return (
@@ -63,7 +79,8 @@ export default ({value, setter, placeholder, user, authSession, required=false})
                     {propals.map((p) =>
                         <li key={Math.round(Math.random() * 3011)}
                         tabIndex={0}
-                        onClick={(e) => {setter(e.target.textContent); setPropals([]);}}
+                        onClick={(e) => handleClickedPropals(e)}
+                        onKeyDown={(e)=> handleSelectedPropals(e)}
                         className="cursor-pointer hover:bg-[#8E8E8E] pl-1 pr-1 last:rounded-b-lg"
                         >
                             {p}
