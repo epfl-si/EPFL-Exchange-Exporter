@@ -24,8 +24,9 @@ export default ({authSession}) => {
 
   const [userSearch, setUserSearch] = useState("");
 
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const initDate = dayjs(new Date());
+  const [startDate, setStartDate] = useState(initDate.date(1).month(initDate.month()).toDate());
+  const [endDate, setEndDate] = useState(initDate.endOf("month").toDate());
   const [fileName, setFileName] = useState("exportation");
   const [exportExt, setExportExt] = useState("csv");
   const [exportExtCheckName, setExportExtCheckName] = useState("csv");
