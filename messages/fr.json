@@ -1,7 +1,7 @@
 {
   "HomePage": {
-    "eee-title": "Qu'est-ce que le EEE ?",
-    "eee-paragraph": "EEE est l'abrévation de EPFL Exchange Exporter. Cette application est utilisée afin de retourner tous les évènements de calendrier des salles de conférence, à l'intérieur d'un fichier de donnée tels qu'un csv, json...",
+    "eeee-title": "Qu'est-ce que le EEEE ?",
+    "eeee-paragraph": "EEEE est l'abrévation de EPFL Exchange Events Exporter. Cette application est utilisée afin de retourner tous les évènements de calendrier des salles de conférence, à l'intérieur d'un fichier de donnée tels qu'un csv, json...",
     "guid-title": "Comment l'utiliser ?",
     "guid-paragraph": "Pour l'utiliser, tu dois tout d'abord te connecter à ton compte microsoft @epfl, et ensuite, remplir le formulaire d'exportation"
   },

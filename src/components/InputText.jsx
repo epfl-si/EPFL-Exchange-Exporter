@@ -22,14 +22,14 @@ export default ({id, value, setter, placeholder, exportedValiditySetter, type="t
 
   return (
     <div className={`duration-200 transform relative text-xl block font-light w-full bg-transparent border rounded-lg appearance-none focus:outline-none focus:ring-0 ${borderColorClassName ? borderColorClassName : `focus-within:border-[#B51F1F] ${pattern ? isValid ? "border-[#FF0000]" : "border-gray-500" : value ? "border-[#FF0000]" : "border-gray-500"}`}`}>
-      <div className="relative pr-6">
+      <div className="relative pr-8">
         <input
         {...idInput ? { id: idInput } : {}}
         {...type ? { type: type } : {}}
         {...pattern ? { pattern: pattern } : {}}
         {...title ? { title: title } : {}}
         {...required ? { required: required } : {}}
-        className="tracking-wide text-xl block py-2.5 pl-4 pr-3 font-light w-full text-black bg-transparent rounded-lg appearance-none focus:outline-none focus:ring-0 peer"
+        className="tracking-wide text-xl py-2.5 pl-4 pr-3 font-light w-full text-black bg-transparent rounded-lg appearance-none focus:outline-none focus:ring-0 peer"
         placeholder=""
         value={value}
         autoComplete={autoComplete ? "on" : "off"}

@@ -1,7 +1,7 @@
 {
   "HomePage": {
-    "eee-title": "What is EEE ?",
-    "eee-paragraph": "EEE stand for EPFL Exchange Exporter. This app is used to return all calendars event of conference room, inside a data file as csv, json...",
+    "eeee-title": "What is EEEE ?",
+    "eeee-paragraph": "EEEE stand for EPFL Exchange Events Exporter. This app is used to return all calendars event of conference room, inside a data file as csv, json...",
     "guid-title": "How to use ?",
     "guid-paragraph": "To use it, you need first to connect to your @epfl microsoft account, and next, to complete the export form"
   },

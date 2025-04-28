@@ -12,8 +12,8 @@ export default () =>{
     const params = useParams();
     const searchParams = useSearchParams();
 
-    const onSelectChange = (eee) =>{
-        const nextLocale = eee.target.value;
+    const onSelectChange = (eeee) =>{
+        const nextLocale = eeee.target.value;
         startTransition(()=>{
             router.replace(
                 {pathname, params},
@@ -22,7 +22,7 @@ export default () =>{
         })
     }
     return (
-        <select defaultValue={lang} onChange={(eee) => onSelectChange(eee)} className="bg-transparent">
+        <select defaultValue={lang} onChange={(eeee) => onSelectChange(eeee)} className="bg-transparent">
             <option value={"fr"}>
                 🇫🇷 FR
             </option>
