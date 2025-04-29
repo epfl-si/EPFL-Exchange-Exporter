@@ -7,7 +7,6 @@ import fs from 'fs';
 
 import downloadFile from "@/services/exportManager";
 
-// Handles GET requests to /api
 export async function GET(request) {
   const session = await auth();
 
@@ -44,8 +43,11 @@ export async function GET(request) {
     userSearch: room,
     setLoadingLabel: fakeFunc,
     setIsLoading: fakeFunc,
-    isBackend: true
+    isBackend: true,
+    website: request.nextUrl.origin
   }
+
+  console.log(request.nextUrl.origin);
 
   const blob = await downloadFile(option)
 

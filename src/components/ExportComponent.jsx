@@ -176,7 +176,8 @@ export default ({authSession}) => {
             endDate : endDate,
             userSearch : userSearch,
             setLoadingLabel : setLoadingLabel,
-            setIsLoading : setIsLoading
+            setIsLoading: setIsLoading,
+            website: window.location.protocol + "//" + window.location.host
           }
         );
 

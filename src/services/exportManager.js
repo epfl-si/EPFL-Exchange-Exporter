@@ -3,6 +3,8 @@ import textRefactor from "./textRefactor";
 import { changeUTC, changeFormat } from "./dateRefactor";
 import DownloadData from "@/class/downloadDataClass";
 
+import axios from "axios";
+
 let noData = "no data"
 let muchData = "too much data"
 
@@ -39,9 +41,41 @@ const createDownload = (fileData, fileName, fileType, isBackend=false) =>{
     return blob;
 }
 
+const createFile = (params) => {
+    const { filename, extension, isBackend, data } = params;
+    let fileName = filename || "data";
+    let fileType = extension || "csv";
+
+    let fileData = "";
+
+    switch(fileType){
+        case "csv":
+            fileData = getCSV(data);
+            break;
+        case "json":
+            fileData = JSON.stringify(data, null, 2);
+            break;
+        default:
+            fileData = `file extension "${fileType}" doesn't recognize.`
+            break;
+    }
+    if (isBackend){
+        return createDownload(fileData, fileName, fileType, isBackend);
+    }
+
+    createDownload(fileData, fileName, fileType);
+    return new DownloadData(
+        {
+            state : "check",
+            label : "Téléchargement réussi",
+            errorName : "DownloadSuccess",
+            rewrite : true
+        });
+}
+
 const downloadFile = async(data) =>{
 
-    let {authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading, isBackend} = data;
+    let {authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading, isBackend, website} = data;
 
     startDate = startDate ? new Date(new Date(startDate).setHours(1)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(0)).setHours(1)).toISOString();
     endDate = endDate ? new Date(new Date(endDate).setHours(23)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(27)).setHours(1)).toISOString();
@@ -85,34 +119,13 @@ const downloadFile = async(data) =>{
             .sort((d1, d2)=> new Date(d2.start.dateTime) - new Date(d1.start.dateTime))
             .map(d =>(new Event(changeFormat(changeUTC(d.start.dateTime, 1)), changeFormat(changeUTC(d.end.dateTime, 1)), d.subject || "sujet privé", d.organizer?.emailAddress.address || "email privé")));
 
-            let fileName = filename || "data";
-            let fileType = extension || "csv";
-
-            let fileData = "";
-
-            switch(fileType){
-                case "csv":
-                    fileData = getCSV(data);
-                    break;
-                case "json":
-                    fileData = JSON.stringify(data, null, 2);
-                    break;
-                default:
-                    fileData = `file extension "${fileType}" doesn't recognize.`
-                    break;
+            let options = {
+                filename: filename,
+                extension: extension,
+                isBackend: isBackend,
+                data: data
             }
-            if (isBackend){
-                return createDownload(fileData, fileName, fileType, isBackend);
-            }
-
-            createDownload(fileData, fileName, fileType);
-            return new DownloadData(
-                {
-                    state : "check",
-                    label : "Téléchargement réussi",
-                    errorName : "DownloadSuccess",
-                    rewrite : true
-                });
+            return createFile(options);
         }
         else{
             let err = manageError(response.error.message, setIsLoading);
@@ -129,6 +142,45 @@ const downloadFile = async(data) =>{
     }
     else{
         let err = manageError(respDataTrue.error.message, setIsLoading);
+        if (err.errorName == "errUserDisabled") {
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            const response = await axios.get(
+                `${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`
+            );
+            console.log(response);
+            console.log(response?.data);
+            console.log(response?.data?.items);
+            if (!response?.data?.error) {
+                let options = {
+                    filename: filename,
+                    extension: extension,
+                    isBackend: isBackend,
+                    data: response.data.items
+                }
+                return createFile(options);
+            }
+            else {
+                err = manageError(response?.data?.error, setIsLoading);
+                return new DownloadData(
+                    {
+                        state : err.data.state,
+                        label : err.data.label,
+                        isExpired : err.isExpired,
+                        rewrite : false,
+                        error : err.error,
+                        errorName : err.errorName
+                    });
+            }
+        }
         return new DownloadData(
             {
                 state : err.data.state,
