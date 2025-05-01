@@ -80,17 +80,14 @@ const downloadFile = async(data) =>{
     startDate = startDate ? new Date(new Date(startDate).setHours(1)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(0)).setHours(1)).toISOString();
     endDate = endDate ? new Date(new Date(endDate).setHours(23)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(27)).setHours(1)).toISOString();
 
-    let respDataTrue = await fetch(`https://graph.microsoft.com/v1.0/users/${userSearch || authSession.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&count=true&top=1&select=id`, {
+    let respDataTrue = await fetch(`${website}/api/exportCount?room=${userSearch}&start=${startDate}&end=${endDate}`, {
         method: 'get',
-        headers: new Headers({
-            'Authorization': `Bearer ${authSession.accessToken}`
-        })
-    }).then((r) => {return r.json()});
+    }).then((r) => { return r.json() });
 
     if (!respDataTrue?.error){
 
-        if (respDataTrue["@odata.count"] <= 0 || respDataTrue["@odata.count"] > 1000){
-            let err = manageError(respDataTrue["@odata.count"] <= 0 ? noData : `${muchData},${respDataTrue["@odata.count"]}`, setIsLoading);
+        if (respDataTrue.count <= 0 || respDataTrue.count > 1000){
+            let err = manageError(respDataTrue.count <= 0 ? noData : `${muchData},${respDataTrue.count}`, setIsLoading);
             return new DownloadData(
                 {
                     state : err.data.state,
@@ -102,9 +99,9 @@ const downloadFile = async(data) =>{
                 });
         }
         if (!isBackend){
-            setLoadingLabel({label: "loaderNbData", nb: respDataTrue["@odata.count"]});
+            setLoadingLabel({label: "loaderNbData", nb: respDataTrue.count });
         }
-        let request = `https://graph.microsoft.com/v1.0/users/${userSearch || authSession.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&select=subject,organizer,start,end&top=1000`; //authSession.user?.email temp, after, need to change for room
+        let request = `https://graph.microsoft.com/v1.0/users/${userSearch || authSession.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&select=subject,organizer,start,end&top=1000`;
 
         let response = await fetch(request, {
             method: 'get',

@@ -5,6 +5,8 @@ import axios from "axios";
 
 import Event from "@/class/EventClass";
 
+import checkMissingArgs from "@/services/checkMissingArgs";
+
 const callApi = async(req) => {
   const response = await axios.post(
     process.env.SERVICE_ENDPOINT,
@@ -24,10 +26,6 @@ const callApi = async(req) => {
     ["m:ResolveNamesResponse"][0]
     ["m:ResponseMessages"][0]
     ["m:ResolveNamesResponseMessage"][0]
-    // ["m:ResolutionSet"][0]
-    // ["t:Resolution"][0]
-    // ["t:Mailbox"][0]
-    // ["t:EmailAddress"][0]
   });
 
   return address;
@@ -82,14 +80,9 @@ export async function GET(request) {
 
   const headersReq = request.nextUrl.searchParams;
 
-  const requiredParams = ["room", "start", "end"]
-
-  for (let param of requiredParams){
-    if (!headersReq.has(param)){
-      return NextResponse.json({
-        error: `Missing following argument : ${param}`
-      });
-    }
+  const missingArgs = checkMissingArgs(headersReq, ["room", "start", "end"]);
+  if (missingArgs.state == "error") {
+    return NextResponse.json(missingArgs.value);
   }
 
   const isoStart = (new Date(headersReq.get("start"))).toISOString();

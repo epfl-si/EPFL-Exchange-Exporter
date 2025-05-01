@@ -14,6 +14,8 @@ export async function GET(request) {
     return new NextResponse(["Credentials error, please connecting you to your account."]);
   }
 
+  // "MailboxNotEnabledForRESTAPI"
+
   const headersReq = request.nextUrl.searchParams;
 
   const requiredParams = ["room", "start", "end", "filename", "extension"]
