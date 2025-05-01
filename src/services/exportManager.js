@@ -143,16 +143,10 @@ const downloadFile = async(data) =>{
     else{
         let err = manageError(respDataTrue.error.message, setIsLoading);
         if (err.errorName == "errUserDisabled") {
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
-            console.log(`${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`);
+            if (!isBackend) {
+                setLoadingLabel({ label: "loaderData", nb: "0" })
+                setIsLoading(true)
+            }
             const response = await axios.get(
                 `${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`
             );

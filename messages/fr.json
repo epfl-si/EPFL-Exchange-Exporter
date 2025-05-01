@@ -22,6 +22,7 @@
     "parameters": "Paramètres",
     "autoDownload": "Téléchargement automatique",
     "loaderCheckData": "Vérification des données",
+    "loaderData": "Récupération des évènements, veuillez patienter",
     "loaderNbData": "{nb, plural, =1 {Exportation de l'évènement, veuillez patienter} other {Exportation des {nb} évènements, veuillez patienter}}",
     "DownloadSuccess": "Téléchargement réussi",
     "errPeriodTooHigh": "Dates incorrectes. La période entre la date de début et la date fin est trop élevé.",

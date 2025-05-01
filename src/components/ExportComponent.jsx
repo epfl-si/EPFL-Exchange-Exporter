@@ -260,7 +260,7 @@ export default ({authSession}) => {
       </form>
       {
         isLoading ?
-        <Loading label={loadingLabel.nb ? t("loaderNbData", {nb: loadingLabel.nb}) : t("loaderCheckData")}/>
+        <Loading label={loadingLabel.nb ? loadingLabel.nb != "0" ? t("loaderNbData", {nb: loadingLabel.nb}) : t("loaderData") : t("loaderCheckData")}/>
         :
         <></>
       }

@@ -22,6 +22,7 @@
     "parameters": "Parameters",
     "autoDownload": "Automatic download",
     "loaderCheckData": "Checking data",
+    "loaderData": "Getting events, please wait",
     "loaderNbData": "{nb, plural, =1 {Exporting the event, please wait} other {Exporting {nb} events, please wait}}",
     "DownloadSuccess": "Download success",
     "errPeriodTooHigh": "Incorrect dates. The period between the start date and the end date is too long.",

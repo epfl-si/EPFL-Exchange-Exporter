@@ -5,27 +5,10 @@ import axios from "axios";
 
 import Event from "@/class/EventClass";
 
-const getAddressFromId = async(id) => {
-  const emailIdRequest = id
-  const xmlRequest2 = `
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-             xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
-<soap:Header>
-  <t:RequestServerVersion Version="Exchange2013" />
-</soap:Header>
-<soap:Body>
-  <ResolveNames xmlns="http://schemas.microsoft.com/exchange/services/2006/messages"
-                ReturnFullContactData="true"
-                SearchScope="ActiveDirectory">
-    <UnresolvedEntry>${emailIdRequest}</UnresolvedEntry>
-  </ResolveNames>
-</soap:Body>
-</soap:Envelope>
-`
-
-  const response2 = await axios.post(
+const callApi = async(req) => {
+  const response = await axios.post(
     process.env.SERVICE_ENDPOINT,
-    xmlRequest2,
+    req,
     {
       headers: {
         'Content-Type': 'text/xml',
@@ -36,18 +19,63 @@ const getAddressFromId = async(id) => {
 
   let address = ""
 
-  parseString(response2.data, function (err, result) {
+  parseString(response.data, function (err, result) {
     address = result["s:Envelope"]["s:Body"][0]
     ["m:ResolveNamesResponse"][0]
     ["m:ResponseMessages"][0]
     ["m:ResolveNamesResponseMessage"][0]
-    ["m:ResolutionSet"][0]
-    ["t:Resolution"][0]
-    ["t:Mailbox"][0]
-    ["t:EmailAddress"][0]
-    });
+    // ["m:ResolutionSet"][0]
+    // ["t:Resolution"][0]
+    // ["t:Mailbox"][0]
+    // ["t:EmailAddress"][0]
+  });
 
   return address;
+}
+
+const getAddressFromId = async(id) => {
+  const emailIdRequest = id
+  const xmlRequest = `
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
+  <soap:Header>
+    <t:RequestServerVersion Version="Exchange2013" />
+  </soap:Header>
+  <soap:Body>
+    <ResolveNames xmlns="http://schemas.microsoft.com/exchange/services/2006/messages"
+      ReturnFullContactData="true"
+      SearchScope="ActiveDirectory">
+      <UnresolvedEntry>${emailIdRequest}</UnresolvedEntry>
+    </ResolveNames>
+  </soap:Body>
+</soap:Envelope>
+`
+  const xmlRequest500 = `
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
+  <soap:Header>
+    <t:RequestServerVersion Version="Exchange2013" />
+  </soap:Header>
+  <soap:Body>
+    <ResolveNames xmlns="http://schemas.microsoft.com/exchange/services/2006/messages"
+      ReturnFullContactData="true"
+      SearchScope="ActiveDirectory">
+      <UnresolvedEntry>X500:${emailIdRequest}</UnresolvedEntry>
+    </ResolveNames>
+  </soap:Body>
+</soap:Envelope>
+`
+
+  let address = await callApi(xmlRequest)
+
+  if (address["$"]["ResponseClass"] == "Error") {
+    address = await callApi(xmlRequest500)
+  }
+
+  return address["m:ResolutionSet"][0]
+  ["t:Resolution"][0]
+  ["t:Mailbox"][0]
+  ["t:EmailAddress"][0];
 }
 
 export async function GET(request) {
