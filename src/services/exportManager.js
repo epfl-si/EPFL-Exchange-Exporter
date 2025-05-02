@@ -1,9 +1,9 @@
-import Event from "@/class/EventClass";
 import textRefactor from "./textRefactor";
-import { changeUTC, changeFormat } from "./dateRefactor";
 import DownloadData from "@/class/downloadDataClass";
 
 import axios from "axios";
+
+import getEvents from "./API/getEvents";
 
 let noData = "no data"
 let muchData = "too much data"
@@ -28,11 +28,8 @@ const getCSV = (data)=>{
     return result;
 }
 
-const createDownload = (fileData, fileName, fileType, isBackend=false) =>{
+const createDownload = (fileData, fileName, fileType) =>{
     const blob = new Blob([fileData], { type: "text/plain" });
-    if (isBackend){
-        return blob;
-    }
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.download = `${fileName}.${fileType}`;
@@ -42,7 +39,7 @@ const createDownload = (fileData, fileName, fileType, isBackend=false) =>{
 }
 
 const createFile = (params) => {
-    const { filename, extension, isBackend, data } = params;
+    const { filename, extension, data } = params;
     let fileName = filename || "data";
     let fileType = extension || "csv";
 
@@ -59,9 +56,6 @@ const createFile = (params) => {
             fileData = `file extension "${fileType}" doesn't recognize.`
             break;
     }
-    if (isBackend){
-        return createDownload(fileData, fileName, fileType, isBackend);
-    }
 
     createDownload(fileData, fileName, fileType);
     return new DownloadData(
@@ -75,71 +69,32 @@ const createFile = (params) => {
 
 const downloadFile = async(data) =>{
 
-    let { authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading, isBackend, website } = data;
+    let { authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading, isFrontend, website } = data;
 
+    const option = {
+        room: userSearch,
+        start: startDate,
+        end: endDate,
+        session: authSession,
+        setLoadingLabel: setLoadingLabel,
+        isFrontend: isFrontend
+    }
+    const response = await getEvents(option);
 
-    startDate = startDate ? new Date(new Date(startDate).setHours(1)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(0)).setHours(1)).toISOString();
-    endDate = endDate ? new Date(new Date(endDate).setHours(23)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(27)).setHours(1)).toISOString();
+    if (!isFrontend) {
+        return response;
+    }
 
-    let respDataTrue = await fetch(`${website}/api/exportCount?room=${userSearch}&start=${startDate}&end=${endDate}`, {
-        method: 'get',
-    }).then((r) => { return r.json() });
-
-    if (!respDataTrue?.error){
-
-        if (respDataTrue.count <= 0 || respDataTrue.count > 1000){
-            let err = manageError(respDataTrue.count <= 0 ? noData : `${muchData},${respDataTrue.count}`, setIsLoading);
-            return new DownloadData(
-                {
-                    state : err.data.state,
-                    label : err.data.label,
-                    isExpired : err.isExpired,
-                    rewrite : false,
-                    error : err.error,
-                    errorName : err.errorName
-                });
+    if (!response?.error) {
+        let options = {
+            filename: filename,
+            extension: extension,
+            data: response.data
         }
-        if (!isBackend){
-            setLoadingLabel({label: "loaderNbData", nb: respDataTrue.count });
-        }
-        let request = `https://graph.microsoft.com/v1.0/users/${userSearch || authSession.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&select=subject,organizer,start,end&top=1000`;
-
-        let response = await fetch(request, {
-            method: 'get',
-            headers: new Headers({
-                'Authorization': `Bearer ${authSession.accessToken}`
-            })
-        }).then((r) => {return r.json()});
-
-        if (!response?.error){
-
-            let data = response.value
-            .sort((d1, d2)=> new Date(d2.start.dateTime) - new Date(d1.start.dateTime))
-            .map(d =>(new Event(changeFormat(changeUTC(d.start.dateTime, 1)), changeFormat(changeUTC(d.end.dateTime, 1)), d.subject || "sujet privé", d.organizer?.emailAddress.address || "email privé")));
-
-            let options = {
-                filename: filename,
-                extension: extension,
-                isBackend: isBackend,
-                data: data
-            }
-            return createFile(options);
-        }
-        else{
-            let err = manageError(response.error.message, setIsLoading);
-            return new DownloadData(
-                {
-                    state : err.data.state,
-                    label : err.data.label,
-                    isExpired : err.isExpired,
-                    rewrite : false,
-                    error : err.error,
-                    errorName : err.errorName
-                });
-        }
+        return createFile(options);
     }
     else{
-        let err = manageError(respDataTrue.error.message, setIsLoading);
+        let err = manageError(response.error.message, setIsLoading);
         if (err.errorName == "errUserDisabled") {
             if (!isBackend) {
                 setLoadingLabel({ label: "loaderData", nb: "0" })
@@ -148,9 +103,6 @@ const downloadFile = async(data) =>{
             const response = await axios.get(
                 `${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`
             );
-            console.log(response);
-            console.log(response?.data);
-            console.log(response?.data?.items);
             if (!response?.data?.error) {
                 let options = {
                     filename: filename,

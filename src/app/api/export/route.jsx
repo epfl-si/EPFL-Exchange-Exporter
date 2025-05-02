@@ -1,17 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import getEventCount from "@/services/getEventCount";
 import checkMissingArgs from "@/services/checkMissingArgs";
 
-import getExchangeEvents from "@/services/API/getExchangeEvents";
-
-const getOnPremEvents = async (host, room, start, end) => {
-  console.log(`${host}/api/exportOnPrem?room=${room}&start=${start}&end=${end}`);
-  let result = await fetch(`${host}/api/exportOnPrem?room=${room}&start=${start}&end=${end}`, {
-    method: 'get'
-  }).then((r) => { return r.json() });
-  return result;
-}
+import getEvents from "@/services/API/getEvents";
 
 export async function GET(request) {
   const session = await auth();
@@ -33,10 +24,6 @@ export async function GET(request) {
     return NextResponse.json(missingArgs.value);
   }
 
-  const room = headersReq.get("room");
-  const start = headersReq.get("start");
-  const end = headersReq.get("end");
-
   let option = {
     room: headersReq.get("room"),
     start: headersReq.get("start"),
@@ -44,23 +31,7 @@ export async function GET(request) {
     session: session
   }
 
-  const resultJSON = await getEventCount(option);
+  const data = await getEvents(option);
 
-  if (resultJSON?.error) {
-    switch (resultJSON.error.code) {
-      case "MailboxNotEnabledForRESTAPI":
-        const data = await getOnPremEvents(request.nextUrl.origin, room, start, end);
-        return NextResponse.json(data);
-      default:
-        return NextResponse.json(resultJSON?.error);
-    }
-  }
-  option = {
-    room: room,
-    start: start,
-    end: end,
-    session: session,
-  }
-  const data = await getExchangeEvents(option);
   return NextResponse.json(data);
 }

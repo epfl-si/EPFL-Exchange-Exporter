@@ -131,13 +131,13 @@ export default ({authSession}) => {
 
 
     if (startDate){
-      console.log(startDate); //2023-12-30
-      console.log([2, 1, 0].map((index) => startDate.split("-")[index]).join("/")); //30/12/2023
+      // console.log(`startDate: ${startDate}`); //2023-12-30
+      // console.log([2, 1, 0].map((index) => startDate.split("-")[index]).join("/")); //30/12/2023
       startDate = new Date(startDate)
       setStartDate(startDate);
     }
 
-    if (endDate){
+    if (endDate) {
       endDate = new Date(endDate)
       setEndDate(endDate);
     }
@@ -172,19 +172,18 @@ export default ({authSession}) => {
             authSession : authSession,
             filename : fileName,
             extension : exportExt,
-            startDate : startDate,
-            endDate : endDate,
+            startDate : dayjs(startDate).format("YYYY-MM-DD"),
+            endDate : dayjs(endDate).format("YYYY-MM-DD"),
             userSearch : userSearch,
             setLoadingLabel : setLoadingLabel,
             setIsLoading: setIsLoading,
+            isFrontend: true,
             website: window.location.protocol + "//" + window.location.host
-          }
+        }
         );
 
         setDownloadError(downloadData.error);
         setDownloadErrorName(downloadData.errorName);
-
-        console.log(downloadData);
 
         if (downloadData.state.isExpired){
           setAlertState(downloadData.alertbox.state);

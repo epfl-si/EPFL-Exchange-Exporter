@@ -1,11 +1,7 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/auth";
 import { parseString } from "xml2js";
 import axios from "axios";
 
 import Event from "@/class/EventClass";
-
-import checkMissingArgs from "@/services/checkMissingArgs";
 
 const callApi = async(req) => {
   const response = await axios.post(
@@ -31,8 +27,7 @@ const callApi = async(req) => {
   return address;
 }
 
-const getAddressFromId = async(id) => {
-  const emailIdRequest = id
+const getAddressFromId = async(emailIdRequest) => {
   const xmlRequest = `
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
   xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
@@ -76,17 +71,11 @@ const getAddressFromId = async(id) => {
   ["t:EmailAddress"][0];
 }
 
-export async function GET(request) {
+export default async (params) => {
+  const { room, start, end } = params;
 
-  const headersReq = request.nextUrl.searchParams;
-
-  const missingArgs = checkMissingArgs(headersReq, ["room", "start", "end"]);
-  if (missingArgs.state == "error") {
-    return NextResponse.json(missingArgs.value);
-  }
-
-  const isoStart = (new Date(headersReq.get("start"))).toISOString();
-  const isoEnd = (new Date((new Date(headersReq.get("end"))).setUTCHours(23, 59, 59, 999))).toISOString();
+  const isoStart = (new Date(start)).toISOString();
+  const isoEnd = (new Date((new Date(end)).setUTCHours(23, 59, 59, 999))).toISOString();
 
 
 //   <m:ItemShape>
@@ -127,7 +116,7 @@ export async function GET(request) {
         <m:ParentFolderIds>
           <t:DistinguishedFolderId Id="calendar">
             <t:Mailbox>
-              <t:EmailAddress>${headersReq.get("room")}</t:EmailAddress>
+              <t:EmailAddress>${room}</t:EmailAddress>
             </t:Mailbox>
           </t:DistinguishedFolderId>
         </m:ParentFolderIds>
@@ -186,13 +175,13 @@ export async function GET(request) {
 
     items = items.map((item) => new Event(item.start, item.end, item.subject, item.organizer))
 
-    return NextResponse.json({ items: items });
+    return { items: items };
 
   } catch (error) {
     console.error('Error making EWS request:', error);
-    return NextResponse.json({
+    return {
       error: 'Internal Server Error',
       exactError: error.toString()
-    })
+    }
   }
 }
