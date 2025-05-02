@@ -75,7 +75,8 @@ const createFile = (params) => {
 
 const downloadFile = async(data) =>{
 
-    let {authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading, isBackend, website} = data;
+    let { authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading, isBackend, website } = data;
+
 
     startDate = startDate ? new Date(new Date(startDate).setHours(1)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(0)).setHours(1)).toISOString();
     endDate = endDate ? new Date(new Date(endDate).setHours(23)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(27)).setHours(1)).toISOString();
@@ -184,7 +185,7 @@ const downloadFile = async(data) =>{
     }
 }
 
-const manageError = (error, setIsLoading) =>{
+export const manageError = (error, setIsLoading) =>{
 
     let state = "";
     let title = "";

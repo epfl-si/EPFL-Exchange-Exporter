@@ -3,6 +3,8 @@ import { auth, signIn } from "@/auth";
 
 import checkMissingArgs from "@/services/checkMissingArgs";
 
+import getEventCount from "@/services/getEventCount";
+
 export async function GET(request) {
 
   const session = await auth();
@@ -14,28 +16,14 @@ export async function GET(request) {
     return NextResponse.json(missingArgs.value);
   }
 
-  const room = headersReq.get("room");
-  const start = headersReq.get("start");
-  const end = headersReq.get("end");
+  const option = {
+    room: headersReq.get("room"),
+    start: headersReq.get("start"),
+    end: headersReq.get("end"),
+    session: session
+  }
 
-  const startDate = start ? new Date(new Date(start).setHours(1)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(0)).setHours(1)).toISOString();
-  const endDate = end ? new Date(new Date(end).setHours(23)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(27)).setHours(1)).toISOString();
-
-  let result = await fetch(`https://graph.microsoft.com/v1.0/users/${room || session.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&count=true&top=1&select=id`, {
-      method: 'get',
-      headers: new Headers({
-          'Authorization': `Bearer ${session.accessToken}`
-      })
-  }).then((r) => { return r.json() });
-
-  const resultJSON = !result.error ?
-    {
-      count: result["@odata.count"]
-    }
-  :
-    {
-      error: result.error
-    }
+  const resultJSON = await getEventCount(option);
 
   return NextResponse.json(resultJSON);
 }
