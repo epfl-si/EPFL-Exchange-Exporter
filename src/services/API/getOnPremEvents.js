@@ -95,9 +95,9 @@ export default async (params) => {
 // </m:ItemShape>
   const xmlRequest = `<?xml version="1.0" encoding="utf-8"?>
   <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages"
-                 xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"
-                 xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages"
+      xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"
+      xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Header>
       <t:RequestServerVersion Version="Exchange2016" />
     </soap:Header>
@@ -139,6 +139,8 @@ export default async (params) => {
     );
 
     let data = ""
+    // console.log(response.data)
+    // return response.data;
     parseString(response.data, function (err, result) {
       data = result["s:Envelope"]["s:Body"][0]
       ["m:FindItemResponse"][0]

@@ -2,14 +2,14 @@ import { changeFormat, changeUTC } from "@/services/dateRefactor";
 import Event from "@/class/EventClass";
 
 const getEvents = async (params) => {
-  const { room, start, end, session } = params;
+  const { room, start, end, session, accessToken } = params;
 
   let request = `https://graph.microsoft.com/v1.0/users/${room || session.user.email}/calendarView?startDateTime=${start}&endDateTime=${end}&select=subject,organizer,start,end&top=1000`;
 
   let response = await fetch(request, {
     method: 'get',
     headers: new Headers({
-      'Authorization': `Bearer ${session.accessToken}`
+      'Authorization': `Bearer ${accessToken || session.accessToken}`
     })
   }).then((r) => {return r.json()});
 

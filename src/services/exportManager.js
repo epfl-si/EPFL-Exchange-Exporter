@@ -95,36 +95,6 @@ const downloadFile = async(data) =>{
     }
     else{
         let err = manageError(response.error.message, setIsLoading);
-        if (err.errorName == "errUserDisabled") {
-            if (!isBackend) {
-                setLoadingLabel({ label: "loaderData", nb: "0" })
-                setIsLoading(true)
-            }
-            const response = await axios.get(
-                `${website}/api/exportOnPrem?room=${userSearch}&start=${startDate}&end=${endDate}`
-            );
-            if (!response?.data?.error) {
-                let options = {
-                    filename: filename,
-                    extension: extension,
-                    isBackend: isBackend,
-                    data: response.data.items
-                }
-                return createFile(options);
-            }
-            else {
-                err = manageError(response?.data?.error, setIsLoading);
-                return new DownloadData(
-                    {
-                        state : err.data.state,
-                        label : err.data.label,
-                        isExpired : err.isExpired,
-                        rewrite : false,
-                        error : err.error,
-                        errorName : err.errorName
-                    });
-            }
-        }
         return new DownloadData(
             {
                 state : err.data.state,
