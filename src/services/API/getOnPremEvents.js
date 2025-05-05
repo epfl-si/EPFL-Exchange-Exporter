@@ -27,6 +27,64 @@ const callApi = async(req) => {
   return address;
 }
 
+const getCalendarItems = async(items) => {
+  const xmlRequest = `<?xml version="1.0" encoding="utf-8"?>
+  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
+    <soap:Header>
+      <t:RequestServerVersion Version="Exchange2016" />
+    </soap:Header>
+    <soap:Body>
+      <GetItem xmlns="http://schemas.microsoft.com/exchange/services/2006/messages">
+        <ItemShape>
+          <t:BaseShape>IdOnly</t:BaseShape>
+          <t:AdditionalProperties>
+            <t:FieldURI FieldURI="item:Subject"/>
+            <t:FieldURI FieldURI="calendar:Start"/>
+            <t:FieldURI FieldURI="calendar:End"/>
+            <t:FieldURI FieldURI="calendar:Organizer"/>
+          </t:AdditionalProperties>
+        </ItemShape>
+        <ItemIds>
+          ${items.map((item) => `<t:ItemId Id="${item.Id}" ChangeKey="${item.ChangeKey}"/>`).join("")}
+        </ItemIds>
+      </GetItem>
+    </soap:Body>
+  </soap:Envelope>`
+
+  let data;
+  const res = await fetch(process.env.SERVICE_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/xml',
+      'Authorization': 'Basic ' + Buffer.from(`${process.env.CREDENTIALS_USERNAME}:${process.env.CREDENTIALS_PASSWORD}`).toString('base64'),
+    },
+    body: xmlRequest
+  })
+
+  const response = await res.text();
+
+  parseString(response, function (err, result) {
+    data = result["s:Envelope"]["s:Body"][0]
+    ["m:GetItemResponse"]
+    [0]
+    ["m:ResponseMessages"][0]
+    ["m:GetItemResponseMessage"];
+  });
+
+  data = formateEWSJSONResult(data.map(d => d["m:Items"][0]["t:CalendarItem"][0]))
+    .map((d) => { d.organizer = d.organizer["t:Mailbox"][0]["t:EmailAddress"][0]; return d; })
+    .map((d) => Object.keys(d)
+      .filter((x) => { return !["itemid"].includes(x.replace("t:", "").toLowerCase()) })
+      .reduce((obj, key) => {
+    obj[key] = d[key];
+    return obj;
+      }, {}))
+    .map((d) => new Event(d.start, d.end, d.subject, d.organizer))
+
+  return { data: data};
+}
+
 const getAddressFromId = async(emailIdRequest) => {
   const xmlRequest = `
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
@@ -65,10 +123,7 @@ const getAddressFromId = async(emailIdRequest) => {
     address = await callApi(xmlRequest500)
   }
 
-  return address["m:ResolutionSet"][0]
-  ["t:Resolution"][0]
-  ["t:Mailbox"][0]
-  ["t:EmailAddress"][0];
+  return { address: address, emailIdRequest: emailIdRequest };
 }
 
 export default async (params) => {
@@ -77,22 +132,6 @@ export default async (params) => {
   const isoStart = (new Date(start)).toISOString();
   const isoEnd = (new Date((new Date(end)).setUTCHours(23, 59, 59, 999))).toISOString();
 
-
-//   <m:ItemShape>
-//   <t:BaseShape>AllProperties</t:BaseShape>
-//   </m:ItemShape>
-
-  //OR
-
-//   <m:ItemShape>
-//   <t:BaseShape>IdOnly</t:BaseShape>
-//   <t:AdditionalProperties>
-//     <t:FieldURI FieldURI="item:Subject" />
-//     <t:FieldURI FieldURI="calendar:Start" />
-//     <t:FieldURI FieldURI="calendar:End" />
-//     <t:FieldURI FieldURI="calendar:Organizer" />
-//   </t:AdditionalProperties>
-// </m:ItemShape>
   const xmlRequest = `<?xml version="1.0" encoding="utf-8"?>
   <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages"
@@ -139,8 +178,6 @@ export default async (params) => {
     );
 
     let data = ""
-    // console.log(response.data)
-    // return response.data;
     parseString(response.data, function (err, result) {
       data = result["s:Envelope"]["s:Body"][0]
       ["m:FindItemResponse"][0]
@@ -148,9 +185,21 @@ export default async (params) => {
       ["m:FindItemResponseMessage"][0];
     });
 
-    let items = data["m:RootFolder"][0]["t:Items"][0]["t:CalendarItem"];
+    // Check if the request occured an error
+    if (data["$"]["ResponseClass"] != "Success") {
+      return {error: data["m:MessageText"][0]}
+    }
 
-    const filter = ["subject", "start", "end", "organizer"]
+    data = data["m:RootFolder"][0]
+
+    // Check if the request return 0 events
+    if (data["$"].TotalItemsInView == 0) {
+      return {error: "No datas during provided period."}
+    }
+
+    let items = data["t:Items"][0]["t:CalendarItem"];
+
+    let filter = ["itemid"]
 
     items = items
       .map((item) => Object.keys(item)
@@ -160,25 +209,9 @@ export default async (params) => {
           return obj;
         }, {}))
 
-
-    items = items.map((item) => {
-      item["organizer"] = item["organizer"]["t:Mailbox"][0]["t:EmailAddress"][0];
-      return item;
-    })
-
-    let addressesIdObject = items.map((item) => item.organizer);
-    addressesIdObject = addressesIdObject.filter((item, index) => addressesIdObject.indexOf(item) === index);
-
-    addressesIdObject = await Object.fromEntries(
-      await Promise.all(Object.entries(addressesIdObject).map(async([key, value]) => [value, await getAddressFromId(value)])
-      ));
-
-    items.map((item) => item.organizer = addressesIdObject[item.organizer])
-
-    items = items.map((item) => new Event(item.start, item.end, item.subject, item.organizer))
-
-    return { items: items };
-
+    items = items.map(item=>item.itemid["$"])
+    items = await getCalendarItems(items)
+    return { items: items};
   } catch (error) {
     console.error('Error making EWS request:', error);
     return {
@@ -186,4 +219,24 @@ export default async (params) => {
       exactError: error.toString()
     }
   }
+}
+
+const formateEWSJSONResult = (result, filter = false) => {
+  if (filter) {
+    result = result
+    .map((item) => Object.keys(item)
+      .filter((x) => { return filter.includes(x.replace("t:", "").toLowerCase()) })
+      .reduce((obj, key) => {
+        obj[key.replace("t:", "").toLowerCase()] = item[key][0];
+        return obj;
+      }, {}))
+    return result
+  }
+  result = result
+  .map((item) => Object.keys(item)
+    .reduce((obj, key) => {
+      obj[key.replace("t:", "").toLowerCase()] = item[key][0];
+      return obj;
+    }, {}))
+  return result;
 }
