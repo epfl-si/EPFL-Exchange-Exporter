@@ -10,13 +10,11 @@ export default async(data) => {
           'Authorization': `Bearer ${accessToken || session.accessToken}`
       })
   }).then((r) => { return r.json() });
-
+  console.log(result)
   return !result.error ?
     {
       count: result["@odata.count"]
     }
   :
-    {
-      error: result.error
-    }
+    result
 }

@@ -32,7 +32,8 @@
     "errUserDisabled": "Incorrect user, their address is not an active address.",
     "errNoUser": "The user does not exist.",
     "errNoData": "No data exists in the period provided.",
-    "errTooMuchData": "There is too much data in the provided period. The maximum allowed is 1000, {nb} are present in the given period.",
+    "errUserAccessMissing": "You don't have required rights to access this calendar.",
+    "errTooMuchData": "There is too much data in the provided period: {nb}. The maximum allowed is 1000.",
     "errTokenExpired": "Access token expired. Refresh the page or log in again."
   },
   "LogOutPage":{

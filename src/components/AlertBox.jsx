@@ -15,8 +15,8 @@ export default ({data}) =>{
 
   const t = useTranslations("Form");
 
-  const getTranslateErrorMsg = (error, errorName) =>{
-    return errorName == "errTooMuchData" ? t(errorName, {nb: error.split(',')[1]}) : t(errorName);
+  const getTranslateErrorMsg = (error, errorName,errorCount) => {
+    return errorName == "errTooMuchData" ? t(errorName, {nb: errorCount || error.split('.')[2].split(" ").filter((x) => x != "")[0]}) : t(errorName);
   }
 
   useEffect(()=>{

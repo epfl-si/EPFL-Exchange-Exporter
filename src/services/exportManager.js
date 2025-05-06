@@ -102,7 +102,7 @@ const downloadFile = async(data) =>{
         return createFile(options);
     }
     else{
-        let err = manageError(response?.error?.message, setIsLoading);
+        let err = manageError(response?.error, setIsLoading);
         return new DownloadData(
             {
                 state : err.data.state,
@@ -127,44 +127,49 @@ export const manageError = (error, setIsLoading) =>{
     let isExpired = false;
 
 
-    if (textRefactor(error).includes("date") && textRefactor(error).includes("maximum")){
+    if (textRefactor(error.code).includes("date") && textRefactor(error.code).includes("maximum")){
         state = "info";
         label = "Dates incorrectes. La période entre la date de début et la date fin est trop élevé.";
         errorName = "errPeriodTooHigh"
     }
-    else if (textRefactor(error).includes("date") && textRefactor(error).includes("earlier")){
+    else if (textRefactor(error.code).includes("date") && textRefactor(error.code).includes("earlier")){
         state = "info";
         label = "Dates incorrectes. La date de fin précède la date de début.";
         errorName = "errPeriodEndBeforeStart"
     }
-    else if (textRefactor(error).includes("date")){
+    else if (textRefactor(error.code).includes("date")){
         state = "info";
         label = "Dates incorrectes.";
         errorName = "errPeriodInvalid"
     }
-    else if (textRefactor(error).includes("object") && textRefactor(error).includes("not found") && textRefactor(error).includes("store")){
+    else if (textRefactor(error.code).includes("object") && textRefactor(error.code).includes("not found") && textRefactor(error.code).includes("store")){
         state = "info";
         label = "Utilisateur incorrect ou calendrier de l'utilisateur inacessible.";
         errorName = "errUserUnavailable"
     }
-    else if (textRefactor(error).includes("mailbox") && textRefactor(error).includes("inactive") && textRefactor(error).includes("hosted on-premise")){
+    else if (textRefactor(error.code).includes("mailbox") && textRefactor(error.code).includes("inactive") && textRefactor(error.code).includes("hosted on-premise")){
         state = "info";
         label = "Utilisateur incorrect, son adresse n'est pas une adresse active.";
         errorName = "errUserDisabled"
     }
-    else if (textRefactor(error).includes("user") && textRefactor(error).includes("is invalid")){
+    else if (textRefactor(error.code).includes("user") && textRefactor(error.code).includes("is invalid")){
         state = "info";
         label = `L'utilisateur n'existe pas.`;
         errorName = "errNoUser"
     }
-    else if (textRefactor(error).includes(noData)){
+    else if (textRefactor(error.code).includes(noData)){
         state = "info";
         label = `Aucune données n'existent dans la période fournie.`;
         errorName = "errNoData"
     }
-    else if (textRefactor(error).includes(muchData)){
+    else if (textRefactor(error.code).includes(muchData)){
         state = "info";
-        label = `Il y a trop de données dans la période fournie. Le maximum autorisé est 1000, ${error.split(',')[1]} sont présentes dans la période donnée.`;
+        label = `Il y a trop de données dans la période fournie. Le maximum autorisé est 1000, ${error.message.split(',')[1]} sont présentes dans la période donnée.`;
+        errorName = "errTooMuchData"
+    }
+    else if (error.code == "errUserAccessMissing"){
+        state = "info";
+        label = `Il y a trop de données dans la période fournie. Le maximum autorisé est 1000, ${error.message.split(',')[1]} sont présentes dans la période donnée.`;
         errorName = "errTooMuchData"
     }
     else{
@@ -174,10 +179,23 @@ export const manageError = (error, setIsLoading) =>{
         isExpired = true;
     }
     setIsLoading(false);
+    console.log(
+        {
+            isExpired: isExpired,
+            error: error.message,
+            errorName: error.code,
+            data: {
+                state: state,
+                title: title,
+                label: label,
+                value: value
+            }
+        }
+    );
     return {
         isExpired : isExpired,
-        error: error,
-        errorName: errorName,
+        error: error.message,
+        errorName: error.code,
         data : {
             state : state,
             title : title,

@@ -20,8 +20,13 @@ const getEvents = async (params) => {
 
     return data;
   }
-  else{
-    return response.error.message;
+  else {
+    response = {
+      error: {
+        message: response.error
+      }
+    }
+    return response;
   }
 }
 

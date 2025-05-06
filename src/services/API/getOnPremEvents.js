@@ -3,7 +3,7 @@ import axios from "axios";
 
 import Event from "@/class/EventClass";
 
-const callApi = async(req) => {
+const callPostAPI = async(req) => {
   const response = await axios.post(
     process.env.SERVICE_ENDPOINT,
     req,
@@ -15,16 +15,7 @@ const callApi = async(req) => {
     }
   );
 
-  let address = ""
-
-  parseString(response.data, function (err, result) {
-    address = result["s:Envelope"]["s:Body"][0]
-    ["m:ResolveNamesResponse"][0]
-    ["m:ResponseMessages"][0]
-    ["m:ResolveNamesResponseMessage"][0]
-  });
-
-  return address;
+  return response;
 }
 
 const getCalendarItems = async(items) => {
@@ -53,18 +44,9 @@ const getCalendarItems = async(items) => {
   </soap:Envelope>`
 
   let data;
-  const res = await fetch(process.env.SERVICE_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'text/xml',
-      'Authorization': 'Basic ' + Buffer.from(`${process.env.CREDENTIALS_USERNAME}:${process.env.CREDENTIALS_PASSWORD}`).toString('base64'),
-    },
-    body: xmlRequest
-  })
+  const res = await callPostAPI(xmlRequest);
 
-  const response = await res.text();
-
-  parseString(response, function (err, result) {
+  parseString(res.data, function (err, result) {
     data = result["s:Envelope"]["s:Body"][0]
     ["m:GetItemResponse"]
     [0]
@@ -80,50 +62,10 @@ const getCalendarItems = async(items) => {
     obj[key] = d[key];
     return obj;
       }, {}))
+    .sort((d1, d2)=> new Date(d2.start) - new Date(d1.start))
     .map((d) => new Event(d.start, d.end, d.subject, d.organizer))
 
   return { data: data};
-}
-
-const getAddressFromId = async(emailIdRequest) => {
-  const xmlRequest = `
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-  xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
-  <soap:Header>
-    <t:RequestServerVersion Version="Exchange2013" />
-  </soap:Header>
-  <soap:Body>
-    <ResolveNames xmlns="http://schemas.microsoft.com/exchange/services/2006/messages"
-      ReturnFullContactData="true"
-      SearchScope="ActiveDirectory">
-      <UnresolvedEntry>${emailIdRequest}</UnresolvedEntry>
-    </ResolveNames>
-  </soap:Body>
-</soap:Envelope>
-`
-  const xmlRequest500 = `
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-  xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
-  <soap:Header>
-    <t:RequestServerVersion Version="Exchange2013" />
-  </soap:Header>
-  <soap:Body>
-    <ResolveNames xmlns="http://schemas.microsoft.com/exchange/services/2006/messages"
-      ReturnFullContactData="true"
-      SearchScope="ActiveDirectory">
-      <UnresolvedEntry>X500:${emailIdRequest}</UnresolvedEntry>
-    </ResolveNames>
-  </soap:Body>
-</soap:Envelope>
-`
-
-  let address = await callApi(xmlRequest)
-
-  if (address["$"]["ResponseClass"] == "Error") {
-    address = await callApi(xmlRequest500)
-  }
-
-  return { address: address, emailIdRequest: emailIdRequest };
 }
 
 export default async (params) => {
@@ -166,16 +108,7 @@ export default async (params) => {
 
 
   try {
-    const response = await axios.post(
-      process.env.SERVICE_ENDPOINT,
-      xmlRequest,
-      {
-        headers: {
-          'Content-Type': 'text/xml',
-          'Authorization': 'Basic ' + Buffer.from(`${process.env.CREDENTIALS_USERNAME}:${process.env.CREDENTIALS_PASSWORD}`).toString('base64'),
-        }
-      }
-    );
+    const response = await callPostAPI(xmlRequest);
 
     let data = ""
     parseString(response.data, function (err, result) {
@@ -187,7 +120,7 @@ export default async (params) => {
 
     // Check if the request occured an error
     if (data["$"]["ResponseClass"] != "Success") {
-      return {error: data["m:MessageText"][0]}
+      return { error: { code: "errUserAccessMissing", message: data["m:MessageText"][0] } }
     }
 
     data = data["m:RootFolder"][0]
@@ -206,12 +139,13 @@ export default async (params) => {
           obj[key.replace("t:", "").toLowerCase()] = item[key][0];
           return obj;
         }, {}))
+      .map(item => item.itemid["$"])
 
-    items = items.map(item=>item.itemid["$"])
     items = await getCalendarItems(items)
     return { data: items.data};
   } catch (error) {
     console.error('Error making EWS request:', error);
+    console.log('Error making EWS request:', error);
     return {
       error: {
         code: 'Internal Server Error',
