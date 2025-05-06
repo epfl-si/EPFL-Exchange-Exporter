@@ -79,13 +79,21 @@ const downloadFile = async(data) =>{
         setLoadingLabel: setLoadingLabel,
         isFrontend: isFrontend
     }
-    const response = await getEvents(option);
+    // const response = await getEvents(option);
+    const response = await await fetch(`${website}/api/export?room=${option.room}&start=${option.start}&end=${option.end}`, {
+        method: 'get',
+        headers: new Headers({
+            'Authorization': `Bearer ${option.session.accessToken}`
+        })
+    }).then((r) => { return r.json() });
 
     if (!isFrontend) {
         return response;
     }
 
+    console.log(response);
     if (!response?.error) {
+        console.log(response.data);
         let options = {
             filename: filename,
             extension: extension,
@@ -94,7 +102,7 @@ const downloadFile = async(data) =>{
         return createFile(options);
     }
     else{
-        let err = manageError(response.error.message, setIsLoading);
+        let err = manageError(response?.error?.message, setIsLoading);
         return new DownloadData(
             {
                 state : err.data.state,

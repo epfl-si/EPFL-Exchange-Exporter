@@ -199,11 +199,9 @@ export default async (params) => {
 
     let items = data["t:Items"][0]["t:CalendarItem"];
 
-    let filter = ["itemid"]
-
     items = items
       .map((item) => Object.keys(item)
-        .filter((x) => { return filter.includes(x.replace("t:", "").toLowerCase()) })
+        .filter((x) => { return ["itemid"].includes(x.replace("t:", "").toLowerCase()) })
         .reduce((obj, key) => {
           obj[key.replace("t:", "").toLowerCase()] = item[key][0];
           return obj;
@@ -211,12 +209,14 @@ export default async (params) => {
 
     items = items.map(item=>item.itemid["$"])
     items = await getCalendarItems(items)
-    return { items: items};
+    return { data: items.data};
   } catch (error) {
     console.error('Error making EWS request:', error);
     return {
-      error: 'Internal Server Error',
-      exactError: error.toString()
+      error: {
+        code: 'Internal Server Error',
+        message: error.toString()
+      }
     }
   }
 }
