@@ -43,7 +43,10 @@
     "label": "Sign In"
   },
   "SignOut":{
-    "label": "Sign Out"
+    "label": "Sign Out",
+    "signoutLabel": "Are you sure to disconnect ?",
+    "signoutAccept": "Yes",
+    "signoutCancel": "No"
   },
   "Loading":{
     "connect" : "Loading"

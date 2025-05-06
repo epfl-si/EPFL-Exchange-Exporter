@@ -43,7 +43,10 @@
     "label": "Connexion"
   },
   "SignOut":{
-    "label": "Déconnexion"
+    "label": "Déconnexion",
+    "signoutLabel": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "signoutAccept": "Oui",
+    "signoutCancel": "Non"
   },
   "Loading":{
     "connect" : "Chargement"
