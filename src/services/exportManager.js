@@ -91,9 +91,7 @@ const downloadFile = async(data) =>{
         return response;
     }
 
-    console.log(response);
     if (!response?.error) {
-        console.log(response.data);
         let options = {
             filename: filename,
             extension: extension,
@@ -179,19 +177,6 @@ export const manageError = (error, setIsLoading) =>{
         isExpired = true;
     }
     setIsLoading(false);
-    console.log(
-        {
-            isExpired: isExpired,
-            error: error.message,
-            errorName: error.code,
-            data: {
-                state: state,
-                title: title,
-                label: label,
-                value: value
-            }
-        }
-    );
     return {
         isExpired : isExpired,
         error: error.message,

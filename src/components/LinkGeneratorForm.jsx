@@ -58,6 +58,44 @@ export default ({setPopupOpen, data}) =>{
         document.addEventListener('keydown', handleKeyDown, true);
     })
 
+    const selectValues = [
+        {
+            id: "room",
+            name: t("room"),
+            disabledCondition: !data.room,
+            value: wantedRoom,
+            setter: setWantedRoom
+        },
+        {
+            id: "period",
+            name: t("period"),
+            disabledCondition: !(data.start || data.end),
+            value: wantedPeriod,
+            setter: setWantedPeriod
+        },
+        {
+            id: "filename",
+            name: t("filename"),
+            disabledCondition: !data.filename,
+            value: wantedFilename,
+            setter: setWantedFilename
+        },
+        {
+            id: "extension",
+            name: t("extension"),
+            disabledCondition: !data.extension,
+            value: wantedExtension,
+            setter: setWantedExtension
+        },
+        {
+            id: "autodownload",
+            name: t("autoDownload"),
+            disabledCondition: !(wantedRoom && wantedPeriod && wantedFilename && wantedExtension),
+            value: isAutoDownload,
+            setter: setIsAutoDownload
+        },
+    ]
+
 
     return (
         <BackgroundTasks>
@@ -77,27 +115,18 @@ export default ({setPopupOpen, data}) =>{
                 </div>
                 <div>
                     <h4>{t("parameters")}</h4>
-                    <div className="ml-4">
-                        <div>
-                            <input className="peer accent-red-600" id="room" type="checkbox" disabled={!data.room} checked={wantedRoom} onChange={()=>{ setWantedRoom(!wantedRoom)}}/>
-                            <label htmlFor="room" className="peer-disabled:text-gray-400">{t("room")}</label>
-                        </div>
-                        <div>
-                            <input className="peer accent-red-600" id="period" type="checkbox" disabled={!(data.start || data.end)} checked={wantedPeriod} onChange={()=>{ setWantedPeriod(!wantedPeriod)}}/>
-                            <label htmlFor="period" className="peer-disabled:text-gray-400">{t("period")}</label>
-                        </div>
-                        <div>
-                            <input className="peer accent-red-600" id="filename" type="checkbox" disabled={!data.filename} checked={wantedFilename} onChange={()=>{ setWantedFilename(!wantedFilename)}}/>
-                            <label htmlFor="filename" className="peer-disabled:text-gray-400">{t("filename")}</label>
-                        </div>
-                        <div>
-                            <input className="peer accent-red-600" id="extension" type="checkbox" disabled={!data.extension} checked={wantedExtension} onChange={()=>{ setWantedExtension(!wantedExtension)}}/>
-                            <label htmlFor="extension" className="peer-disabled:text-gray-400">{t("extension")}</label>
-                        </div>
-                        <div>
-                            <input className="peer accent-red-600" id="autodownload" type="checkbox" disabled={!(wantedRoom && wantedPeriod && wantedFilename && wantedExtension)} checked={isAutoDownload} onChange={()=>{setIsAutoDownload(!isAutoDownload);}}/>
-                            <label htmlFor="autodownload" className="peer-disabled:text-gray-400">{t("autoDownload")}</label>
-                        </div>
+                    <div className="grid grid-cols-2 col-span-full gap-2">
+                        {
+                            selectValues.map(sv =>
+                                <label htmlFor={sv.id} className={`rounded-lg ${selectValues[selectValues.length - 1].id == sv.id && selectValues.length % 2 == 1 ? "col-start-1 col-end-3" : ""}`} key={sv.name}>
+                                    <input className="peer hidden" id={sv.id} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={()=>{ sv.setter(v => !v)}}/>
+                                    <div className="flex items-center peer-disabled:text-gray-400 bg-white peer-enabled:hover:bg-gray-100 border w-full p-2 peer-checked:border-[#FF0000] rounded-lg">
+                                        <input className="peer accent-red-600" id={sv.id} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={()=>{ sv.setter(v => !v)}}/>
+                                        <span className="peer-disabled:text-gray-400 ml-1">{sv.name}</span>
+                                    </div>
+                                </label>
+                            )
+                        }
                     </div>
                 </div>
             </div>

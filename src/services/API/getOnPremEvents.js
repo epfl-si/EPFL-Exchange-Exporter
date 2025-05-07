@@ -118,9 +118,6 @@ export default async (params) => {
       ["m:FindItemResponseMessage"][0];
     });
 
-    console.log(response.data);
-    console.log(room);
-
     // Check if the request occured an error
     if (data["$"]["ResponseClass"] != "Success") {
       return { error: { code: "errUserAccessMissing", message: data["m:MessageText"][0] } }
@@ -148,7 +145,6 @@ export default async (params) => {
     return { data: items.data};
   } catch (error) {
     console.error('Error making EWS request:', error);
-    console.log('Error making EWS request:', error);
     return {
       error: {
         code: 'Internal Server Error',
