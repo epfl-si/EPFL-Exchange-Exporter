@@ -22,7 +22,7 @@ export async function GET(request) {
     const error = {
       error: {
         code: "ConnexionFailed",
-        value: "Credentials error, please connecting you to your account."
+        message: "Credentials error, please connecting you to your account."
       }
     }
     return NextResponse.json(error);
@@ -65,7 +65,7 @@ export async function POST(request) {
       const error = {
         error: {
           code: "ConnexionFailed",
-          value: "Credentials error, please connecting you to your account."
+          message: "Credentials error, please connecting you to your account."
         }
       }
       return NextResponse.json(error);

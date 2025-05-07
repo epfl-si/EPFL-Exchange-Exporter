@@ -5,12 +5,12 @@ import Event from "@/class/EventClass";
 
 const callPostAPI = async(req) => {
   const response = await axios.post(
-    process.env.SERVICE_ENDPOINT,
+    process.env.AUTH_EWS_SERVICE_ENDPOINT,
     req,
     {
       headers: {
         'Content-Type': 'text/xml',
-        'Authorization': 'Basic ' + Buffer.from(`${process.env.CREDENTIALS_USERNAME}:${process.env.CREDENTIALS_PASSWORD}`).toString('base64'),
+        'Authorization': 'Basic ' + Buffer.from(`${process.env.AUTH_EWS_CREDENTIALS_USERNAME}:${process.env.AUTH_EWS_CREDENTIALS_PASSWORD}`).toString('base64'),
       }
     }
   );
@@ -117,6 +117,9 @@ export default async (params) => {
       ["m:ResponseMessages"][0]
       ["m:FindItemResponseMessage"][0];
     });
+
+    console.log(response.data);
+    console.log(room);
 
     // Check if the request occured an error
     if (data["$"]["ResponseClass"] != "Success") {

@@ -11,6 +11,7 @@ export default async(data) => {
       })
   }).then((r) => { return r.json() });
   console.log(result)
+  console.log(result.error ? true : false)
   return !result.error ?
     {
       count: result["@odata.count"]

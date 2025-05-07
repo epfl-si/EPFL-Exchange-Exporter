@@ -31,6 +31,9 @@ AUTH_SECRET=
 AUTH_MICROSOFT_ENTRA_ID_ID=
 AUTH_MICROSOFT_ENTRA_ID_SECRET=
 AUTH_MICROSOFT_ENTRA_ID_TENANT_ID=
+AUTH_EWS_CREDENTIALS_USERNAME=
+AUTH_EWS_CREDENTIALS_PASSWORD=
+AUTH_EWS_SERVICE_ENDPOINT=
 ```
 
 with :
@@ -43,6 +46,12 @@ with :
 **AUTH_MICROSOFT_ENTRA_ID_SECRET** : the **secret** of **Microsoft entra id** app
 
 **AUTH_MICROSOFT_ENTRA_ID_TENANT_ID** : the **tenant** id of **Microsoft entra id** app
+
+**AUTH_EWS_CREDENTIALS_USERNAME** : the **credentials username** of **on premise** app
+
+**AUTH_EWS_CREDENTIALS_PASSWORD** : the **credentials password** of **on premise** app
+
+**AUTH_EWS_SERVICE_ENDPOINT** : the **service endpoint** of **on premise** app
 
 ## INSTALLATION
 
