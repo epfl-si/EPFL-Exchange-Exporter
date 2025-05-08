@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 export default ({redirection=false}) =>{
   const t = useTranslations("SignIn");
   return (
-    <button onClick={() => connect(redirection)} className="hover:text-[#FF0000] hover:cursor-pointer">
+    <button onClick={() => connect(redirection)} className="hover:text-[#FF0000] hover:cursor-pointer" id="LoginButton">
       {t("label")}
     </button>
   );

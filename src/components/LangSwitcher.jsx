@@ -22,7 +22,7 @@ export default () =>{
         })
     }
     return (
-        <select defaultValue={lang} onChange={(eeee) => onSelectChange(eeee)} className="bg-transparent">
+        <select defaultValue={lang} onChange={(eeee) => onSelectChange(eeee)} className="bg-transparent" id="LangSwitcher">
             <option value={"fr"}>
                 🇫🇷 FR
             </option>
