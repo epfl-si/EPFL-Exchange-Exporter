@@ -13,8 +13,8 @@ module.exports = defineConfig({
     baseUrl: process.env.CYPRESS_BASE_URL,
     chromeWebSecurity: false,
     env: {
-      ENTRA_USER: process.env.CYPRESS_TEST_MICROSOFT_ENTRA_ID_USERNAME,
-      ENTRA_PASSWORD: process.env.CYPRESS_TEST_MICROSOFT_ENTRA_ID_PASSWORD,
+      ENTRA_USER: process.env.CYPRESS_MICROSOFT_ENTRA_ID_USERNAME,
+      ENTRA_PASSWORD: process.env.CYPRESS_MICROSOFT_ENTRA_ID_PASSWORD,
       COOKIE_NAME: process.env.CYPRESS_COOKIE_NAME,
       SITE_NAME: process.env.CYPRESS_BASE_URL
     },
