@@ -127,7 +127,7 @@ export default async (params) => {
 
     // Check if the request return 0 events
     if (data["$"].TotalItemsInView == 0) {
-      return {error: "No datas during provided period."}
+      return { error: { code: "errUserNoData", message: "No data during provided period." } }
     }
 
     let items = data["t:Items"][0]["t:CalendarItem"];

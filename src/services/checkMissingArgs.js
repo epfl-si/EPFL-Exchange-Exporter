@@ -4,7 +4,10 @@ export default (headersReq, requiredParams) => {
         return {
           state: "error",
           value: {
-            error: `Missing following argument : ${param}`
+            error: {
+              code: "errMissingArgs",
+              message: `Missing following argument : ${param}`
+            }
           }
         };
       }
