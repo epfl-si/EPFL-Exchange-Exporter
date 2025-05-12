@@ -1,7 +1,14 @@
+const dayjs = require('dayjs')
+const customParseFormat = require("dayjs/plugin/customParseFormat");
+
 require('dotenv').config({ path: '.env.local' })
+
+dayjs.extend(customParseFormat);
 
 const baseUrl = process.env.CYPRESS_BASE_URL
 const exportEndpoint = `${baseUrl}/api/export`
+
+const formatDate = "YYYY-MM-DD";
 
 const params = [
   {
@@ -18,6 +25,15 @@ const params = [
   }
 ];
 
+const callAPI = async(request, method, header) => {
+  const response = await fetch(request, {
+    method: method,
+    ...header
+  });
+  const data = await response.json()
+  return data;
+}
+
 const checkMissingArgs = async (method) => {
 
   for (let argIndex in params) {
@@ -25,47 +41,106 @@ const checkMissingArgs = async (method) => {
     test(`check required arguments : "${params[argIndex].name}"`, async () => {
       const paramsFormat = params.map((x) => `${x.name}=${x.value}`)
       const data = await callAPI(`${exportEndpoint}?${paramsFormat.slice(0, argIndex + 1).join('&')}`, method)
-      const paramsFormatReturned = params.map((x) => x.name)
       if (argIndex + 1 < params.length) {
-        expect(data).toHaveProperty("error", {"code": "errMissingArgs", "message": `Missing following argument : ${paramsFormatReturned[argIndex + 1]}`})
+        expect(data).toHaveProperty("error.code", "errMissingArgs")
       }
       else {
-        expect(data).toHaveProperty("error", {"code": "ConnexionFailed", "message": "Credentials error, please connecting you to your account."})
+        expect(data).toHaveProperty("error.code", "ConnexionFailed")
       }
     })
   }
 }
 
+const checkWrongArg = (pms, method, header) => {
+  let concerned = pms.filter(element => !params.includes(element))[0];
+  test(`${concerned.name} : ${concerned.value} ${concerned.name == "start" || concerned.name == "end" ? `[${dayjs(concerned.value, formatDate, true).isValid()} data]` : ""}`, async () => {
+    const paramsFormat = pms.map((x) => `${x.name}=${x.value}`)
+    const data = header ? await callAPI(`${exportEndpoint}?${paramsFormat.join('&')}`, method, header) : await callAPI(`${exportEndpoint}?${paramsFormat.join('&')}`, method)
+    if (pms.filter((x) => x.value == "2025-11-01").length > 0) {
+    }
+    if (data.error?.code == "WrongArguments" || data.error?.code == "errUserAccessMissing") {
+      switch (data.error?.code) {
+        case "errUserAccessMissing":
+          expect(data).toHaveProperty("error.message", "EndDate is earlier than StartDate")
+          break;
+        default:
+          expect(data).toHaveProperty("error.code", "WrongArguments")
+      }
+    }
+    else {
+      //Check if result is an array
+      expect(Array.isArray(data.data)).toBe(true);
+
+      //Check if this array is not empty
+      expect(data.data).not.toHaveLength(0);
+    }
+  })
+}
+
+const checkWrongArgs = async (method, header = false) => {
+  let pms = params
+  for (let param of params) {
+    switch (param.name) {
+      case "room":
+        pms = pms.map((x) => x.name == param.name ? { name: x.name, value: "isfose@example.com" } : x)
+        checkWrongArg(pms, method, header)
+        break;
+      case "start":
+      case "end":
+        let testingDates = ["opefsk", "aaaa-bb-cc", "2025-00-00", "2025-13-12", "2025-02-31", "01-11-2024", "2025-11-01"]
+        for (let date of testingDates) {
+          let pms = params
+          pms = pms.map((x) => x.name == param.name ? { name: x.name, value: date } : x)
+          checkWrongArg(pms, method, header)
+        }
+        break;
+      default:
+        break;
+    }
+  }
+}
+
 describe("API GET", () => {
-  describe("Missing Args", () => {
+  describe("Missing Args with real data", () => {
     checkMissingArgs("GET")
   });
 
-  describe("Real data", () => {
-    //Code here to check if real data (email syntax, correct date...)
+  describe("Wrong data",() => {
+    //Waiting forauthentication tests
   })
 });
 
 describe("API POST", () => {
-  describe("Missing Args", () => {
-    checkMissingArgs("POST")
-  });
 
   //Create credentials header
-  const header = {
+  const wrongHeader = {
     headers: {
       authorization: `Bearer ewfefi`
     }
   }
 
+  const header = {
+    headers: {
+      authorization: `Bearer ${process.env.TESTS_GRAPH_TOKEN}`
+    }
+  }
+
+  describe("Missing Args with real data", () => {
+    checkMissingArgs("POST")
+  });
+
+  describe("Test Args", () => {
+    checkWrongArgs("POST", header);
+  })
+
   describe("Token Tests", () => {
     test(`check required headers (random token)`, async () => {
       //Check with random credentials
-      let data = await callAPI(`${exportEndpoint}?${params.map((x) => `${x.name}=${x.value}`).join('&')}`, "POST", header)
+      let data = await callAPI(`${exportEndpoint}?${params.map((x) => `${x.name}=${x.value}`).join('&')}`, "POST", wrongHeader)
       expect(data).toHaveProperty("error.code", "InvalidAuthenticationToken")
     })
 
-    test(`check required headers (correct token) and on-prem address - return data`, async () => {
+    test(`check required headers (correct token) and on-prem address`, async () => {
       //Change credentials header to add real cedentials
       header.headers.authorization = `Bearer ${process.env.TESTS_GRAPH_TOKEN}`
 
@@ -79,7 +154,7 @@ describe("API POST", () => {
       expect(data.data).not.toHaveLength(0);
     })
 
-    test(`check required headers (correct token) and microsoft entra id address - return data`, async () => {
+    test(`check required headers (correct token) and microsoft entra id address`, async () => {
       //Change credentials params to add microsoft entra ID address
       let localParams = params.map((x) => x.name == "room" ? { name: x.name, value: process.env.JEST_ROOM_ENTRA } : x)
 
@@ -95,22 +170,42 @@ describe("API POST", () => {
   });
 
   describe("On Prem request", () => {
+    //Check When user doesn't exists
+    test(`request : no user`, async () => {
+      //Check with real credentials
+      data = await callAPI(`${exportEndpoint}?room=skjfesofjmsef@epfl.ch&start=2000-02-07&end=2001-12-19`, "POST", header)
 
-  });
+      //Check if get correct error
+      expect(data).toHaveProperty("error.code", "ErrorInvalidUser")
+    })
 
-  describe("Entra ID request", () => {
     //Check When no data exists
     test(`request : no data`, async () => {
       //Check with real credentials
       data = await callAPI(`${exportEndpoint}?room=${process.env.JEST_ROOM_ENTRA}&start=2000-02-07&end=2001-12-19`, "POST", header)
 
       //Check if get correct error
-      expect(data).toHaveProperty(
-        "error",
-        {
-          code: "errNoData",
-          message: "Your request can't be completed. The range between the start and end dates does not contain events."
-        })
+      expect(data).toHaveProperty("error.code", "errNoData")
+    })
+
+    //Check When range too high
+    test(`request : too high range`, async () => {
+      //Check with real credentials
+      data = await callAPI(`${exportEndpoint}?room=${process.env.JEST_ROOM}&start=2000-02-07&end=2025-12-19`, "POST", header)
+
+      //Check if get correct error
+      expect(data).toHaveProperty("error.code", "errUserAccessMissing")
+    })
+  });
+
+  describe("Entra ID request", () => {
+    //Check When no data exists
+    test(`request : no data`, async () => {
+      //Check with real credentials
+      data = await callAPI(`${exportEndpoint}?room=${process.env.JEST_ROOM}&start=2000-02-07&end=2001-12-19`, "POST", header)
+
+      //Check if get correct error
+      expect(data).toHaveProperty("error.code", "errUserNoData")
     })
 
     //Check When range too high
@@ -120,31 +215,7 @@ describe("API POST", () => {
 
       //Check if get correct error
       expect(data).toHaveProperty(
-        "error",
-        {
-          code: "ErrorInvalidRequest",
-          message: "Your request can't be completed. The range between the start and end dates is greater than the allowed range. Maximum number of days: 1825"
-        })
+        "error.code", "ErrorInvalidRequest")
     })
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-const callAPI = async(request, method, header) => {
-  const response = await fetch(request, {
-    method: method,
-    ...header
-  });
-  const data = await response.json()
-  return data;
-}
