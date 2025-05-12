@@ -36,13 +36,13 @@ export async function GET(request) {
     session: session
   }
 
-  const isArgsWrong = checkArgsValidity(option);
+  const isArgsCorrect = checkArgsValidity(option);
 
-  if (!isArgsWrong.state) {
+  if (!isArgsCorrect.state) {
     const error = {
       error: {
         code: "WrongArguments",
-        message: `Arguments error, please check "${isArgsWrong.cause}" parameters and try again.`
+        message: `Arguments error, please check "${isArgsCorrect.cause}" parameters and try again.`
       }
     }
     return NextResponse.json(error);
@@ -93,13 +93,13 @@ export async function POST(request) {
     ...(!headersReq.has("Authorization")) && {session: session}
   }
 
-  const isArgsWrong = checkArgsValidity(option);
+  const isArgsCorrect = checkArgsValidity(option);
 
-  if (!isArgsWrong.state) {
+  if (!isArgsCorrect.state) {
     const error = {
       error: {
         code: "WrongArguments",
-        message: `Arguments error, please check "${isArgsWrong.cause}" parameters and try again.`
+        message: `Arguments error, please check "${isArgsCorrect.cause}" parameters and try again.`
       }
     }
     return NextResponse.json(error);
