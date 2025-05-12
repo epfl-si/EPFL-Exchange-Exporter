@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { headers } from "next/headers";
 
-import checkMissingArgs from "@/services/checkMissingArgs";
+import { checkArgsMissing, checkArgsValidity } from "@/services/checkArgs";
 
 import getEvents from "@/services/API/getEvents";
 
@@ -10,7 +10,7 @@ export async function GET(request) {
 
   const headersReq = request.nextUrl.searchParams;
 
-  const missingArgs = checkMissingArgs(headersReq, ["room", "start", "end"]);
+  const missingArgs = checkArgsMissing(headersReq, ["room", "start", "end"]);
   if (missingArgs.state == "error") {
     return NextResponse.json(missingArgs.value);
   }
@@ -28,11 +28,24 @@ export async function GET(request) {
     return NextResponse.json(error);
   }
 
+  //Create option variable for Event requests
   let option = {
     room: headersReq.get("room"),
     start: headersReq.get("start"),
     end: headersReq.get("end"),
     session: session
+  }
+
+  const isArgsWrong = checkArgsValidity(option);
+
+  if (!isArgsWrong.state) {
+    const error = {
+      error: {
+        code: "WrongArguments",
+        message: `Arguments error, please check "${isArgsWrong.cause}" parameters and try again.`
+      }
+    }
+    return NextResponse.json(error);
   }
 
   const data = await getEvents(option);
@@ -45,7 +58,7 @@ export async function POST(request) {
   const searchParamsReq = request.nextUrl.searchParams;
   const headersReq = await headers();
 
-  const missingArgs = checkMissingArgs(searchParamsReq, ["room", "start", "end"]);
+  const missingArgs = checkArgsMissing(searchParamsReq, ["room", "start", "end"]);
   if (missingArgs.state == "error") {
     return NextResponse.json(missingArgs.value);
   }
@@ -80,7 +93,17 @@ export async function POST(request) {
     ...(!headersReq.has("Authorization")) && {session: session}
   }
 
-  // return NextResponse.json(option);
+  const isArgsWrong = checkArgsValidity(option);
+
+  if (!isArgsWrong.state) {
+    const error = {
+      error: {
+        code: "WrongArguments",
+        message: `Arguments error, please check "${isArgsWrong.cause}" parameters and try again.`
+      }
+    }
+    return NextResponse.json(error);
+  }
 
   const data = await getEvents(option);
 
