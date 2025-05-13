@@ -9,8 +9,8 @@
     "lint": "next lint",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "jest": "jest",
+    "jest:watch": "jest --watch"
   },
   "dependencies": {
     "axios": "^1.9.0",
