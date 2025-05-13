@@ -50,11 +50,12 @@ export default ({data}) =>{
               data.choices.data.map(
                 (d) =>
                   <input
-                  key={Math.random()}
-                  className="bg-[#FF0000] hover:bg-[#B51F1F] active:bg-[#891818] text-white font-bold rounded min-w-12 h-10 m-1 pl-3 pr-3 text-center hover:cursor-pointer"
-                  type="button"
-                  value={d.value || "OK"}
-                  onClick={() => d.setter(false)}/>
+                    key={Math.random()}
+                    id={d.id}
+                    className="bg-[#FF0000] hover:bg-[#B51F1F] active:bg-[#891818] text-white font-bold rounded min-w-12 h-10 m-1 pl-3 pr-3 text-center hover:cursor-pointer"
+                    type="button"
+                    value={d.value || "OK"}
+                    onClick={() => d.setter(false)}/>
                 )
             }
           </div>

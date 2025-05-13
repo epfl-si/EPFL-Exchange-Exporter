@@ -242,12 +242,14 @@ export default ({authSession}) => {
               label: t("resetLabel"),
               data: [
                 {
-                  value : t("resetCancel"),
-                  setter : (state)=>{setIsCheck(state); setAlertboxChoices();}
+                  id: "ChoicesDenyButton",
+                  value: t("resetCancel"),
+                  setter: (state) => { setIsCheck(state); setAlertboxChoices(); }
                 },
                 {
-                  value : t("resetAccept"),
-                  setter : (state)=>{setIsCheck(state); resetData(); setAlertboxChoices(); setIsReset(true);}
+                  id: "ChoicesConfirmButton",
+                  value: t("resetAccept"),
+                  setter: (state)=>{setIsCheck(state); resetData(); setAlertboxChoices(); setIsReset(true);}
                 }
               ]
             }

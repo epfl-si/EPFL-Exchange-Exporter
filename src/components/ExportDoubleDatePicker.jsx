@@ -14,7 +14,7 @@ export default ({startValue, startSetter, endValue, endSetter, label, required=f
 
     {/* https://react-tailwindcss-datepicker.vercel.app/install - Uses tailwind css and day.js */}
     <Datepicker
-    inputId="test"
+    inputId="datepickerInput"
     required={required}
     value={{startDate: startValue, endDate: endValue}}
     onChange={newValue => {startSetter(newValue.startDate); endSetter(newValue.endDate);}}
