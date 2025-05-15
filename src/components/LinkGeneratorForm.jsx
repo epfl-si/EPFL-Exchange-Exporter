@@ -68,7 +68,7 @@ export default ({setPopupOpen, data}) =>{
             setter: setWantedExtension
         },
         {
-            id: "autodownload",
+            id: "download",
             name: t("autoDownload"),
             disabledCondition: !wantedRoom,
             value: isAutoDownload,
@@ -83,7 +83,7 @@ export default ({setPopupOpen, data}) =>{
         setWantedPeriod(wantedPeriod && !selectValues.filter((x)=> x.id=="period")[0].disabledCondition)
         setWantedFilename(wantedFilename && !selectValues.filter((x)=> x.id=="filename")[0].disabledCondition)
         setWantedExtension(wantedExtension && !selectValues.filter((x)=> x.id=="extension")[0].disabledCondition)
-        setIsAutoDownload(isAutoDownload && !selectValues.filter((x)=> x.id=="autodownload")[0].disabledCondition)
+        setIsAutoDownload(isAutoDownload && !selectValues.filter((x)=> x.id=="download")[0].disabledCondition)
     },[wantedRoom, wantedPeriod, wantedFilename, wantedExtension, isAutoDownload])
 
 
@@ -102,7 +102,7 @@ export default ({setPopupOpen, data}) =>{
             <div className="bg-white w-96 h-96 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-tl-xl rounded-br-xl flex flex-col justify-between animate-[ping_.15s_ease-in-out_forwards_reverse] p-2">
                 <div className="flex justify-between">
                     <span>{t("linkGenerator")}</span>
-                    <button type="button" onClick={()=>setPopupOpen(false)}>
+                    <button id="CloseButton" type="button" onClick={()=>setPopupOpen(false)}>
                         {/* Icon From HeroIcons, made by Tailwind CSS */}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ed333b" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -110,7 +110,7 @@ export default ({setPopupOpen, data}) =>{
                     </button>
                 </div>
                 <div className="flex flex-row items-center justify-end border border-black rounded-lg">
-                    <div className="w-full mx-2 overflow-y-hidden overflow-x-auto bg-transparent focus:outline-none whitespace-nowrap py-[6px]">{link}</div>
+                    <div id="linkPreview" className="w-full mx-2 overflow-y-hidden overflow-x-auto bg-transparent focus:outline-none whitespace-nowrap py-[6px]">{link}</div>
                     <CopyButton link={createLink(isAutoDownload)}/>
                 </div>
                 <div>
@@ -119,7 +119,7 @@ export default ({setPopupOpen, data}) =>{
                         {
                             selectValues.map(sv =>
                                 <label htmlFor={sv.id} className={`rounded-lg ${selectValues[selectValues.length - 1].id == sv.id && selectValues.length % 2 == 1 ? "col-start-1 col-end-3" : ""}`} key={sv.name}>
-                                    <input className="peer hidden" id={sv.id} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={() => { sv.setter(v => !v);  console.log(sv.value)}}/>
+                                    <input className="peer hidden" id={`${sv.id}Invisible`} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={() => { sv.setter(v => !v);  console.log(sv.value)}}/>
                                     <div className="flex items-center peer-disabled:text-gray-400 bg-white peer-enabled:hover:bg-gray-100 border w-full p-2 peer-checked:border-[#FF0000] rounded-lg">
                                         <input className="peer accent-red-600" id={sv.id} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={()=>{ sv.setter(v => !v);  console.log(sv.value)}}/>
                                         <span className="peer-disabled:text-gray-400 ml-1">{sv.name}</span>

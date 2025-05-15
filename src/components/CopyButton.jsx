@@ -16,7 +16,7 @@ export default ({link}) =>{
 
     return (
         <>
-            <button className={`flex justify-center items-center ${ isCopy ? "cursor-default" : ""}`} type="button" onClick={() => {copyToClipboard()}}>
+            <button id="CopyButton" className={`flex justify-center items-center ${ isCopy ? "cursor-default" : ""}`} type="button" onClick={() => {copyToClipboard()}}>
                 {
                     !isCopy ?
                         <div className="animate-[ping_.19s_forwards_reverse]">
@@ -26,6 +26,7 @@ export default ({link}) =>{
                             </svg>
                         </div>
                     :
+                        // section instead of div, to force web page to reload animation
                         <section className="animate-[ping_.19s_forwards_reverse]">
                             {/* Icon From HeroIcons, made by Tailwind CSS */}
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="size-6">
