@@ -163,6 +163,9 @@ export default ({authSession}) => {
       ref={formRef}
       onSubmit={async(e) => {
         e.preventDefault();
+        if (exportExt == "") {
+          return false;
+        }
 
         setLoadingLabel({label: "loaderCheckData"});
         setIsLoading(true);

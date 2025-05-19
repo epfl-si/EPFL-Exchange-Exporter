@@ -20,7 +20,7 @@ export default ({value, setter, isLastMissing, checkName, required=false}) => {
           {
             allChoices.map((choice) =>
               <li key={allChoices.map((x)=> x.name).indexOf(choice.name)} id={`extension-${choice.name}-checkbox`}>
-                <input type="radio" id={`extension-${choice.name}`} name="extension" value={choice.name} className="hidden peer" onChange={(e) => {setter(choice.name); checkName.setter(choice.name)}} checked={choice.name == checkName.value} required={required}/>
+                <input type="radio" id={`extension-${choice.name}`} value={choice.name} className="hidden peer" onChange={(e) => {setter(choice.name); checkName.setter(choice.name)}} checked={choice.name == checkName.value}/>
                 <label tabIndex={0} onKeyDown={(e) => {if (e.keyCode === 13 || e.keyCode === 32) {e.target.click()}}} htmlFor={`extension-${choice.name}`} className="select-none inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-[#FF0000] peer-checked:text-[#FF0000] hover:text-gray-600 hover:bg-gray-100">
                   <div className="block">
                     <div className="w-full text-lg font-semibold">{choice.name.toUpperCase()}</div>
