@@ -29,6 +29,7 @@
     "errPeriodEndBeforeStart": "Dates incorrectes. La date de fin précède la date de début.",
     "errPeriodInvalid": "Dates incorrectes.",
     "errUserUnavailable": "Utilisateur incorrect ou calendrier de l'utilisateur inacessible.",
+    "ErrorInvalidUser": "Utilisateur incorrect.",
     "errUserDisabled": "Utilisateur incorrect, son adresse n'est pas une adresse active.",
     "errNoUser": "L'utilisateur n'existe pas.",
     "errNoData": "Aucune données n'existent dans la période fournie.",
