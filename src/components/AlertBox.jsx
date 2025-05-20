@@ -15,7 +15,8 @@ export default ({data}) =>{
 
   const t = useTranslations("Form");
 
-  const getTranslateErrorMsg = (error, errorName,errorCount) => {
+  const getTranslateErrorMsg = (error, errorName, errorCount) => {
+    console.log(errorName);
     return errorName == "errTooMuchData" ? t(errorName, {nb: errorCount || error.split('.')[2].split(" ").filter((x) => x != "")[0]}) : t(errorName);
   }
 
@@ -34,7 +35,7 @@ export default ({data}) =>{
     <BackgroundTasks>
       {
         data.choices ?
-          <div className="bg-white w-60 h-68 text-center shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-xl flex flex-col justify-between animate-[ping_.3s_ease-in-out_forwards_reverse]">
+          <div id="popup" className="bg-white w-60 h-68 text-center shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-xl flex flex-col justify-between animate-[ping_.3s_ease-in-out_forwards_reverse]">
           {data.title ?
             <span className="text-left font-bold">{data.title}</span>
             : <></>
@@ -61,7 +62,7 @@ export default ({data}) =>{
           </div>
         </div>
         :
-          <div className="bg-white w-60 h-68 text-center shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-xl flex flex-col justify-between animate-[ping_.3s_ease-in-out_forwards_reverse]">
+          <div id="popup" className="bg-white w-60 h-68 text-center shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-xl flex flex-col justify-between animate-[ping_.3s_ease-in-out_forwards_reverse]">
             {data.title ?
               <span className="text-left font-bold">{data.title}</span>
               : <></>
@@ -77,9 +78,10 @@ export default ({data}) =>{
             }
             alt="icon from lordicon"
             className="w-32 ml-auto mr-auto mt-5"/>
-            <span>{errorMsg}</span>
+            <span id={data.errorName == "DownloadSuccess" ? data.errorName : "errorMsg"}>{errorMsg}</span>
             <div className="flex justify-end">
               <input
+              id="ConfirmButton"
               className="bg-[#FF0000] hover:bg-[#B51F1F] active:bg-[#891818] text-white font-bold rounded w-12 h-10 m-1 text-center hover:cursor-pointer"
               type="button"
               value={data.button.value || "OK"}

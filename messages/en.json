@@ -32,7 +32,7 @@
     "ErrorInvalidUser": "Incorrect user or user calendar inaccessible.",
     "errUserDisabled": "Incorrect user.",
     "errNoUser": "The user does not exist.",
-    "errNoData": "No data exists in the period provided.",
+    "errUserNoData": "No data exists in the period provided.",
     "errUserAccessMissing": "You don't have required rights to access this calendar.",
     "errTooMuchData": "There is too much data in the provided period: {nb}. The maximum allowed is 1000.",
     "errTokenExpired": "Access token expired. Refresh the page or log in again."

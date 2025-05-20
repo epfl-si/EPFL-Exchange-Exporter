@@ -246,7 +246,7 @@ describe('Welcome page connected (form)', () => {
     cy.get("#extension-csv").should("be.checked");
     cy.get("#extension-json").should("not.be.checked");
 
-    //Test to click and deny the resetting
+    //Test to click and accept the resetting
     cy.get("button#ResetButton").click()
     cy.get("input#ChoicesConfirmButton").click()
 
@@ -259,7 +259,7 @@ describe('Welcome page connected (form)', () => {
   })
 });
 
-describe('Welcome page connected (filling form and pop-up test)', () => {
+describe('Welcome page connected (filling form and url test)', () => {
   beforeEach(() => {
     cy.visit("/")
     cy.wait(200);
@@ -310,6 +310,33 @@ describe('Welcome page connected (filling form and pop-up test)', () => {
       cy.get("input#floating_outlined_room").invoke('val').should('match', /(.+@epfl.ch)+/);
     })
 
+    it("Test cross to delete and value in url query string", () => {
+      //Define text to write
+      let text = "aaa@epfl.ch"
+      let textInQuery = text.replace("@", "%40")
+
+      //Check if the cross hidden by default
+      cy.get("#floating_outlined_room-remover").should("be.hidden");
+
+      //Write content and check if it's printed and added in url
+      cy.get("input#floating_outlined_room").type(text)
+      cy.wait(100)
+      cy.url().should('include', `room=${textInQuery}`);
+      cy.get("input#floating_outlined_room").invoke('val').should('eq', text);
+
+      //Check if the cross is now visible
+      cy.get("#floating_outlined_room-remover").should("be.visible");
+
+      //Click on the cross and check if it disappeard and if the text are now deleted and removed in url
+      cy.get("#floating_outlined_room-remover").click();
+      cy.wait(100)
+      cy.url().should('not.include', `room=${textInQuery}`);
+      cy.get("input#floating_outlined_room").invoke('val').should('eq', "");
+
+      //Check if the cross is now hidden
+      cy.get("#floating_outlined_room-remover").should("be.hidden");
+    })
+
     //Make an it to check for propal (unavailable now because i bypass auth.js so this app cannot do request to graph api)
   })
 
@@ -319,9 +346,15 @@ describe('Welcome page connected (filling form and pop-up test)', () => {
       cy.get("input#floating_outlined_room").type("aaa@epfl.ch");
     })
     afterEach(() => {
-      cy.get("button[type=submit]").click()
-      cy.wait(100)
-      cy.get('#loadingImg').should("not.exist") //Check only if loader appeard
+      switch(Cypress.currentTest.title) {
+        case "Test cross to delete and value in url query string":
+          break;
+        default:
+          cy.get("button[type=submit]").click()
+          cy.wait(100)
+          cy.get('#loadingImg').should("not.exist") //Check only if loader appeard
+        break;
+      }
     })
     it("Test fill Date and check if it's correct", () => {
       //Ouvrir le calendrier
@@ -339,6 +372,41 @@ describe('Welcome page connected (filling form and pop-up test)', () => {
 
       //Vérifier que les dates entrées soit de vrai dates
       cy.checkDateValidity();
+    })
+    it("Test cross to delete and value in url query string", () => {
+
+      //Ouvrir le calendrier
+      cy.get("input#datepickerInput").click();
+      cy.wait(100);
+
+      //Sélectionner la date de début
+      cy.get('.items-stretch > :nth-child(1) > .px-0\\.5 > .gap-y-0\\.5 > :nth-child(19)').click();
+
+      //Sélectionner la date de fin
+      cy.get('.items-stretch > :nth-child(3) > .px-0\\.5 > .gap-y-0\\.5 > :nth-child(24)').click();
+
+      //Confirmer la sélection
+      cy.get('.md\\:w-auto > .bg-red-500').click();
+
+      let dateFieldValue = ""
+      let dateFieldPlaceholder = ""
+      let dateFieldPlaceholderChar = ""
+      cy.get("#datepickerInput").invoke("val").then(val => { dateFieldValue = val; return dateFieldValue })
+      cy.get("#datepickerInput").invoke("attr", "placeholder").then(val => { dateFieldPlaceholder = val; dateFieldPlaceholderChar = val.replaceAll("DD/MM/YYYY", "").replaceAll(" ", ""); return dateFieldPlaceholder }) //   DD/MM/YYYY ~ DD/MM/YYYY
+      cy.then(() => {
+        const [start, end] = dateFieldValue.replaceAll(" ", "").split(dateFieldPlaceholderChar).map((date) => date.split("/").reverse().join("-"));
+
+        //Check if the cross is now visible and the value come in url
+        cy.get('.right-0').should("be.visible");
+        cy.url().should('include', `start=${start}&end=${end}`);
+
+        //Click on the cross and check if it disappeard and if the text are now deleted
+        cy.get('.right-0').click();
+        cy.get("input#datepickerInput").invoke('val').should('eq', "");
+
+        //Check if the value removed in url
+        cy.url().should('not.include', `start=${start}&end=${end}`);
+      })
     })
   })
 
@@ -377,6 +445,29 @@ describe('Welcome page connected (filling form and pop-up test)', () => {
         const [start, end] = dateFieldValue.replaceAll(" ", "").split(dateFieldPlaceholderChar).map((date) => date.split("/").reverse().join("-"))
         cy.get("#floating_outlined").invoke("val").should("eq", ["exportation", "meetings", room.split('@')[0], "from", start, "to", end].join("_"))
       })
+    })
+    it("Test cross to delete and value in url query string", () => {
+      //Define text to write
+      let text = "oamfseofise"
+
+      //Check if the cross hidden by default
+      cy.get("#floating_outlined-remover").should("be.hidden");
+
+      //Write content and check if it's printed
+      cy.get("input#floating_outlined").type(text)
+      cy.get("input#floating_outlined").invoke('val').should('eq', text);
+
+      //Check if the cross is now visible and the value come in url
+      cy.get("#floating_outlined-remover").should("be.visible");
+      cy.url().should('include', `filename=${text}`);
+
+      //Click on the cross and check if it disappeard and if the text are now deleted
+      cy.get("#floating_outlined-remover").click();
+      cy.get("input#floating_outlined").invoke('val').should('eq', "");
+
+      //Check if the cross is now hidden and the value removed in url
+      cy.get("#floating_outlined-remover").should("be.hidden");
+      cy.url().should('not.include', `filename=${text}`);
     })
   })
 
@@ -461,6 +552,139 @@ describe('Welcome page connected (filling form and pop-up test)', () => {
       //Check if JSON checkbox are checked
       cy.get("#extension-csv").should("be.checked");
       cy.get("#extension-json").should("not.be.checked");
+    })
+  })
+
+  describe('Pop-up', () => {
+    beforeEach(() => {
+      //Clear form
+      cy.get("button#ResetButton").click()
+      cy.get("input#ChoicesConfirmButton").click()
+
+      //Fill room
+      cy.get("input#floating_outlined_room").type("aaa@epfl.ch");
+
+      //Fill date
+      cy.get("input#datepickerInput").click();
+      cy.wait(100);
+      cy.get('.items-stretch > :nth-child(1) > .px-0\\.5 > .gap-y-0\\.5 > :nth-child(19)').click(); //Sélectionner la date de début
+      cy.get('.items-stretch > :nth-child(3) > .px-0\\.5 > .gap-y-0\\.5 > :nth-child(24)').click(); //Sélectionner la date de fin
+      cy.get('.md\\:w-auto > .bg-red-500').click(); //Confirmer la sélection
+
+      //Fill filename
+      cy.get("#floating_outlined").type("exportation");
+
+      //Fill extension
+      cy.get("#extension-csv-checkbox").click();
+    })
+    afterEach(() => {
+      //Confirm form
+      cy.get("button[type=submit]").click()
+
+      //Check if loader
+      cy.get('#loadingImg', { timeout: 10000 }).should('exist');
+
+      //Check if pop-up is open
+      cy.get('#errorMsg', { timeout: 10000 }).should('exist');
+
+      //Close the pop-up with the OK button
+      cy.get("ConfirmButton").click();
+
+      //Check if pop-up and loader is closed
+      cy.get('#loadingImg', { timeout: 10000 }).should('not.exist');
+      cy.get('#errorMsg', { timeout: 10000 }).should('not.exist');
+
+      //Open again the pop-up
+      cy.get("button[type=submit]").click()
+      cy.wait(100)
+
+      //Check if loader
+      cy.get('#loadingImg', { timeout: 10000 }).should('exist');
+
+      //Check if pop-up is open
+      cy.get('#errorMsg', { timeout: 10000 }).should('exist');
+
+      //Close the pop-up with ESC key
+      cy.get("#errorMsg").type('{esc}')
+
+      //Check if pop-up is closed
+      cy.get('#loadingImg', { timeout: 10000 }).should('not.exist');
+      cy.get('#errorMsg', { timeout: 10000 }).should('not.exist');
+    })
+
+    describe("Test room", () => {
+      it("test room : wrong email", () => {
+        cy.wait(100)
+      })
+    })
+
+    describe("Test date", () => {
+      it("test date : too high period", () => {
+        //Make highest period
+        cy.get("input#datepickerInput").click();
+        cy.wait(100);
+        cy.get('.items-stretch > :nth-child(3) > .px-0\\.5 > .gap-y-0\\.5 > :nth-child(24)').click(); //Sélectionner la date de fin
+        cy.get(':nth-child(1) > .border > .flex > :nth-child(2) > .w-full').click() //Sélectionner l'année de début
+        cy.get(':nth-child(1) > .border > :nth-child(1) > .dark\\:text-white\\/70').click() //Sélectionner l'année de début
+        cy.get(':nth-child(1) > .px-0\\.5 > .grid > :nth-child(1)').click() //Sélectionner l'année de début
+        cy.get('.items-stretch > :nth-child(1) > .px-0\\.5 > .gap-y-0\\.5 > :nth-child(19)').click(); //Sélectionner la date de début
+        cy.get('.md\\:w-auto > .bg-red-500').click(); //Confirmer la sélection
+      })
+      it("test date : no data", () => {
+        //Make period without data ?room=${process.env.JEST_ROOM_ENTRA}&start=2000-02-07&end=2001-12-19
+        cy.get("input#floating_outlined_room").clear();
+        cy.get("input#floating_outlined_room").type(Cypress.env("CYPRESS_ROOM"));
+        cy.get("input#datepickerInput").click();
+        cy.wait(100);
+        cy.get(':nth-child(1) > .border > .flex > :nth-child(2) > .w-full').click() //Clique sur l'année de début
+        cy.get(':nth-child(1) > .border > :nth-child(1) > .dark\\:text-white\\/70').click() //Change de page de l'année de début
+        cy.get(':nth-child(1) > .border > :nth-child(1) > .dark\\:text-white\\/70').click() //Change de page de l'année de début
+        cy.get(':nth-child(1) > .border > :nth-child(1) > .dark\\:text-white\\/70').click() //Change de page de l'année de début
+        cy.get(':nth-child(1) > .border > :nth-child(1) > .dark\\:text-white\\/70').click() //Change de page de l'année de début
+        // cy.get(':nth-child(1) > .px-0\\.5 > .grid').children().then((x) => { for (let y of x) { cy.get(y).invoke("text").then(val => { cy.log(val) }) } });
+
+        // let isMissing = true;
+        // while (isMissing) {
+        //   let rangeData = []
+        //   let data = []
+        //   // cy.get(':nth-child(1) > .px-0\\.5 > .grid').children().then((x) => { for (let y of x) { cy.get(y).invoke("text").then(val => { rangeData.push({ object: y, value: val }) }) }  });
+        //   cy.get(':nth-child(1) > .px-0\\.5 > .grid').children().then((x) => data = x);
+        //   cy.log(data);
+        //   for (let y of data) {
+        //     let val = ""
+        //     cy.get(y).invoke("text").then(val => val = val)
+        //     cy.log(y);
+        //     cy.log(val);
+        //     rangeData.push({ object: y, value: val })
+        //   }
+        //   cy.log(rangeData);
+        //   cy.log(rangeData[0]);
+
+        //   data = []
+        //   cy.get(':nth-child(1) > .px-0\\.5 > .grid').children().each((button) => data.push(button.text()))
+        //   cy.then(() => {
+        //     cy.log(data);
+        //     cy.log(data);
+        //   })
+        //   isMissing = false;
+        //   break;
+        // }
+        // cy.get(':nth-child(1) > .px-0\\.5 > .grid').children().then((x) => { cy.get(x[0]).invoke("text").then(val => { cy.log(val) }); cy.get(x.length - 1).invoke("text").then(val => { cy.log(val) }) });
+
+        cy.get(':nth-child(1) > .px-0\\.5 > .grid > :nth-child(1)').click() //Sélectionner l'année de début
+        cy.get('.items-stretch > :nth-child(1) > .px-0\\.5 > .gap-y-0\\.5 > :nth-child(19)').click(); //Sélectionner la date de début
+
+        cy.wait(100)
+
+        cy.get('.items-stretch > :nth-child(3) > .border > .flex > :nth-child(2) > .w-full').click() //Clique sur l'année de fin
+        cy.get(':nth-child(3) > .border > :nth-child(1) > .dark\\:text-white\\/70').click() //Change de page de l'année de fin
+        cy.get(':nth-child(3) > .border > :nth-child(1) > .dark\\:text-white\\/70').click() //Change de page de l'année de fin
+        cy.get(':nth-child(3) > .border > :nth-child(1) > .dark\\:text-white\\/70').click() //Change de page de l'année de fin
+        cy.get(':nth-child(3) > .border > :nth-child(1) > .dark\\:text-white\\/70').click() //Change de page de l'année de fin
+        cy.get(':nth-child(3) > .px-0\\.5 > .grid > :nth-child(2)').click() //Sélectionner l'année de fin
+        cy.get('.items-stretch > :nth-child(3) > .px-0\\.5 > .gap-y-0\\.5 > :nth-child(24)').click(); //Sélectionner la date de fin
+        cy.get('.md\\:w-auto > .bg-red-500').click(); //Confirmer la sélection
+      })
     })
   })
 });

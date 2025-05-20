@@ -32,7 +32,7 @@
     "ErrorInvalidUser": "Utilisateur incorrect.",
     "errUserDisabled": "Utilisateur incorrect, son adresse n'est pas une adresse active.",
     "errNoUser": "L'utilisateur n'existe pas.",
-    "errNoData": "Aucune données n'existent dans la période fournie.",
+    "errUserNoData": "Aucune données n'existent dans la période fournie.",
     "errUserAccessMissing": "Vous n'avez pas les droits requis pour acccéder à ce calendrier.",
     "errTooMuchData": "Il y a trop de données dans la période fournie: {nb}. Le maximum autorisé est 1000.",
     "errTokenExpired": "Jeton d'accès expiré. Rafraîchissez la page ou reconnectez-vous."
