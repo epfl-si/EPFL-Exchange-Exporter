@@ -10,11 +10,11 @@ import { useTranslations } from "next-intl";
 
 export default () =>{
 
-    // const session = useSession();
+    const session = useSession();
 
-    const session = {
-        status: "fre"
-    }
+    // const session = {
+    //     status: "fre"
+    // }
 
     const t = useTranslations("Loading");
 
