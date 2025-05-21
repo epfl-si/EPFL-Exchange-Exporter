@@ -8,53 +8,6 @@ import getEvents from "@/services/API/getEvents";
 
 export async function GET(request) {
 
-  const headersReq = request.nextUrl.searchParams;
-
-  const missingArgs = checkArgsMissing(headersReq, ["room", "start", "end"]);
-  if (missingArgs.state == "error") {
-    return NextResponse.json(missingArgs.value);
-  }
-
-
-  const session = await auth();
-
-  if (!session || session?.error){
-    const error = {
-      error: {
-        code: "ConnexionFailed",
-        message: "Credentials error, please connecting you to your account."
-      }
-    }
-    return NextResponse.json(error);
-  }
-
-  //Create option variable for Event requests
-  let option = {
-    room: headersReq.get("room"),
-    start: headersReq.get("start"),
-    end: headersReq.get("end"),
-    session: session
-  }
-
-  const isArgsCorrect = checkArgsValidity(option);
-
-  if (!isArgsCorrect.state) {
-    const error = {
-      error: {
-        code: "WrongArguments",
-        message: `Arguments error, please check "${isArgsCorrect.cause}" parameters and try again.`
-      }
-    }
-    return NextResponse.json(error);
-  }
-
-  const data = await getEvents(option);
-
-  return NextResponse.json(data);
-}
-
-export async function POST(request) {
-
   const searchParamsReq = request.nextUrl.searchParams;
   const headersReq = await headers();
 
@@ -64,12 +17,6 @@ export async function POST(request) {
   }
 
   let session = "";
-
-  // let t = [];
-  // headersReq.forEach((x) => t.push(x))
-
-  // return NextResponse.json({ k: t });
-  // return NextResponse.json({ Authorization: headersReq.get("Authorization") });
 
   if (!headersReq.has("Authorization")) {
     session = await auth();

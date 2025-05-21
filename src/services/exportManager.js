@@ -61,7 +61,6 @@ const createFile = (params) => {
     return new DownloadData(
         {
             state : "check",
-            label : "Téléchargement réussi",
             errorName : "DownloadSuccess",
             rewrite : true
         });
@@ -69,27 +68,21 @@ const createFile = (params) => {
 
 const downloadFile = async(data) =>{
 
-    let { authSession, filename, extension, startDate, endDate, userSearch, setLoadingLabel, setIsLoading, isFrontend, website } = data;
+    let { authSession, filename, extension, startDate, endDate, userSearch, setIsLoading, website } = data;
 
     const option = {
         room: userSearch,
         start: startDate,
         end: endDate,
-        session: authSession,
-        setLoadingLabel: setLoadingLabel,
-        isFrontend: isFrontend
+        session: authSession
     }
     // const response = await getEvents(option);
-    const response = await await fetch(`${website}/api/export?room=${option.room}&start=${option.start}&end=${option.end}`, {
-        method: 'get',
+    const response = await fetch(`${website}/api/export?room=${option.room}&start=${option.start}&end=${option.end}`, {
+        method: 'GET',
         headers: new Headers({
             'Authorization': `Bearer ${option.session.accessToken}`
         })
     }).then((r) => { return r.json() });
-
-    if (!isFrontend) {
-        return response;
-    }
 
     if (!response?.error) {
         let options = {
@@ -104,11 +97,9 @@ const downloadFile = async(data) =>{
         return new DownloadData(
             {
                 state : err.data.state,
-                label : err.data.label,
-                isExpired : err.isExpired,
-                rewrite : false,
                 error : err.error,
-                errorName : err.errorName
+                errorName : err.errorName,
+                rewrite : false
             });
     }
 }
