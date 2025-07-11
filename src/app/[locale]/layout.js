@@ -43,9 +43,7 @@ export default async function LocaleLayout({
         <SessionProvider>
           <NextIntlClientProvider>
             <Header/>
-            <main className="m-auto">
-                {children}
-            </main>
+              {children}
             <Footer/>
           </NextIntlClientProvider>
         </SessionProvider>

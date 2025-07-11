@@ -3,7 +3,9 @@ import ExportView from "@/views/ExportView";
 const Home = async() => {
 
   return (
-    <ExportView/>
+    <main className="m-auto">
+      <ExportView/>
+    </main>
   );
 }
 
