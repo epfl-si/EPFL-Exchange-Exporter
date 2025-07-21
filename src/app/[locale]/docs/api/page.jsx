@@ -5,7 +5,6 @@ import DocsDetails from "@/components/DocsDetails";
 import data from "/public/json/docs.json";
 
 export default () => {
-  const [allParams, setAllParams] = useState([]);
 
   return (
     <main className="mb-auto">

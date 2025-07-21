@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import CodeBlock from "@/components/CodeBlock";
+import EndpointParametersInput from "./EndpointParametersInput";
 
 const getMethodStyle = (method) => {
     switch (method) {
@@ -20,9 +21,7 @@ const getMethodStyle = (method) => {
 }
 
 const callAPI = async (request, setterValue, setterLoading) => {
-    console.log(request);
     let response = await fetch(`/api/${request}`).then((res) => res.json());
-    console.log(response);
     setterValue(JSON.stringify(response));
     setterLoading(false);
 }
@@ -31,19 +30,33 @@ export default ({ endpoint, ep }) => {
     // Object.entries(data).map((entry) => ({[entry[0]] : entry[1]}))
     const [code, setCode] = useState('{"message" : "API return here"}');
     const [isLoading, setIsLoading] = useState(false);
-    const [paramsLabel, setParamsLabel] = useState([]);
     const [params, setParams] = useState([]);
+    const [endpointUrl, setEndpointUrl] = useState("/export?room=inn011@epfl.ch&start=2025-07-01&end=2025-07-11");
+    const [paramsKeyValue, setParamsKeyValue] = useState([]);
+    const [website, setWebsite] = useState("");
     useEffect(() => {
         // const paramsLabel = [...ep.params.matchAll(/[&?](.*?)=/gm)].map((entry) => ({ [entry[0]]: entry[1] }));
-        const paramsLabel = [...ep.params.matchAll(/[&?](.*?)=/gm)];
-        const params = [...ep.params.matchAll(/={(.*?)}/gm)].map((entry) => ({ [entry[0]]: entry[1] }));
-        setParamsLabel(paramsLabel);
+        // const paramsLabel = [...ep.params.matchAll(/[&?](.*?)=/gm)];
+        const params = [...ep.endpoint.matchAll(/={(.*?)}/gm)].map((entry) => ({ [entry[0]]: entry[1] }));
+        // const paramsKeyValue = [...ep.params.matchAll(/={(.*?)}/gm)].map((entry) => ({ [entry[1]]: "" }));
+        const paramsKeyValue = [...ep.endpoint.matchAll(/={(.*?)}/gm)].map((entry) => ({"label": entry[1], "origin": entry[0].replace("=", ""), "value": ""}));
         setParams(params);
+        setParamsKeyValue(paramsKeyValue);
+        setWebsite(`${window.location.protocol}//${window.location.host}`);
     }, [])
-    console.log(params);
+    useEffect(() => {
+        let url = ep.endpoint;
+        for (let i of paramsKeyValue) {
+            url = url.replace(i.origin, i.value);
+        }
+        setEndpointUrl(`/export${url}`);
+
+    }, [paramsKeyValue])
     return (
         <details style={{ '--custom-color': getMethodStyle(ep.method), '--custom-bg-color': `${getMethodStyle(ep.method)}40` }}
-            className="group bg-[var(--custom-bg-color)] w-auto mx-10 border border-[var(--custom-color)] rounded p-[0.5rem 0.5rem 0] my-2">
+            className="group bg-[var(--custom-bg-color)] w-auto mx-10 border border-[var(--custom-color)] rounded p-[0.5rem 0.5rem 0] my-2"
+            // {...ep.isOpen == true ? { open : "" } : {}}>
+            {...JSON.parse(ep.isOpen) ? { open : "ep.isOpen" } : {}}>
             <summary
                 style={{ '--custom-color': getMethodStyle(ep.method) }}
                 className="flex font-bold m-[-0.5rem, -0.5rem, 0] p-2 hover:cursor-pointer select-none
@@ -54,7 +67,7 @@ export default ({ endpoint, ep }) => {
                     {ep.method ? ep.method : "N/A"}
                 </span>
                 <span className="content-center font-mono w-full">
-                    {endpoint.endpoint ? endpoint.endpoint + (ep.params ? ep.params : "") : "Invalid endpoint name"}
+                    {endpoint.endpoint ? endpoint.endpoint + (ep.endpoint ? ep.endpoint : "") : "Invalid endpoint name"}
                 </span>
                 <div className="mx-auto w-full my-auto text-right flex justify-end">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 group-open:rotate-90 transition-transform">
@@ -64,7 +77,7 @@ export default ({ endpoint, ep }) => {
             </summary>
             <div>
             {
-                ep.params.includes("?") ?
+                ep.endpoint.includes("?") ?
                 <section>
                     <h4 className="bg-white bg-opacity-80 p-3 font-bold shadow-[0_1px_2px_#0000001a]">
                     Parameters
@@ -73,21 +86,10 @@ export default ({ endpoint, ep }) => {
                     <div>
                         <div className="p-2">
                         {
-                            // [...ep.params.matchAll(/[&?](.*?)=/gm)]
-                            // .map(param =>
-                            // {
-                            //     return (
-                                // <div key={param[1]}>
-                                //     <input placeholder={param[1]} />
-                                // </div>
-                            //     )
-                            // })
-                            paramsLabel ?
-                                paramsLabel.map(p => {
+                            paramsKeyValue ?
+                                paramsKeyValue.map(p => {
                                     return (
-                                        <div key={p[1]}>
-                                            <input type="text" placeholder={p[1]} />
-                                        </div>
+                                        <EndpointParametersInput key={p.label} label={p.label} paramsKeyValue={paramsKeyValue} setParamsKeyValue={setParamsKeyValue} />
                                     )
                                 })
                             :
@@ -96,7 +98,7 @@ export default ({ endpoint, ep }) => {
                         </div>
                         <div>
                         <span>
-                            {ep.params}
+                            {website + endpointUrl}{/* ep.endpoint */}
                         </span>
                         </div>
                     </div>
@@ -104,7 +106,7 @@ export default ({ endpoint, ep }) => {
                         <CodeBlock code={code} language="json" />
                         <div className="w-full text-center m-2">
                             <button className="bg-[#4990e2] p-1 rounded-md text-white font-bold hover:cursor-pointer flex mx-auto"
-                                onClick={() => { setIsLoading(true); callAPI("/export?room=mail@example.com&start=2025-07-01&end=2025-07-11", setCode, setIsLoading) }}>
+                                onClick={() => { setIsLoading(true); callAPI(endpointUrl, setCode, setIsLoading) }}>
                                 {
                                     isLoading ?
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 animate-spin">

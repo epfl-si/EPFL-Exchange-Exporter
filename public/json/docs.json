@@ -6,28 +6,15 @@
       "values": [
         {
           "method": "GET",
-          "params": "?room={room}&start={start}&end={end}",
-          "translationTag": ""
-        },
-        {
-          "method": "POST",
-          "params": "?room={room}",
-          "translationTag": ""
-        },
-        {
-          "method": "PUT",
-          "params": "?start={start}",
-          "translationTag": ""
-        },
-        {
-          "method": "DELETE",
-          "params": "?end={end}",
-          "translationTag": ""
-        },
-        {
-          "method": "TEST",
-          "params": "",
-          "translationTag": ""
+          "endpoint": "?room={room}&start={start}&end={end}",
+          "params": [
+            {
+              "name": "room",
+              "placeholder": "xxx@epfl.ch"
+            }
+          ],
+          "translationTag": "",
+          "isOpen": "true"
         }
       ]
     }
