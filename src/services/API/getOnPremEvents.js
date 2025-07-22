@@ -18,7 +18,8 @@ const callPostAPI = async(req) => {
   return response;
 }
 
-const getCalendarItems = async(items) => {
+const getCalendarItems = async (items) => {
+  let itemsNormal = items.filter((i) => i["t:Sensitivity"][0].toLowerCase() == "normal");
   const xmlRequest = `<?xml version="1.0" encoding="utf-8"?>
   <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
@@ -37,7 +38,7 @@ const getCalendarItems = async(items) => {
           </t:AdditionalProperties>
         </ItemShape>
         <ItemIds>
-          ${items.map((item) => `<t:ItemId Id="${item.Id}" ChangeKey="${item.ChangeKey}"/>`).join("")}
+          ${itemsNormal.map((item) => `<t:ItemId Id="${item["t:ItemId"][0]["$"].Id}" ChangeKey="${item["t:ItemId"][0]["$"].ChangeKey}"/>`).join("")}
         </ItemIds>
       </GetItem>
     </soap:Body>
@@ -54,18 +55,34 @@ const getCalendarItems = async(items) => {
     ["m:GetItemResponseMessage"];
   });
 
-  data = formateEWSJSONResult(data.map(d => d["m:Items"][0]["t:CalendarItem"][0]))
-    .map((d) => { d.organizer = d.organizer["t:Mailbox"][0]["t:EmailAddress"][0]; return d; })
+  let idArray = itemsNormal.map(i => i["t:ItemId"][0]["$"].Id);
+
+  // data = data.map((d, index) => d["m:ResponseCode"][0].toLowerCase() == "noerror" ? d["m:Items"][0]["t:CalendarItem"][0] : { a: itemsNormal[index], b: d }) //Let theses lines for debug
+  // return { data: data };
+
+  data = data.map((d, index) => d["m:ResponseCode"][0].toLowerCase() == "noerror" ? d["m:Items"][0]["t:CalendarItem"][0] : itemsNormal[index])
+
+  let itemsNormalObject = data.reduce((obj, key) => {
+    // obj[key["t:ItemId"][0]["$"].Id] = key;
+    obj[key["t:ItemId"][0]["$"].Id] = key;
+    return obj;
+  }, {})
+
+
+  items = formateEWSJSONResult(items
+    .map(d => !idArray.includes(d["t:ItemId"][0]["$"].Id) ? ({ ...d, ["t:Organizer"]: d["t:Organizer"].map(x => ({ ...x, ["t:Mailbox"]: x["t:Mailbox"].map((d2 => ({ ...d2, "t:EmailAddress": ["private email"] }))) })), "t:Subject": ["private subject"] }) : itemsNormalObject[d["t:ItemId"][0]["$"].Id] )
     .map((d) => Object.keys(d)
       .filter((x) => { return !["itemid"].includes(x.replace("t:", "").toLowerCase()) })
       .reduce((obj, key) => {
     obj[key] = d[key];
     return obj;
       }, {}))
-    .sort((d1, d2)=> new Date(d2.start) - new Date(d1.start))
+    .sort((d1, d2) => new Date(d2.start) - new Date(d1.start)))
+    .map(x => ({ ...x, organizer: x.organizer["t:Mailbox"][0]["t:EmailAddress"][0] }))
+    .map(x => x.organizer.includes("/O=") ? ({ ...x, organizer: "private email"}) : x)
     .map((d) => new Event(d.start, d.end, d.subject, d.organizer))
 
-  return { data: data};
+  return { data: items};
 }
 
 export default async (params) => {
@@ -88,6 +105,7 @@ export default async (params) => {
           <t:BaseShape>IdOnly</t:BaseShape>
           <t:AdditionalProperties>
             <t:FieldURI FieldURI="item:Subject" />
+            <t:FieldURI FieldURI="item:Sensitivity"/>
             <t:FieldURI FieldURI="calendar:Start" />
             <t:FieldURI FieldURI="calendar:End" />
             <t:FieldURI FieldURI="calendar:Organizer" />
@@ -130,18 +148,9 @@ export default async (params) => {
       return { error: { code: "errUserNoData", message: "No data during provided period." } }
     }
 
-    let items = data["t:Items"][0]["t:CalendarItem"];
 
-    items = items
-      .map((item) => Object.keys(item)
-        .filter((x) => { return ["itemid"].includes(x.replace("t:", "").toLowerCase()) })
-        .reduce((obj, key) => {
-          obj[key.replace("t:", "").toLowerCase()] = item[key][0];
-          return obj;
-        }, {}))
-      .map(item => item.itemid["$"])
-
-    items = await getCalendarItems(items)
+    data = data["t:Items"][0]["t:CalendarItem"];
+    let items = await getCalendarItems(data)
     return { data: items.data};
   } catch (error) {
     console.error('Error making EWS request:', error);
@@ -165,6 +174,7 @@ const formateEWSJSONResult = (result, filter = false) => {
       }, {}))
     return result
   }
+  // return result;
   result = result
   .map((item) => Object.keys(item)
     .reduce((obj, key) => {
