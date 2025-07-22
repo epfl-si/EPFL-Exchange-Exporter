@@ -1,21 +1,18 @@
 import { parseString } from "xml2js";
-import axios from "axios";
 
 import Event from "@/class/EventClass";
 
 const callPostAPI = async(req) => {
-  const response = await axios.post(
-    process.env.AUTH_EWS_SERVICE_ENDPOINT,
-    req,
-    {
-      headers: {
-        'Content-Type': 'text/xml',
-        'Authorization': 'Basic ' + Buffer.from(`${process.env.AUTH_EWS_CREDENTIALS_USERNAME}:${process.env.AUTH_EWS_CREDENTIALS_PASSWORD}`).toString('base64'),
-      }
-    }
-  );
+  const response = await fetch(process.env.AUTH_EWS_SERVICE_ENDPOINT, {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'text/xml',
+      'Authorization': 'Basic ' + Buffer.from(`${process.env.AUTH_EWS_CREDENTIALS_USERNAME}:${process.env.AUTH_EWS_CREDENTIALS_PASSWORD}`).toString('base64'),
+    }),
+    body: req
+  }).then(res => res.text());
 
-  return response;
+  return { data: response };
 }
 
 const getCalendarItems = async (items) => {

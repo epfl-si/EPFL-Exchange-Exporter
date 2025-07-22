@@ -1,10 +1,6 @@
 import textRefactor from "./textRefactor";
 import DownloadData from "@/class/downloadDataClass";
 
-import axios from "axios";
-
-import getEvents from "./API/getEvents";
-
 let noData = "no data"
 let muchData = "too much data"
 
