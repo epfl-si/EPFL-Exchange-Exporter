@@ -17,40 +17,63 @@ const callPostAPI = async(req) => {
 
 const getCalendarItems = async (items) => {
   let itemsNormal = items.filter((i) => i["t:Sensitivity"][0].toLowerCase() == "normal");
-  const xmlRequest = `<?xml version="1.0" encoding="utf-8"?>
-  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
-    <soap:Header>
-      <t:RequestServerVersion Version="Exchange2016" />
-    </soap:Header>
-    <soap:Body>
-      <GetItem xmlns="http://schemas.microsoft.com/exchange/services/2006/messages">
-        <ItemShape>
-          <t:BaseShape>IdOnly</t:BaseShape>
-          <t:AdditionalProperties>
-            <t:FieldURI FieldURI="item:Subject"/>
-            <t:FieldURI FieldURI="calendar:Start"/>
-            <t:FieldURI FieldURI="calendar:End"/>
-            <t:FieldURI FieldURI="calendar:Organizer"/>
-          </t:AdditionalProperties>
-        </ItemShape>
-        <ItemIds>
-          ${itemsNormal.map((item) => `<t:ItemId Id="${item["t:ItemId"][0]["$"].Id}" ChangeKey="${item["t:ItemId"][0]["$"].ChangeKey}"/>`).join("")}
-        </ItemIds>
-      </GetItem>
-    </soap:Body>
-  </soap:Envelope>`
+  let itemsNormalFetchArray = itemsNormal;
+  let data = []
+  let dataTemp = []
 
-  let data;
-  const res = await callPostAPI(xmlRequest);
+  let indexOfError = -1; // -1 for "not find"
 
-  parseString(res.data, function (err, result) {
-    data = result["s:Envelope"]["s:Body"][0]
-    ["m:GetItemResponse"]
-    [0]
-    ["m:ResponseMessages"][0]
-    ["m:GetItemResponseMessage"];
-  });
+  let loopCondition = true;
+
+  while (loopCondition) {
+    let indexSlice = 0;
+    let lastIndexSlice = indexSlice;
+    const xmlRequest = `<?xml version="1.0" encoding="utf-8"?>
+    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+      xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
+      <soap:Header>
+        <t:RequestServerVersion Version="Exchange2016" />
+      </soap:Header>
+      <soap:Body>
+        <GetItem xmlns="http://schemas.microsoft.com/exchange/services/2006/messages">
+          <ItemShape>
+            <t:BaseShape>IdOnly</t:BaseShape>
+            <t:AdditionalProperties>
+              <t:FieldURI FieldURI="item:Subject"/>
+              <t:FieldURI FieldURI="calendar:Start"/>
+              <t:FieldURI FieldURI="calendar:End"/>
+              <t:FieldURI FieldURI="calendar:Organizer"/>
+            </t:AdditionalProperties>
+          </ItemShape>
+          <ItemIds>
+            ${itemsNormalFetchArray.map((item) => `<t:ItemId Id="${item["t:ItemId"][0]["$"].Id}" ChangeKey="${item["t:ItemId"][0]["$"].ChangeKey}"/>`).join("")}
+          </ItemIds>
+        </GetItem>
+      </soap:Body>
+    </soap:Envelope>`;
+
+    const res = await callPostAPI(xmlRequest);
+    parseString(res.data, function (err, result) {
+      dataTemp = result["s:Envelope"]["s:Body"][0]
+      ["m:GetItemResponse"]
+      [0]
+      ["m:ResponseMessages"][0]
+      ["m:GetItemResponseMessage"];
+    });
+
+    indexOfError = dataTemp.findIndex(d => d["m:ResponseCode"][0].toLowerCase() != "noerror");
+    loopCondition = indexOfError != -1;
+    if (loopCondition) {
+      indexSlice = indexOfError + 1;
+    }
+    data.push(indexOfError != -1 ? dataTemp.slice(undefined, indexSlice) : dataTemp)
+    // data.push({ indexSlice: indexSlice, indexOfError, indexOfError, dataTemp: dataTemp, value: indexOfError != -1 ? dataTemp.slice(undefined, indexSlice) : dataTemp, itemsNormalFetchArrayBefore: itemsNormalFetchArray, itemsNormalFetchArrayAfter: itemsNormalFetchArray.slice(indexSlice) })
+    itemsNormalFetchArray = itemsNormalFetchArray.slice(indexSlice);
+  }
+
+  data = data.flat(1);
+
+
 
   let idArray = itemsNormal.map(i => i["t:ItemId"][0]["$"].Id);
 
@@ -76,7 +99,7 @@ const getCalendarItems = async (items) => {
       }, {}))
     .sort((d1, d2) => new Date(d2.start) - new Date(d1.start)))
     .map(x => ({ ...x, organizer: x.organizer["t:Mailbox"][0]["t:EmailAddress"][0] }))
-    .map(x => x.organizer.includes("/O=") ? ({ ...x, organizer: "private email"}) : x)
+    .map(x => x.organizer.includes("/O=") ? ({ ...x, organizer: "private email", subject: "private subject"}) : x)
     .map((d) => new Event(d.start, d.end, d.subject, d.organizer))
 
   return { data: items};
@@ -133,6 +156,8 @@ export default async (params) => {
       ["m:FindItemResponseMessage"][0];
     });
 
+    // return { data: data };
+
     // Check if the request occured an error
     if (data["$"]["ResponseClass"] != "Success") {
       return { error: { code: "errUserAccessMissing", message: data["m:MessageText"][0] } }
@@ -148,6 +173,7 @@ export default async (params) => {
 
     data = data["t:Items"][0]["t:CalendarItem"];
     let items = await getCalendarItems(data)
+
     return { data: items.data};
   } catch (error) {
     console.error('Error making EWS request:', error);
