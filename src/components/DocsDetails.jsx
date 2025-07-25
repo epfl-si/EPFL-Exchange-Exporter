@@ -9,18 +9,21 @@ import DocsParamsExplanation from "./DocsParamsExplanation";
 
 import { useTranslations } from "next-intl";
 
-const getMethodStyle = (method) => {
+const getMethodStyle = (method, opacity) => {
+    console.log(opacity);
+    opacity = opacity ? `0${ Math.round( ( 255 / 100 ) * opacity ).toString( 16 ) }`.slice( -2 ).toUpperCase() : "";
+    console.log(opacity);
     switch (method) {
         case "GET":
-            return "#61affe";
+            return `#61affe${opacity}`;
         case "POST":
-            return "#49cc90";
+            return `#49cc90${opacity}`;
         case "PUT":
-            return "#fca130";
+            return `#fca130${opacity}`;
         case "DELETE":
-            return "#f93e3e";
+            return `#f93e3e${opacity}`;
         default:
-            return "#FF00FF";
+            return `#FF00FF${opacity}`;
     }
 }
 
@@ -64,7 +67,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
     }, [paramsKeyValue])
 
     return (
-        <details id={id} style={{ '--custom-color': getMethodStyle(ep.method), '--custom-bg-color': `${getMethodStyle(ep.method)}40` }}
+        <details id={id} style={{ '--custom-color': getMethodStyle(ep.method), '--custom-bg-color': getMethodStyle(ep.method, 25) }}
             className="group bg-[var(--custom-bg-color)] w-auto mx-10 border border-[var(--custom-color)] rounded p-[0.5rem 0.5rem 0] my-2"
             // {...ep.isOpen == true ? { open : "" } : {}}>
             {...JSON.parse(ep.isOpen || "false") ? { open : "ep.isOpen" } : {}}>
@@ -73,7 +76,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                 className="flex font-bold m-[-0.5rem, -0.5rem, 0] p-2 hover:cursor-pointer select-none content-center items-center
                 group-open:border-b group-open:border-b-[var(--custom-color)]">
                 <span
-                    style={{ '--custom-color': `${getMethodStyle(ep.method)}B3` }}
+                    style={{ '--custom-color': getMethodStyle(ep.method, 70) }}
                     className={`p-1 bg-[var(--custom-color)] mr-2 rounded-lg min-w-[5.5rem] text-center`}>
                     {ep.method ? ep.method : "N/A"}
                 </span>
@@ -128,7 +131,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                                 {website + "/api" + endpointUrl}
                             </span>
                         </div> */}
-                        <div style={{ '--custom-bg-color': `${getMethodStyle(ep.method)}40` }} className="flex flex-row items-center justify-end border bg-[var(--custom-bg-color)] rounded-lg m-2">
+                        <div style={{ '--custom-bg-color': getMethodStyle(ep.method, 25) }} className="flex flex-row items-center justify-end border bg-[var(--custom-bg-color)] rounded-lg m-2">
                             <div id="linkPreview" className="w-full mx-2 overflow-y-hidden overflow-x-auto bg-transparent focus:outline-none whitespace-nowrap py-[6px]">
                                 <span className="font-bold">{ep.method}  </span>
                                 <span>{website + "/api" + endpointUrl}</span>
@@ -148,7 +151,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                                     //             <EndpointParametersInput key={p.key} params={p.key} placeholder={p.placeholder} paramsKeyValue={paramsKeyValue} setParamsKeyValue={setParamsKeyValue} />
                                     //         )
                                     //     })
-                                        <EndpointParameters key={paramsKeyValue} params={paramsKeyValue} paramsKeyValue={paramsKeyValue} setParamsKeyValue={setParamsKeyValue} color={getMethodStyle(ep.method)} borderColor={`${getMethodStyle(ep.method)}40`} translationHandler={translationHandler} />
+                                                    <EndpointParameters key={paramsKeyValue} params={paramsKeyValue} paramsKeyValue={paramsKeyValue} setParamsKeyValue={setParamsKeyValue} getColor={getMethodStyle} methodHTTP={ep.method} color={getMethodStyle(ep.method)} borderColor={getMethodStyle(ep.method, 25)} translationHandler={translationHandler} />
                                     :
                                         <></>
                                 }
