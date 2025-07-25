@@ -13,11 +13,11 @@ import { useEffect, useState } from "react";
 
 export default ({data}) =>{
 
-  const t = useTranslations("Form");
+  const translationHandler = useTranslations("Form");
 
   const getTranslateErrorMsg = (error, errorName, errorCount) => {
     console.log(errorName);
-    return errorName == "errTooMuchData" ? t(errorName, {nb: errorCount || error.split('.')[2].split(" ").filter((x) => x != "")[0]}) : t(errorName);
+    return errorName == "errTooMuchData" ? translationHandler(errorName, {nb: errorCount || error.split('.')[2].split(" ").filter((x) => x != "")[0]}) : translationHandler(errorName);
   }
 
   useEffect(()=>{

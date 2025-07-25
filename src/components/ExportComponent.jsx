@@ -55,7 +55,7 @@ export default ({authSession}) => {
   const downloadButtonRef = useRef()
   const formRef = useRef()
 
-  const t = useTranslations("Form");
+  const translationHandler = useTranslations("Form");
 
   useEffect(()=>{
     if (userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate && searchParams.has("download")){
@@ -214,7 +214,7 @@ export default ({authSession}) => {
       className="flex flex-col m-auto bg-[#EEEEEE] p-10 gap-10 rounded-xl">
 
         <div className="flex justify-center">
-          <SearchBar value={userSearch} setter={setUserSearch} placeholder={t("room")} user={authSession?.user?.email || ""} authSession={authSession} required={true}/>
+          <SearchBar value={userSearch} setter={setUserSearch} placeholder={translationHandler("room")} user={authSession?.user?.email || ""} authSession={authSession} required={true}/>
         </div>
 
         <div>
@@ -223,12 +223,12 @@ export default ({authSession}) => {
           startSetter={setStartDate}
           endValue={endDate}
           endSetter={setEndDate}
-          label={t("period")}
+          label={translationHandler("period")}
           required={dateIsRequired}/>
         </div>
 
         <div>
-          <ExportNameFileSetter value={fileName} setter={setFileName} required={true} placeholder={t("filename")} />
+          <ExportNameFileSetter value={fileName} setter={setFileName} required={true} placeholder={translationHandler("filename")} />
         </div>
 
         <div>
@@ -236,22 +236,22 @@ export default ({authSession}) => {
         </div>
 
         <div className="grid w-full gap-6 md:grid-cols-2">
-          <LinkGeneratorButton label={t("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
+          <LinkGeneratorButton label={translationHandler("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
           <ExportResetButton
-          label={t("reset")}
+          label={translationHandler("reset")}
           setter={(val)=>{setAlertboxChoices(val); setIsCheck(true)}}
           setterValue={
             {
-              label: t("resetLabel"),
+              label: translationHandler("resetLabel"),
               data: [
                 {
                   id: "ChoicesDenyButton",
-                  value: t("resetCancel"),
+                  value: translationHandler("resetCancel"),
                   setter: (state) => { setIsCheck(state); setAlertboxChoices(); }
                 },
                 {
                   id: "ChoicesConfirmButton",
-                  value: t("resetAccept"),
+                  value: translationHandler("resetAccept"),
                   setter: (state)=>{setIsCheck(state); resetData(); setAlertboxChoices(); setIsReset(true);}
                 }
               ]
@@ -259,12 +259,12 @@ export default ({authSession}) => {
           }/>
         </div>
         <div className="flex justify-center">
-          <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={t("download")}/>
+          <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={translationHandler("download")}/>
         </div>
       </form>
       {
         isLoading ?
-        <Loading label={loadingLabel.nb ? loadingLabel.nb != "0" ? t("loaderNbData", {nb: loadingLabel.nb}) : t("loaderData") : t("loaderCheckData")}/>
+        <Loading label={loadingLabel.nb ? loadingLabel.nb != "0" ? translationHandler("loaderNbData", {nb: loadingLabel.nb}) : translationHandler("loaderData") : translationHandler("loaderCheckData")}/>
         :
         <></>
       }

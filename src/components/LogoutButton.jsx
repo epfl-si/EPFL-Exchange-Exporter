@@ -7,7 +7,7 @@ import AlertBox from "./AlertBox";
 
 export default ({imageUrl, session}) =>{
 
-  const t = useTranslations("SignOut");
+  const translationHandler = useTranslations("SignOut");
 
   const [isCheck, setIsCheck] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +37,7 @@ export default ({imageUrl, session}) =>{
             }
         </summary>
         <div className="text-black absolute right-0 top-full mt-1 bg-white z-20 block rounded-lg shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f]">
-          <button onClick={() => { handleClick; setIsCheck(true) }} className="hover:text-[#FF0000] hover:cursor-pointer m-1 w-max">{t("label")}</button>
+          <button onClick={() => { handleClick; setIsCheck(true) }} className="hover:text-[#FF0000] hover:cursor-pointer m-1 w-max">{translationHandler("label")}</button>
         </div>
       </details>
       {
@@ -45,14 +45,14 @@ export default ({imageUrl, session}) =>{
           <AlertBox data={
                     {
                       choices: {
-                        label: t("signoutLabel"),
+                        label: translationHandler("signoutLabel"),
                         data: [
                           {
-                            value : t("signoutCancel"),
+                            value : translationHandler("signoutCancel"),
                             setter : (state)=>{setIsCheck(state);}
                           },
                           {
-                            value : t("signoutAccept"),
+                            value : translationHandler("signoutAccept"),
                             setter : (state)=>{setIsCheck(state); disconnect();}
                           }
                         ]

@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 
 export default ({value, setter, isLastMissing, checkName, required=false}) => {
-  const t = useTranslations("Form");
+  const translationHandler = useTranslations("Form");
 
   const allChoices = [
     {
@@ -36,7 +36,7 @@ export default ({value, setter, isLastMissing, checkName, required=false}) => {
       </ul>
       {
         !value && isLastMissing ?
-        <span className="text-red-600 font-bold absolute select-none">{t("errExtension")}</span>
+        <span className="text-red-600 font-bold absolute select-none">{translationHandler("errExtension")}</span>
         :
         <></>
       }

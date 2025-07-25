@@ -16,7 +16,7 @@ export default () =>{
     //     status: "fre"
     // }
 
-    const t = useTranslations("Loading");
+    const translationHandler = useTranslations("Loading");
 
     return (
         <>
@@ -27,7 +27,7 @@ export default () =>{
                     </>
                 :
                     session?.status == "loading" ?
-                        <Loading label={t("connect")}/> //"Connection à votre compte"
+                        <Loading label={translationHandler("connect")}/> //"Connection à votre compte"
                     :
                         <div className="flex flex-col justify-center">
                             <ExportComponent authSession={session?.data}/>

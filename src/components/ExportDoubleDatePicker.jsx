@@ -6,7 +6,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 export default ({startValue, startSetter, endValue, endSetter, label, required=false}) => {
 
   const params = useParams();
-  const t = useTranslations("DatePicker");
+  const translationHandler = useTranslations("DatePicker");
 
   return (
   <div className="flex items-start flex-col">
@@ -29,15 +29,15 @@ export default ({startValue, startSetter, endValue, endSetter, label, required=f
     showShortcuts={true}
     configs={{
       shortcuts: {
-        yesterday: t("yesterday"),
-        today: t("today"),
-        past: period => t("period", {period: period}),
-        currentMonth: t("currentMonth"),
-        pastMonth: t("pastMonth")
+        yesterday: translationHandler("yesterday"),
+        today: translationHandler("today"),
+        past: period => translationHandler("period", {period: period}),
+        currentMonth: translationHandler("currentMonth"),
+        pastMonth: translationHandler("pastMonth")
       },
       footer: {
-        cancel: t("cancel"),
-        apply: t("apply")
+        cancel: translationHandler("cancel"),
+        apply: translationHandler("apply")
       }
     }}
     />

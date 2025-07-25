@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 
 export default ({setPopupOpen, data}) =>{
 
-    const t = useTranslations("Form");
+    const translationHandler = useTranslations("Form");
 
     const checkIfWanted = (key)=>{
         switch(key){
@@ -41,35 +41,35 @@ export default ({setPopupOpen, data}) =>{
     const selectValues = [
         {
             id: "room",
-            name: t("room"),
+            name: translationHandler("room"),
             disabledCondition: !data.room,
             value: wantedRoom,
             setter: setWantedRoom
         },
         {
             id: "period",
-            name: t("period"),
+            name: translationHandler("period"),
             disabledCondition: !(data.start || data.end),
             value: wantedPeriod,
             setter: setWantedPeriod
         },
         {
             id: "filename",
-            name: t("filename"),
+            name: translationHandler("filename"),
             disabledCondition: !data.filename,
             value: wantedFilename,
             setter: setWantedFilename
         },
         {
             id: "extension",
-            name: t("extension"),
+            name: translationHandler("extension"),
             disabledCondition: !data.extension,
             value: wantedExtension,
             setter: setWantedExtension
         },
         {
             id: "download",
-            name: t("autoDownload"),
+            name: translationHandler("autoDownload"),
             disabledCondition: !wantedRoom,
             value: isAutoDownload,
             setter: setIsAutoDownload
@@ -101,7 +101,7 @@ export default ({setPopupOpen, data}) =>{
         <BackgroundTasks>
             <div className="bg-white w-96 h-96 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-tl-xl rounded-br-xl flex flex-col justify-between animate-[ping_.15s_ease-in-out_forwards_reverse] p-2">
                 <div className="flex justify-between">
-                    <span>{t("linkGenerator")}</span>
+                    <span>{translationHandler("linkGenerator")}</span>
                     <button id="CloseButton" type="button" onClick={()=>setPopupOpen(false)}>
                         {/* Icon From HeroIcons, made by Tailwind CSS */}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ed333b" className="size-6">
@@ -114,7 +114,7 @@ export default ({setPopupOpen, data}) =>{
                     <CopyButton link={createLink(isAutoDownload)}/>
                 </div>
                 <div>
-                    <h4>{t("parameters")}</h4>
+                    <h4>{translationHandler("parameters")}</h4>
                     <div className="grid grid-cols-2 col-span-full gap-2">
                         {
                             selectValues.map(sv =>
