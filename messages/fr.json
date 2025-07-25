@@ -97,11 +97,11 @@
               },
               "start":{
                 "title": "début",
-                "explanation": "Le champ `start` est un {type} dans le format {format}. Ce champ correspond à la date de début de la période des données à exporter."
+                "explanation": "Le champ `start` est un {type} dans le format {format}. Ce champ correspond à la date de début de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
               },
               "end":{
                 "title": "fin",
-                "explanation": "Le champ `end` est un {type} dans le format {format}. Ce champ correspond à la date de fin de la période des données à exporter."
+                "explanation": "Le champ `end` est un {type} dans le format {format}. Ce champ correspond à la date de fin de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
               }
             }
           }

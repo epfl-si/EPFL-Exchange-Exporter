@@ -97,11 +97,11 @@
               },
               "start":{
                 "title": "start",
-                "explanation": "The field `start` is a {type} in a {format} format. This field correspond to the begin of the period of event extraction."
+                "explanation": "The field `start` is a {type} in a {format} format. This field correspond to the begin of the period of event extraction, with {acceptedSynthax} as suffix."
               },
               "end":{
                 "title": "end",
-                "explanation": "The field `end` is a {type} in a {format} format. This field correspond to the end of the period of event extraction."
+                "explanation": "The field `end` is a {type} in a {format} format. This field correspond to the end of the period of event extraction, with {acceptedSynthax} as suffix."
               }
             }
           }
