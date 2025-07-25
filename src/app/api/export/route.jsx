@@ -46,7 +46,7 @@ export async function GET(request) {
     const error = {
       error: {
         code: "WrongArguments",
-        message: `Arguments error, please check "${isArgsCorrect.cause}" parameters and try again.`
+        message: `Arguments error, please check '${isArgsCorrect.cause}' parameters and try again.`
       }
     }
     return NextResponse.json(error);

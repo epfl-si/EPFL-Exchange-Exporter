@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
 
-export default ({ label = "", paramsKeyValue, setParamsKeyValue }) => {
+export default ({ params, placeholder = "", paramsKeyValue, setParamsKeyValue }) => {
   const [value, setValue] = useState("");
   useEffect(() => {
     const paramsKeyValueTemp = structuredClone(paramsKeyValue);
-    paramsKeyValueTemp.filter(p => p.label == label)[0].value = value;
+    paramsKeyValueTemp.filter(p => p.key == params)[0].value = value;
     setParamsKeyValue(paramsKeyValueTemp);
   }, [value])
     return (
-      <div>
-        <input type="text" placeholder={label} value={value} onChange={(e)=>setValue(e.target.value)}/>
-      </div>
+        // <div className="flex flex-col">
+        //   <label>{params}</label>
+        //   <input type="text" placeholder={placeholder} value={value} onChange={(e)=>setValue(e.target.value)}/>
+        // </div>
+        // <tr className="last:!bg-yellow-600 last:[&>*:first]:!text-blue-600">
+        <tr className="">
+          <td>{params}</td>
+          <td className="pl-2">
+            <input className="bg-transparent outline-none w-full" type="text" placeholder={placeholder} value={value} onChange={(e)=>setValue(e.target.value)}/>
+          </td>
+        </tr>
     );
 };

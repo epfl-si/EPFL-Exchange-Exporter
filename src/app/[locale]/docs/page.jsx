@@ -1,9 +1,12 @@
 import Link from "next/link"
+import { useTranslations } from "next-intl"
+
 export default () => {
+  const translationHandler = useTranslations("Documentation");
   return (
-    <main className="mb-auto w-screen">
-      <h1 className="text-3xl text-center">Documentation : Liste</h1>
-      <div className="flex m-auto text-center justify-center gap-4">
+    <main className="mb-auto w-screen h-full">
+      <h1 className="my-6 text-3xl text-center z-10 relative">{translationHandler("title")}</h1>
+      <div className="absolute flex flex-wrap text-center justify-center items-center gap-4 h-screen right-0 left-0 top-0">
         <div className="size-32">
           <Link href="/docs/api">
             <div className="border-2 border-[#49cc90] p-2 rounded-lg size-32 flex justify-center items-center flex-col">

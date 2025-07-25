@@ -3,11 +3,11 @@
 import CopyButton from "./CopyButton";
 import { CodeBlock } from "react-code-block";
 
-export default ({ code, language = "js" }) => {
+export default ({ code, language = "js", id }) => {
     const prettyCode = JSON.stringify(JSON.parse(code), null, 2);
     return (
         // https://react-code-block.netlify.app/usage#showing-line-numbers
-        <div className="flex border relative">
+        <div className="flex border relative rounded-xl" id={id}>
             <CodeBlock code={prettyCode} language={language}>
                 <CodeBlock.Code className="bg-gray-900 p-6 rounded-xl shadow-lg h-96 max-h-96 overflow-hidden overflow-x-auto overflow-y-auto w-full">
                     <div className="table-row">

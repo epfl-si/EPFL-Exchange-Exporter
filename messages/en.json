@@ -63,5 +63,50 @@
     "pastMonth": "Past month",
     "cancel": "Cancel",
     "apply": "Apply"
+  },
+  "Documentation":{
+    "title": "Documentation : List",
+    "API":{
+      "title": "Documentation : API",
+      "and": "and",
+      "or": "or",
+      "return":{
+        "placeholder": "API return here"
+      },
+      "parameters":{
+        "title": "Parameters"
+      },
+      "console":{
+        "title": "Console",
+        "table":{
+          "parameters": "Parameters",
+          "values": "Values"
+        },
+        "button":{
+          "label": "execute"
+        }
+      },
+      "endpoints":{
+        "/export":{
+          "GET":{
+            "title": "Get room's reservations during provided period",
+            "params":{
+              "room":{
+                "title": "room",
+                "explanation": "The field `room` is a {type} in a {format} format. This field correspond to the email address's room which you want to export reservations, with {acceptedSynthax} as suffix."
+              },
+              "start":{
+                "title": "start",
+                "explanation": "The field `start` is a {type} in a {format} format. This field correspond to the begin of the period of event extraction."
+              },
+              "end":{
+                "title": "end",
+                "explanation": "The field `end` is a {type} in a {format} format. This field correspond to the end of the period of event extraction."
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

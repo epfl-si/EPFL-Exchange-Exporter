@@ -1,22 +1,60 @@
 {
+  "rootTranslationId": "Documentation.API",
+  "endpointTranslationPath": "endpoints",
   "endpoints": [
     {
       "endpoint": "/export",
-      "translationTag": "",
+      "translationId": "Documentation.API",
       "values": [
         {
           "method": "GET",
           "endpoint": "?room={room}&start={start}&end={end}",
-          "params": [
-            {
-              "name": "room",
-              "placeholder": "xxx@epfl.ch"
-            }
-          ],
-          "translationTag": "",
-          "isOpen": "true"
+          "isOpen": "true",
+          "params": {
+            "open": "{",
+            "close": "}",
+            "values": [
+              {
+                "key": "room",
+                "name": "room",
+                "placeholder": "example@epfl.ch",
+                "required": "true",
+                "type": "string",
+                "format": "email address",
+                "acceptedSynthax": [
+                  "@epfl.ch"
+                ]
+              },
+              {
+                "key": "start",
+                "name": "start",
+                "placeholder": "YYYY-MM-DD",
+                "required": "true",
+                "type": "string",
+                "format": "ISO 8601",
+                "acceptedSynthax": [
+                  "YYYY-MM-DD"
+                ]
+              },
+              {
+                "key": "end",
+                "name": "end",
+                "placeholder": "YYYY-MM-DD",
+                "required": "true",
+                "type": "string",
+                "format": "ISO 8601",
+                "acceptedSynthax": [
+                  "YYYY-MM-DD"
+                ]
+              }
+            ]
+          }
         }
-      ]
+      ],
+      "return": ""
     }
+  ],
+  "errors":[
+
   ]
 }
