@@ -14,11 +14,9 @@ export default ({value, setter, placeholder, user, authSession, required=false})
 
     useEffect(()=>{
         const getRooms = async()=>{
-            let response = await fetch(`/api/getEmailAddresses?room=${value}`, {
+            let response = await fetch(`/api/getEmailAddresses`, {
                 method: 'get'
             }).then((r) => { return r.json() });
-            console.log("response")
-            console.log(response)
             setRoomList(response ? response.data.map(room => room.address) : ["no data"]);
         }
         getRooms();

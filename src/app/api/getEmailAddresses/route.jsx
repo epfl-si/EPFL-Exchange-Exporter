@@ -4,8 +4,6 @@ import { auth } from "@/auth";
 import getEmailRoom from "@/services/API/getEmailRoom";
 
 export async function GET(request) {
-  const searchParamsReq = request.nextUrl.searchParams;
-
   let session = await auth();
 
   if (!session || session?.error){
@@ -18,9 +16,7 @@ export async function GET(request) {
     return NextResponse.json(error);
   }
 
-  let room = searchParamsReq.get("room");
-
-  const data = await getEmailRoom(room);
+  const data = await getEmailRoom();
 
   return NextResponse.json({ data: data });
 }

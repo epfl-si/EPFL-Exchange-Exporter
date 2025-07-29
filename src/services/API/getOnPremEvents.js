@@ -2,7 +2,7 @@ import { parseString } from "xml2js";
 
 import Event from "@/class/EventClass";
 
-const callPostAPI = async(req) => {
+export const callPostAPI = async(req) => {
   const response = await fetch(process.env.AUTH_EWS_SERVICE_ENDPOINT, {
     method: 'POST',
     headers: new Headers({
