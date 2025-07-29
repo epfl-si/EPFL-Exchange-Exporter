@@ -14,13 +14,12 @@ export default ({value, setter, placeholder, user, authSession, required=false})
 
     useEffect(()=>{
         const getRooms = async()=>{
-            let response = await fetch(`https://graph.microsoft.com/beta/me/findRooms`, {
-                method: 'get',
-                headers: new Headers({
-                    'Authorization': `Bearer ${authSession.accessToken}`
-                })
-            }).then((r) => {return r.json()});
-            setRoomList(response ? response.value.map(room => room.address) : ["no data"]);
+            let response = await fetch(`/api/getEmailAddresses?room=${value}`, {
+                method: 'get'
+            }).then((r) => { return r.json() });
+            console.log("response")
+            console.log(response)
+            setRoomList(response ? response.data.map(room => room.address) : ["no data"]);
         }
         getRooms();
     }, [])

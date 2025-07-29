@@ -30,9 +30,7 @@ export const checkArgsValidity = (option) => {
   // console.log("#################################################")
 
   //Check email room format
-  let emailDomain = "epfl.ch"
-  let isArgsWrong = option.room.includes(`@${emailDomain}`) && option.room.split("@")[option.room.split("@").length - 1] == emailDomain && option.room.split("@").length - 1 == 1 ? { state: true, cause: "room" } : { state: false, cause: "room" };
-
+  let isArgsWrong = checkEmailValidity(option.room);
   //Check date format (start)
   isArgsWrong =
     isArgsWrong.state == true ?
@@ -49,5 +47,11 @@ export const checkArgsValidity = (option) => {
         isArgsWrong :
       isArgsWrong;
 
+  return isArgsWrong;
+}
+
+export const checkEmailValidity = (email) => {
+  let emailDomain = "epfl.ch"
+  let isArgsWrong = email.includes(`@${emailDomain}`) && email.split("@")[email.split("@").length - 1] == emailDomain && email.split("@").length - 1 == 1 ? { state: true, cause: "room" } : { state: false, cause: "room" };
   return isArgsWrong;
 }
