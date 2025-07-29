@@ -24,7 +24,7 @@ export async function GET(request) {
     if (!session || session?.error){
       const error = {
         error: {
-          code: "ConnexionFailed",
+          code: "errCredentials",
           message: "Credentials error, please connecting you to your account."
         }
       }
@@ -45,7 +45,7 @@ export async function GET(request) {
   if (!isArgsCorrect.state) {
     const error = {
       error: {
-        code: "WrongArguments",
+        code: "errParameters",
         message: `Arguments error, please check '${isArgsCorrect.cause}' parameters and try again.`
       }
     }

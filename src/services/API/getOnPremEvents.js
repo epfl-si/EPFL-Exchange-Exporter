@@ -179,7 +179,7 @@ export default async (params) => {
     console.error('Error making EWS request:', error);
     return {
       error: {
-        code: 'Internal Server Error',
+        code: 'errEWSRequest',
         message: error.toString()
       }
     }

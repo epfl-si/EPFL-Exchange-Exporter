@@ -10,7 +10,12 @@ export default async (option) => {
         const data = await getOnPremEvents(option);
         return data;
       default:
-        return resultJSON;
+        switch (resultJSON.error.code) {
+          case "ErrorInvalidParameter":
+            return { ...resultJSON, error: { ...resultJSON.error, code: "errParameters" } };
+          default:
+            return resultJSON;
+        }
     }
   }
 
