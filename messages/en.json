@@ -66,6 +66,11 @@
   },
   "Documentation":{
     "title": "Documentation : List",
+    "choices": {
+      "title": "Documentations",
+      "api": "API",
+      "errors": "Errors"
+    },
     "API":{
       "title": "Documentation : API",
       "and": "and",
@@ -105,6 +110,49 @@
               }
             }
           }
+        }
+      }
+    },
+    "errors":{
+      "title": "Documentation : API Errors",
+      "errors":{
+        "title": "Title",
+        "explanation": "Explanation",
+        "message": "Message",
+        "errCredentials":{
+          "title": "Connection not etablished",
+          "message": "Authentication error, please connecting you to your account.",
+          "explanation": "This error may occured when credentials is wrong or is missing. Credentials could be a username (email) and password or simply an accessToken from Graph API."
+        },
+        "errParameters":{
+          "title": "WIP",
+          "message": "WIP",
+          "explanation": "WIP"
+        },
+        "errTooMuchData":{
+          "title": "WIP",
+          "message": "WIP",
+          "explanation": "WIP"
+        },
+        "errNoData":{
+          "title": "WIP",
+          "message": "WIP",
+          "explanation": "WIP"
+        },
+        "errUserNoData":{
+          "title": "WIP",
+          "message": "WIP",
+          "explanation": "WIP"
+        },
+        "errUserAccessMissing":{
+          "title": "WIP",
+          "message": "WIP",
+          "explanation": "WIP"
+        },
+        "errEWSRequest":{
+          "title": "WIP",
+          "message": "WIP",
+          "explanation": "WIP"
         }
       }
     }

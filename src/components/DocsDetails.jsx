@@ -56,6 +56,9 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
         setParamsKeyValue(ep.params.values.map(p => ({...p, value: ""})));
         setWebsite(`${window.location.protocol}//${window.location.host}`);
         setId(`${endpoint.endpoint.slice(1).replaceAll("/", "-")}${separatorId}${ep.method}`);
+        // for (let i = 0; i < 50; i++){
+        //     console.log(endpoint);
+        // }
     }, [])
     useEffect(() => {
         let url = ep.endpoint;
@@ -67,7 +70,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
     }, [paramsKeyValue])
 
     return (
-        <details id={id} style={{ '--custom-color': getMethodStyle(ep.method), '--custom-bg-color': getMethodStyle(ep.method, 25) }}
+        <details id={id} ref={endpoint.ref} style={{ '--custom-color': getMethodStyle(ep.method), '--custom-bg-color': getMethodStyle(ep.method, 25) }}
             className="group bg-[var(--custom-bg-color)] w-auto mx-10 border border-[var(--custom-color)] rounded p-[0.5rem 0.5rem 0] my-2"
             // {...ep.isOpen == true ? { open : "" } : {}}>
             {...JSON.parse(ep.isOpen || "false") ? { open : "ep.isOpen" } : {}}>
