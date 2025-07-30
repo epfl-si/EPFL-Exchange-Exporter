@@ -16,7 +16,7 @@ export default ({value, setter, isLastMissing, checkName, required=false}) => {
   return (
     <div>
       <label className="select-none">Extension</label>
-      <ul className="grid w-full gap-6 md:grid-cols-2">
+      <ul className="grid w-full gap-6 grid-cols-2">
           {
             allChoices.map((choice) =>
               <li key={allChoices.map((x)=> x.name).indexOf(choice.name)} id={`extension-${choice.name}-checkbox`}>

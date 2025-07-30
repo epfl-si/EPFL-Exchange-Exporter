@@ -35,7 +35,7 @@ export default ({ doc, data, color }) => {
     }, []);
 
     return (
-        <div id="lateralMenu" className="">
+        <div id="lateralMenu" className="hidden sm:block">
             {(() => {
                 switch (doc) {
                     case "errors":

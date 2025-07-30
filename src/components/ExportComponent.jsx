@@ -235,7 +235,7 @@ export default ({authSession}) => {
           <ExportExtSelect value={exportExt} setter={setExportExt} required={true} isLastMissing={userSearch && startDate && endDate && fileName && isClicked} checkName={{value : exportExtCheckName, setter : setExportExtCheckName}}/>
         </div>
 
-        <div className="grid w-full gap-6 md:grid-cols-2">
+        <div className="grid w-full gap-6 grid-cols-2">
           <LinkGeneratorButton label={translationHandler("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
           <ExportResetButton
           label={translationHandler("reset")}

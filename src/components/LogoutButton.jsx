@@ -22,7 +22,7 @@ export default ({imageUrl, session}) =>{
   return (
     <>
       <details ref={details} className="relative" open={ isOpen } onClick={handleClick} id="LogoutButton">
-        <summary className="list-none [&::-webkit-details-marker]:hidden">
+        <summary className="list-none [&::-webkit-details-marker]:hidden rounded-3xl w-10 h-10">
             {
               session?.user?.image ?
                 <img

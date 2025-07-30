@@ -10,9 +10,7 @@ import DocsParamsExplanation from "./DocsParamsExplanation";
 import { useTranslations } from "next-intl";
 
 const getMethodStyle = (method, opacity) => {
-    console.log(opacity);
     opacity = opacity ? `0${ Math.round( ( 255 / 100 ) * opacity ).toString( 16 ) }`.slice( -2 ).toUpperCase() : "";
-    console.log(opacity);
     switch (method) {
         case "GET":
             return `#61affe${opacity}`;
@@ -46,6 +44,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
     const [website, setWebsite] = useState("");
     const [id, setId] = useState("");
     const [separatorId, setSeparatorId] = useState("_");
+
     useEffect(() => {
         // const paramsLabel = [...ep.params.matchAll(/[&?](.*?)=/gm)].map((entry) => ({ [entry[0]]: entry[1] }));
         // const paramsLabel = [...ep.params.matchAll(/[&?](.*?)=/gm)];
@@ -143,7 +142,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                                 <CopyButton link={website + "/api" + endpointUrl}/>
                             </div>
                         </div>
-                        <div className="grid grid-cols-2">
+                        <div className="grid sm:grid-cols-2">
                             <div>
                                 {/* <div className="p-2 w-fit"> */}
                                 <div className="p-2">
