@@ -1,4 +1,4 @@
-import DocsDetails from "@/components/DocsDetails";
+import DocsDetails from "@/components/docs/MiddleContent/endpoints/DocsDetails";
 
 export default ({data, endpointsArray}) =>{
 

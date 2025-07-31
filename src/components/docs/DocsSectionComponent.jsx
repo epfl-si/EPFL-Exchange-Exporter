@@ -1,5 +1,5 @@
-import DocsRightMenuComponent from "./DocsRightMenuComponent";
-import DocsLeftMenuComponent from "./DocsLeftMenuComponent";
+import DocsRightMenuComponent from "./RightMenu/DocsRightMenuComponent";
+import DocsLeftMenuComponent from "./LeftMenu/DocsLeftMenuComponent";
 export default ({ children, doc, data, color }) => {
     return (
         <section className="sm:grid sm:grid-cols-[auto_65%_auto] sm:gap-1 m-2">

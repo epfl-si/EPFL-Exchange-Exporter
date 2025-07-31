@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import ExportExtSelect from "./ExportExtSelect";
-import ExportDownloadButton from "./ExportDownloadButton";
-import ExportNameFileSetter from "./ExportNameFileSetter";
-import ExportDoubleDatePicker from "./ExportDoubleDatePicker";
-import SearchBar from "./SearchBar";
-import Loading from "./Loading";
-import AlertBox from "./AlertBox";
-import LinkGeneratorButton from "./LinkGeneratorButton"
+import ExportExtSelect from "./select/ExportExtSelect";
+import ExportDownloadButton from "./buttons/ExportDownloadButton";
+import ExportNameFileSetter from "./inputText/ExportNameFileSetter";
+import ExportDoubleDatePicker from "./datepicker/ExportDoubleDatePicker";
+import SearchBar from "./inputText/SearchBar";
+import Loading from "../tasks/Loading";
+import AlertBox from "../tasks/AlertBox";
+import LinkGeneratorButton from "./buttons/LinkGeneratorButton"
 
 import downloadFile from "@/services/exportManager"
 
@@ -18,7 +18,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 import dayjs from "dayjs";
-import ExportResetButton from "./ExportResetButton";
+import ExportResetButton from "./buttons/ExportResetButton";
 import { useMediaQuery } from "react-responsive";
 
 export default ({authSession}) => {

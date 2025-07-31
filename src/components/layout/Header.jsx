@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
-import LangSwitcher from "./LangSwitcher";
+import LoginButton from "../auth/LoginButton";
+import LogoutButton from "../auth/LogoutButton";
+import LangSwitcher from "../utilities/LangSwitcher";
 import { usePathname } from "@/i18n/navigation";
 
 const Header = () =>{

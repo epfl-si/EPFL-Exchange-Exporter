@@ -1,8 +1,8 @@
 "use client";
 import data from "/public/json/docs.json";
 
-import DocsEndpointsComponent from "@/components/DocsEndpointsComponent";
-import DocsSectionComponent from "@/components/DocsSectionComponent";
+import DocsEndpointsComponent from "@/components/docs/MiddleContent/endpoints/DocsEndpointsComponent";
+import DocsSectionComponent from "@/components/docs/DocsSectionComponent";
 
 import { useTranslations } from "next-intl";
 import { useState, useRef } from "react";

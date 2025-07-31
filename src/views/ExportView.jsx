@@ -1,8 +1,8 @@
 "use client";
 
 import About from "@/views/About";
-import ExportComponent from "@/components/ExportComponent";
-import Loading from "@/components/Loading";
+import ExportComponent from "@/components/export/ExportComponent";
+import Loading from "@/components/tasks/Loading";
 
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";

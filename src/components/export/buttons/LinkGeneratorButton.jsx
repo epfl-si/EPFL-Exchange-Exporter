@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import LinkGeneratorForm from "./LinkGeneratorForm";
+import LinkGeneratorForm from "../LinkGeneratorForm";
 import { useMediaQuery } from "react-responsive";
 
 export default ({data, label}) =>{

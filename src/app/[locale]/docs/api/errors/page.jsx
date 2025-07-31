@@ -5,8 +5,8 @@ import { useTranslations } from "next-intl"
 import data from "/public/json/docs.json";
 import { useEffect, useRef, useState } from "react";
 
-import DocsSectionComponent from "@/components/DocsSectionComponent";
-import DocsErrorsComponent from "@/components/DocsErrorsComponent";
+import DocsSectionComponent from "@/components/docs/DocsSectionComponent";
+import DocsErrorsComponent from "@/components/docs/MiddleContent/errors/DocsErrorsComponent";
 
 export default () => {
   const [color, setColor] = useState("#FF0000")

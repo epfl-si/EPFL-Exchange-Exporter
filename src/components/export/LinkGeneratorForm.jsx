@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import BackgroundTasks from "./BackgroundTasks";
-import CopyButton from "./CopyButton";
+import BackgroundTasks from "../tasks/BackgroundTasks";
+import CopyButton from "../utilities/CopyButton";
 
 import { useTranslations } from "next-intl";
 import { useMediaQuery } from "react-responsive";

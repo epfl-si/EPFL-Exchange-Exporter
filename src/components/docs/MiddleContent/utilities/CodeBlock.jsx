@@ -1,6 +1,6 @@
 "use client"
 
-import CopyButton from "./CopyButton";
+import CopyButton from "../../../utilities/CopyButton";
 import { CodeBlock } from "react-code-block";
 
 export default ({ code, language = "js", id }) => {

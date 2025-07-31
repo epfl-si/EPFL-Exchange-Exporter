@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import CodeBlock from "@/components/CodeBlock";
-import CopyButton from "./CopyButton";
+import CodeBlock from "@/components/docs/MiddleContent/utilities/CodeBlock";
+import CopyButton from "../../../utilities/CopyButton";
 import EndpointParameters from "./EndpointParameters";
 import DocsParamsExplanation from "./DocsParamsExplanation";
 

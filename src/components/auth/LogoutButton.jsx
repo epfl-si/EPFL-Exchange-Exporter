@@ -3,7 +3,7 @@ import disconnect from "@/services/disconnect";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
-import AlertBox from "./AlertBox";
+import AlertBox from "../tasks/AlertBox";
 
 export default ({imageUrl, session}) =>{
 
