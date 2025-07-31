@@ -20,7 +20,7 @@ async function refreshAccessToken(token) {
         client_id: process.env.AUTH_MICROSOFT_ENTRA_ID_ID,
         scope: `https://graph.microsoft.com/.default`,
         refresh_token: token.refreshToken,
-        redirect_uri : "https://eeee.epfl.ch/api/auth/callback/microsoft-entra-id",
+        redirect_uri : "http://localhost:3000/api/auth/callback/microsoft-entra-id",
         grant_type: "refresh_token",
         client_secret: process.env.AUTH_MICROSOFT_ENTRA_ID_SECRET,
       })
