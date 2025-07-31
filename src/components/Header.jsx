@@ -55,10 +55,7 @@ const Header = () =>{
             <div className="flex gap-3">
                 {
                     !session ?
-                        pathname == "/" ?
-                            <LoginButton/>
-                        :
-                            <LoginButton redirection={true}/>
+                        <LoginButton/>
                     :
                         <LogoutButton imageUrl={imageUrl} session={session}/>
 
