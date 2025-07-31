@@ -1,5 +1,7 @@
 import disconnect from "@/services/disconnect";
 
+import Loading from "../tasks/Loading";
+
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
@@ -11,6 +13,7 @@ export default ({imageUrl, session}) =>{
 
   const [isCheck, setIsCheck] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -53,12 +56,18 @@ export default ({imageUrl, session}) =>{
                           },
                           {
                             value : translationHandler("signoutAccept"),
-                            setter : (state)=>{setIsCheck(state); disconnect();}
+                            setter : (state)=>{setIsCheck(state); setIsLogout(true); disconnect();}
                           }
                         ]
                       }
                     }
                   }/>
+        :
+          <></>
+      }
+      {
+        isLogout ?
+          <Loading/>
         :
           <></>
       }
