@@ -4,10 +4,13 @@ import BackgroundTasks from "./BackgroundTasks";
 import CopyButton from "./CopyButton";
 
 import { useTranslations } from "next-intl";
+import { useMediaQuery } from "react-responsive";
 
 export default ({setPopupOpen, data}) =>{
 
     const translationHandler = useTranslations("Form");
+
+    const isMobile = useMediaQuery({ query: '(max-width: 640px)' });
 
     const checkIfWanted = (key)=>{
         switch(key){
@@ -99,7 +102,7 @@ export default ({setPopupOpen, data}) =>{
 
     return (
         <BackgroundTasks>
-            <div className="bg-white w-96 h-96 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-tl-xl rounded-br-xl flex flex-col justify-between animate-[ping_.15s_ease-in-out_forwards_reverse] p-2">
+            <div className="bg-white w-4/5 sm:w-96 h-96 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] rounded-tl-xl rounded-br-xl flex flex-col justify-between animate-[ping_.15s_ease-in-out_forwards_reverse] p-2">
                 <div className="flex justify-between">
                     <span>{translationHandler("linkGenerator")}</span>
                     <button id="CloseButton" type="button" onClick={()=>setPopupOpen(false)}>
@@ -118,9 +121,9 @@ export default ({setPopupOpen, data}) =>{
                     <div className="grid grid-cols-2 col-span-full gap-2">
                         {
                             selectValues.map(sv =>
-                                <label htmlFor={sv.id} className={`rounded-lg ${selectValues[selectValues.length - 1].id == sv.id && selectValues.length % 2 == 1 ? "col-start-1 col-end-3" : ""}`} key={sv.name}>
+                                <label htmlFor={sv.id} className={`rounded-lg h-full ${selectValues[selectValues.length - 1].id == sv.id && selectValues.length % 2 == 1 ? "col-start-1 col-end-3" : ""}`} key={sv.id}>
                                     <input className="peer hidden" id={`${sv.id}Invisible`} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={() => { sv.setter(v => !v);  console.log(sv.value)}}/>
-                                    <div className="flex items-center peer-disabled:text-gray-400 bg-white peer-enabled:hover:bg-gray-100 border w-full p-2 peer-checked:border-[#FF0000] rounded-lg">
+                                    <div className="flex items-center peer-disabled:text-gray-400 bg-white peer-enabled:hover:bg-gray-100 border w-full h-full p-2 peer-checked:border-[#FF0000] rounded-lg">
                                         <input className="peer accent-red-600" id={sv.id} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={()=>{ sv.setter(v => !v);  console.log(sv.value)}}/>
                                         <span className="peer-disabled:text-gray-400 ml-1">{sv.name}</span>
                                     </div>

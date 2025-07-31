@@ -70,7 +70,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
 
     return (
         <details id={id} ref={endpoint.ref} style={{ '--custom-color': getMethodStyle(ep.method), '--custom-bg-color': getMethodStyle(ep.method, 25) }}
-            className="group bg-[var(--custom-bg-color)] w-auto mx-10 border border-[var(--custom-color)] rounded p-[0.5rem 0.5rem 0] my-2"
+            className="group bg-[var(--custom-bg-color)] w-auto sm:mx-10 border border-[var(--custom-color)] rounded p-[0.5rem 0.5rem 0] my-2"
             // {...ep.isOpen == true ? { open : "" } : {}}>
             {...JSON.parse(ep.isOpen || "false") ? { open : "ep.isOpen" } : {}}>
             <summary
@@ -142,7 +142,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                                 <CopyButton link={website + "/api" + endpointUrl}/>
                             </div>
                         </div>
-                        <div className="grid sm:grid-cols-2">
+                        <div className="">
                             <div>
                                 {/* <div className="p-2 w-fit"> */}
                                 <div className="p-2">

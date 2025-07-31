@@ -19,6 +19,7 @@ import { useTranslations } from "next-intl";
 
 import dayjs from "dayjs";
 import ExportResetButton from "./ExportResetButton";
+import { useMediaQuery } from "react-responsive";
 
 export default ({authSession}) => {
 
@@ -56,6 +57,8 @@ export default ({authSession}) => {
   const formRef = useRef()
 
   const translationHandler = useTranslations("Form");
+
+  const isMobile = useMediaQuery({ query: '(max-width: 640px)' });
 
   useEffect(()=>{
     if (userSearch && fileName && exportExt && exportExtCheckName && startDate && endDate && searchParams.has("download")){
@@ -234,33 +237,63 @@ export default ({authSession}) => {
         <div>
           <ExportExtSelect value={exportExt} setter={setExportExt} required={true} isLastMissing={userSearch && startDate && endDate && fileName && isClicked} checkName={{value : exportExtCheckName, setter : setExportExtCheckName}}/>
         </div>
-
-        <div className="grid w-full gap-6 grid-cols-2">
-          <LinkGeneratorButton label={translationHandler("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
-          <ExportResetButton
-          label={translationHandler("reset")}
-          setter={(val)=>{setAlertboxChoices(val); setIsCheck(true)}}
-          setterValue={
-            {
-              label: translationHandler("resetLabel"),
-              data: [
-                {
-                  id: "ChoicesDenyButton",
-                  value: translationHandler("resetCancel"),
-                  setter: (state) => { setIsCheck(state); setAlertboxChoices(); }
-                },
-                {
-                  id: "ChoicesConfirmButton",
-                  value: translationHandler("resetAccept"),
-                  setter: (state)=>{setIsCheck(state); resetData(); setAlertboxChoices(); setIsReset(true);}
-                }
-              ]
-            }
-          }/>
-        </div>
-        <div className="flex justify-center">
-          <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={translationHandler("download")}/>
-        </div>
+        {
+          isMobile ?
+          // <div className={`grid w-full gap-6 grid-cols-[auto_65%_auto] ${isMobile ? "[&>*]:size-10 [&>*]:p-0 [&>*]:m-auto [&>*]:justify-center" : ""}`}>
+          <div className={`grid w-full grid-cols-[auto_65%_auto] gap-2`}>
+            <LinkGeneratorButton label={translationHandler("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
+            <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={translationHandler("download")}/>
+            <ExportResetButton
+            label={translationHandler("reset")}
+            setter={(val)=>{setAlertboxChoices(val); setIsCheck(true)}}
+            setterValue={
+              {
+                label: translationHandler("resetLabel"),
+                data: [
+                  {
+                    id: "ChoicesDenyButton",
+                    value: translationHandler("resetCancel"),
+                    setter: (state) => { setIsCheck(state); setAlertboxChoices(); }
+                  },
+                  {
+                    id: "ChoicesConfirmButton",
+                    value: translationHandler("resetAccept"),
+                    setter: (state)=>{setIsCheck(state); resetData(); setAlertboxChoices(); setIsReset(true);}
+                  }
+                ]
+              }
+            }/>
+            </div>
+            :
+            <>
+              <div className={`grid w-full gap-6 grid-cols-2 ${isMobile ? "[&>*]:size-10 [&>*]:p-0 [&>*]:m-auto [&>*]:justify-center" : ""}`}>
+                <LinkGeneratorButton label={translationHandler("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
+                <ExportResetButton
+                label={translationHandler("reset")}
+                setter={(val)=>{setAlertboxChoices(val); setIsCheck(true)}}
+                setterValue={
+                  {
+                    label: translationHandler("resetLabel"),
+                    data: [
+                      {
+                        id: "ChoicesDenyButton",
+                        value: translationHandler("resetCancel"),
+                        setter: (state) => { setIsCheck(state); setAlertboxChoices(); }
+                      },
+                      {
+                        id: "ChoicesConfirmButton",
+                        value: translationHandler("resetAccept"),
+                        setter: (state)=>{setIsCheck(state); resetData(); setAlertboxChoices(); setIsReset(true);}
+                      }
+                    ]
+                  }
+                }/>
+              </div>
+              <div className="flex justify-center">
+                <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={translationHandler("download")}/>
+              </div>
+            </>
+        }
       </form>
       {
         isLoading ?

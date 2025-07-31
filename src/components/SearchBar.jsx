@@ -6,6 +6,7 @@ import InputText from "./InputText";
 
 import textRefactor from "@/services/textRefactor";
 import closingHandler from "@/services/closingHandler";
+import { useMediaQuery } from "react-responsive";
 
 export default ({value, setter, placeholder, user, authSession, required=false}) =>{
 
@@ -46,6 +47,8 @@ export default ({value, setter, placeholder, user, authSession, required=false})
 
     const [isValid, setIsValid] = useState();
 
+    const isMobile = useMediaQuery({ query: '(max-width: 640px)' });
+
     return (
             <div className="group flex flex-col justify-center relative w-full">
                 <InputText
@@ -59,8 +62,8 @@ export default ({value, setter, placeholder, user, authSession, required=false})
                     required={required}
                     exportedValiditySetter={setIsValid} borderColorClassName={`${propals.length > 0 ? "group-focus-within:border-b-0 group-focus-within:rounded-b-none" : ""} focus-within:border-[#B51F1F] ${isValid ? "border-[#FF0000]" : "border-gray-500"}`}
                     labelColorClassName={`peer-focus:text-[#B51F1F] ${isValid ? "text-[#FF0000]" : "text-gray-500"}`}/>
-                <ul className={`group-focus-within:text-black group-focus-within:absolute group-focus-within:left-0 group-focus-within:right-0 group-focus-within:top-full group-focus-within:bg-white group-focus-within:z-[21] group-focus-within:block
-                hover:text-black hover:absolute hover:left-0 hover:right-0 hover:top-full hover:bg-white hover:z-[21] hover:block
+                <ul className={`group-focus-within:text-black group-focus-within:absolute group-focus-within:left-0 group-focus-within:right-0 group-focus-within:top-full group-focus-within:bg-white ${isMobile ? "group-focus-within:z-[41]" : "group-focus-within:z-[21]"} group-focus-within:block
+                hover:text-black hover:absolute hover:left-0 hover:right-0 hover:top-full hover:bg-white ${isMobile ? "hover:z-[41]" : "hover:z-[21]"} hover:block
                 ${propals.length > 0 ? "border-b border-l border-r border-[#B51F1F] rounded-b-lg" : ""}
                 hidden select-none`}>
                     {propals.map((p) =>
