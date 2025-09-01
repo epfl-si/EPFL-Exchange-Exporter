@@ -16,7 +16,6 @@ export default ({id, value, setter, placeholder, exportedValiditySetter, type="t
   },[value])
 
   const handleDeleteEntry = () => {
-    console.log("efesf")
     setter("");
     setIsValid(false);
   }
