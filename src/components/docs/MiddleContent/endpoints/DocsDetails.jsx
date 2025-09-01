@@ -153,7 +153,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                                     //             <EndpointParametersInput key={p.key} params={p.key} placeholder={p.placeholder} paramsKeyValue={paramsKeyValue} setParamsKeyValue={setParamsKeyValue} />
                                     //         )
                                     //     })
-                                                    <EndpointParameters key={paramsKeyValue} params={paramsKeyValue} paramsKeyValue={paramsKeyValue} setParamsKeyValue={setParamsKeyValue} getColor={getMethodStyle} methodHTTP={ep.method} color={getMethodStyle(ep.method)} borderColor={getMethodStyle(ep.method, 25)} translationHandler={translationHandler} />
+                                        <EndpointParameters key={paramsKeyValue} params={paramsKeyValue} paramsKeyValue={paramsKeyValue} setParamsKeyValue={setParamsKeyValue} getColor={getMethodStyle} methodHTTP={ep.method} color={getMethodStyle(ep.method)} borderColor={getMethodStyle(ep.method, 25)} translationHandler={translationHandler} />
                                     :
                                         <></>
                                 }

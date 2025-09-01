@@ -1,0 +1,30 @@
+# Ignorer tout
+*
+
+# Inclure les fichiers de configuration essentiels
+!package.json
+!package-lock.json
+
+# Inclure les fichiers Next.js
+!next.config.js
+!next.config.mjs
+!next.config.ts
+
+# Inclure les fichiers Tailwind
+!tailwind.config.js
+!tailwind.config.ts
+!postcss.config.js
+
+# Inclure TypeScript
+!tsconfig.json
+!tsconfig.*.json
+
+# Inclure le code source
+!src/
+!src/**
+!app/
+!app/**
+!public/
+!public/**
+!messages/
+!messages/**

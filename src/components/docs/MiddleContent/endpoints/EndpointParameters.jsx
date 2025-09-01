@@ -12,7 +12,7 @@ export default ({ params, paramsKeyValue, setParamsKeyValue, color, borderColor,
         {
           params.map(p => {
             return (
-              <EndpointParametersInput key={p.key} params={p.key} placeholder={p.placeholder} paramsKeyValue={paramsKeyValue} setParamsKeyValue={setParamsKeyValue} />
+              <EndpointParametersInput key={p.key} params={p} placeholder={p.placeholder} paramsKeyValue={paramsKeyValue} setParamsKeyValue={setParamsKeyValue} />
             )
           })
         }
