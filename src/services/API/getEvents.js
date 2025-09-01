@@ -1,6 +1,6 @@
 import getEventCount from "../getEventCount";
 import getOnPremEvents from "./getOnPremEvents";
-import getExchangeEvents from "./getExchangeEvents";
+import { getExchangeEvents, getEchangeEventsBusy } from "./getExchangeEvents";
 
 export default async (option) => {
   const resultJSON = await getEventCount(option);
@@ -9,6 +9,9 @@ export default async (option) => {
       case "MailboxNotEnabledForRESTAPI":
         const data = await getOnPremEvents(option);
         return data;
+      case "ErrorItemNotFound":
+        const response = await getEchangeEventsBusy(option);
+        return response;
       default:
         switch (resultJSON.error.code) {
           case "ErrorInvalidParameter":
