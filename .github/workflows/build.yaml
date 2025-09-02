@@ -10,6 +10,9 @@ jobs:
   get_version:
     runs-on: ubuntu-latest
     name: Get Version
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      should_build: ${{ steps.build_needed.outputs.should_build }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -40,6 +43,7 @@ jobs:
   docker_image:
     runs-on: ubuntu-latest
     name: Build and Push Image
+    needs: [get_version]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -57,10 +61,11 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ env.REGISTRY_PATH }}:${{ steps.version.outputs.version }}
+          tags: ${{ env.REGISTRY_PATH }}:${{ needs.get_version.outputs.version }}
   build_release:
     runs-on: ubuntu-latest
     name: Build Release
+    needs: [get_version, docker_image]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -70,7 +75,7 @@ jobs:
       - name: Generate Release Notes
         id: generate_notes
         run: |
-            VERSION="${{ needs.detect-version.outputs.version }}"
+            VERSION="${{ needs.get_version.outputs.version }}"
 
             LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
 
@@ -125,7 +130,7 @@ jobs:
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: v${{ steps.version.outputs.version }}
+          TAG_NAME: v${{ needs.get_version.outputs.version }}
         run: |
           gh release create "$TAG_NAME" \
             --title "$TAG_NAME" \
