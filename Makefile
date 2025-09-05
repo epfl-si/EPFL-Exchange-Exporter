@@ -147,12 +147,11 @@ endef
 define patch_func
 	@$(call def_version_func)
 	@$(call patch_version_func)
+	@$(call default_local_func)
 endef
 
 define patch_add_func
 	@$(call patch_func)
-
-	@$(call default_local_func)
 
 	@$(call git_part_func)
 	@$(call git_add_func)
@@ -161,12 +160,11 @@ endef
 define minor_func
 	@$(call def_version_func)
 	@$(call minor_version_func)
+	@$(call default_local_func)
 endef
 
 define minor_add_func
 	@$(call minor_func)
-
-	@$(call default_local_func)
 
 	@$(call git_part_func)
 	@$(call git_add_func)
@@ -175,12 +173,11 @@ endef
 define major_func
 	@$(call def_version_func)
 	@$(call major_version_func)
+	@$(call default_local_func)
 endef
 
 define major_add_func
 	@$(call major_func)
-
-	@$(call default_local_func)
 
 	@$(call git_part_func)
 	@$(call git_add_func)
