@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Push Image
     needs: [get_version]
-    if: ${{ needs.get_version.outputs.should_build == true }}
+    if: needs.get_version.outputs.should_build == 'true'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
