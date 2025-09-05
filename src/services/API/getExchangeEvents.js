@@ -57,16 +57,17 @@ export const getEchangeEventsBusy = async(option) => {
   let body = {
     "schedules": [option.room],
     "startTime": {
-      "dateTime": option.start,
+      "dateTime": `${option.start}T00:00:00`,
       "timeZone": "W. Europe Standard Time"
     },
     "endTime": {
-      "dateTime": option.end,
+      "dateTime": `${option.end}T23:59:59`,
       "timeZone": "W. Europe Standard Time"
     },
     "availabilityViewInterval": 60
   }
   const response = await APICall(request, token, "POST", body, "application/json");
+  // return { data: response };
   let data = response.value[0].scheduleItems.map(d => (
     {
       debut: d.start.dateTime,

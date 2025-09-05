@@ -34,10 +34,7 @@ export default async (option) => {
     }
     else {
       return {
-        error: {
-          code: "errNoData",
-          message: "Your request can't be completed. The range between the start and end dates does not contain events."
-        }
+        data: []
       };
     }
   }

@@ -73,12 +73,18 @@ const downloadFile = async(data) =>{
         session: authSession
     }
     // const response = await getEvents(option);
-    const response = await fetch(`${website}/api/export?room=${option.room}&start=${option.start}&end=${option.end}`, {
+    let response = await fetch(`${website}/api/export?room=${option.room}&start=${option.start}&end=${option.end}`, {
         method: 'GET',
         headers: new Headers({
             'Authorization': `Bearer ${option.session.accessToken}`
         })
     }).then((r) => { return r.json() });
+
+    if (response?.data?.length == 0) {
+        response = {
+            error: { code: "errUserNoData", message: "No data during provided period." }
+        }
+    }
 
     if (!response?.error) {
         let options = {

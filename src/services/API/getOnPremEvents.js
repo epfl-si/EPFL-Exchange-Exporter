@@ -167,7 +167,7 @@ export default async (params) => {
 
     // Check if the request return 0 events
     if (data["$"].TotalItemsInView == 0) {
-      return { error: { code: "errUserNoData", message: "No data during provided period." } }
+      return { data: [] }
     }
 
 
