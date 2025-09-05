@@ -81,6 +81,9 @@
       "parameters":{
         "title": "Parameters"
       },
+      "headers":{
+        "title": "Headers"
+      },
       "console":{
         "title": "Console",
         "table":{
@@ -98,15 +101,19 @@
             "params":{
               "room":{
                 "title": "room",
-                "explanation": "The field `room` is a {type} in a {format} format. This field correspond to the email address's room which you want to export reservations, with {acceptedSynthax} as suffix."
+                "explanation": "The field {name} is a {type} in a {format} format. This field correspond to the email address's room which you want to export reservations, with {acceptedSynthax} as suffix."
               },
               "start":{
                 "title": "start",
-                "explanation": "The field `start` is a {type} in a {format} format. This field correspond to the begin of the period of event extraction, with {acceptedSynthax} as suffix."
+                "explanation": "The field {name} is a {type} in a {format} format. This field correspond to the begin of the period of event extraction, with {acceptedSynthax} as suffix."
               },
               "end":{
                 "title": "end",
-                "explanation": "The field `end` is a {type} in a {format} format. This field correspond to the end of the period of event extraction, with {acceptedSynthax} as suffix."
+                "explanation": "The field {name} is a {type} in a {format} format. This field correspond to the end of the period of event extraction, with {acceptedSynthax} as suffix."
+              },
+              "authorization":{
+                "title": "Authorization",
+                "explanation": "The field {name} is a {type} in a {format} format. This field correspond to your accessToken, started with {acceptedSynthax}. This field is required only if you call this endpoint outside this web browser where you're connected to this page."
               }
             }
           }

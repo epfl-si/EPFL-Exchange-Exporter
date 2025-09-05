@@ -41,6 +41,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
     const [params, setParams] = useState([]);
     const [endpointUrl, setEndpointUrl] = useState("/export?room=inn011@epfl.ch&start=2025-07-01&end=2025-07-11");
     const [paramsKeyValue, setParamsKeyValue] = useState([]);
+    const [headersKeyValue, setHeadersKeyValue] = useState([]);
     const [website, setWebsite] = useState("");
     const [id, setId] = useState("");
     const [separatorId, setSeparatorId] = useState("_");
@@ -53,6 +54,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
         const paramsKeyValue = [...ep.endpoint.matchAll(/={(.*?)}/gm)].map((entry) => ({"label": entry[1], "origin": entry[0].replace("=", ""), "value": ""}));
         setParams(params);
         setParamsKeyValue(ep.params.values.map(p => ({...p, value: ""})));
+        setHeadersKeyValue(ep.headers.values.map(h => ({...h, value: ""})));
         setWebsite(`${window.location.protocol}//${window.location.host}`);
         setId(`${endpoint.endpoint.slice(1).replaceAll("/", "-")}${separatorId}${ep.method}`);
         // for (let i = 0; i < 50; i++){
@@ -113,7 +115,25 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                                             paramsKeyValue.map(p => {
                                                 return (
                                                     // <span key={p.key}>{p.key}</span>
-                                                    <DocsParamsExplanation key={p.key} params={p} translationHandler={translationHandler} paramsTranslationPath={`${endpointTranslationPath}.${endpoint.endpoint}.${ep.method}`}/>
+                                                    <DocsParamsExplanation key={p.key} params={p} translationHandler={translationHandler} paramsTranslationPath={`${endpointTranslationPath}.${endpoint.endpoint}.${ep.method}`} color={getMethodStyle(ep.method, 35)} />
+                                                )
+                                            })
+                                        :
+                                            <></>
+                                    }
+                                </div>
+                    </section>
+                    <section>
+                        <h4 className="bg-white bg-opacity-70 p-3 font-bold shadow-[0_1px_2px_#0000001a]">
+                            {translationHandler("headers.title")}
+                                </h4>
+                                <div>
+                                    {
+                                        headersKeyValue ?
+                                            headersKeyValue.map(h => {
+                                                return (
+                                                    // <span key={p.key}>{p.key}</span>
+                                                    <DocsParamsExplanation key={h.key} params={h} translationHandler={translationHandler} paramsTranslationPath={`${endpointTranslationPath}.${endpoint.endpoint}.${ep.method}`}/>
                                                 )
                                             })
                                         :

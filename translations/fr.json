@@ -81,6 +81,9 @@
       "parameters":{
         "title": "Paramètres"
       },
+      "headers":{
+        "title": "En-tête"
+      },
       "console":{
         "title": "Terminal",
         "table":{
@@ -98,15 +101,19 @@
             "params":{
               "room":{
                 "title": "salle",
-                "explanation": "Le champ `room` est un {type} dans le format {format}. Ce champ correspond à l'adresse email de la salle dont vous souhaite y exporter les réservations, avec comme suffixe {acceptedSynthax}."
+                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à l'adresse email de la salle dont vous souhaite y exporter les réservations, avec comme suffixe {acceptedSynthax}."
               },
               "start":{
                 "title": "début",
-                "explanation": "Le champ `start` est un {type} dans le format {format}. Ce champ correspond à la date de début de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
+                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à la date de début de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
               },
               "end":{
                 "title": "fin",
-                "explanation": "Le champ `end` est un {type} dans le format {format}. Ce champ correspond à la date de fin de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
+                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à la date de fin de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
+              },
+              "authorization":{
+                "title": "Authorization",
+                "explanation": "Le champ {name} est un {type}. Ce champ correspond à votre accessToken, commençant par {acceptedSynthax}. Ce champ n'est obligatoire que si vous effectuez une requête autre que depuis ce navigateur où vous êtes connecté."
               }
             }
           }

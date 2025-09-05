@@ -62,6 +62,20 @@
                 ]
               }
             ]
+          },
+          "headers":{
+            "values":[
+              {
+                "key": "authorization",
+                "name": "Authorization",
+                "placeholder": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSU...",
+                "required": "true",
+                "type": "string",
+                "acceptedSynthax": [
+                  "ey"
+                ]
+              }
+            ]
           }
         }
       ],

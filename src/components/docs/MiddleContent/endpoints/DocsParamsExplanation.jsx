@@ -1,4 +1,4 @@
-export default ({ params, translationHandler, paramsTranslationPath }) => {
+export default ({ params, translationHandler, paramsTranslationPath, color }) => {
     let translationPath = `${paramsTranslationPath}.params.${params.key}`;
     return (
         <div className="m-2">
@@ -11,9 +11,10 @@ export default ({ params, translationHandler, paramsTranslationPath }) => {
                     {
                         type: params.type,
                         format: params.format,
+                        name: <span className="font-bold" key={params.key}>{ params.name }</span>,
                         acceptedSynthax:params.acceptedSynthax.map(
                             (synthax, index) =>
-                                <span key={synthax}><span className="border border-red-700 p-[2px] rounded-lg bg-red-700 bg-opacity-50">{synthax}</span><span>{index == params.acceptedSynthax.length - 1 || params.acceptedSynthax.length <= 1 ?
+                                <span key={synthax}><span style={{ '--custom-bg-color': color }} className="border border-[var(--custom-bg-color)] p-[2px] rounded-lg bg-[var(--custom-bg-color)] bg-opacity-50">{synthax}</span><span>{index == params.acceptedSynthax.length - 1 || params.acceptedSynthax.length <= 1 ?
                                 "" :
                                 index == params.acceptedSynthax.length - 2 ?
                                     " and " :
