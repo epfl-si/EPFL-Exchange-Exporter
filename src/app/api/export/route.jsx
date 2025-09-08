@@ -11,7 +11,7 @@ export async function GET(request) {
   const searchParamsReq = request.nextUrl.searchParams;
   const headersReq = await headers();
 
-  const missingArgs = checkArgsMissing(searchParamsReq, ["room", "start", "end"]);
+  const missingArgs = checkArgsMissing(searchParamsReq, ["ressource", "start", "end"]);
   if (missingArgs.state == "error") {
     return NextResponse.json(missingArgs.value);
   }
@@ -33,7 +33,7 @@ export async function GET(request) {
   }
 
   let option = {
-    room: searchParamsReq.get("room"),
+    ressource: searchParamsReq.get("ressource"),
     start: searchParamsReq.get("start"),
     end: searchParamsReq.get("end"),
     ...(headersReq.has("Authorization")) && {accessToken: headersReq.get("Authorization").replace("Bearer ", "")},

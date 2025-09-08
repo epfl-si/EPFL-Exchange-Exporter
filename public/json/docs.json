@@ -22,15 +22,15 @@
       "values": [
         {
           "method": "GET",
-          "endpoint": "?room={room}&start={start}&end={end}",
+          "endpoint": "?ressource={ressource}&start={start}&end={end}",
           "isOpen": "true",
           "params": {
             "open": "{",
             "close": "}",
             "values": [
               {
-                "key": "room",
-                "name": "room",
+                "key": "ressource",
+                "name": "ressource",
                 "placeholder": "example@epfl.ch",
                 "required": "true",
                 "type": "string",

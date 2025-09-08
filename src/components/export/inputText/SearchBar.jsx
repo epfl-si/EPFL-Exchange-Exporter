@@ -10,17 +10,17 @@ import { useMediaQuery } from "react-responsive";
 
 export default ({value, setter, placeholder, user, authSession, required=false}) =>{
 
-    const [roomList, setRoomList] = useState([]);
+    const [ressourceList, setRessourceList] = useState([]);
 
 
     useEffect(()=>{
-        const getRooms = async()=>{
+        const getRessources = async()=>{
             let response = await fetch(`/api/getEmailAddresses`, {
                 method: 'get'
             }).then((r) => { return r.json() });
-            setRoomList(response ? response.data.map(room => room.address) : ["no data"]);
+            setRessourceList(response ? response.data.map(ressource => ressource.address) : ["no data"]);
         }
-        getRooms();
+        getRessources();
     }, [])
 
     const [propals, setPropals] = useState([]);
@@ -33,9 +33,9 @@ export default ({value, setter, placeholder, user, authSession, required=false})
         let maxPropals = 4;
         setPropals(
             param != "" ?
-                roomList.filter((d) => textRefactor(d).includes(textRefactor(param))).length == 1 && textRefactor(roomList.filter((d) => textRefactor(d).includes(textRefactor(param)))[0]).length == textRefactor(param).length ?
+                ressourceList.filter((d) => textRefactor(d).includes(textRefactor(param))).length == 1 && textRefactor(ressourceList.filter((d) => textRefactor(d).includes(textRefactor(param)))[0]).length == textRefactor(param).length ?
                 []
-                : roomList.filter((d) => textRefactor(d).includes(textRefactor(param))).sort((a,b)=> textRefactor(b) < textRefactor(a)).sort((a, b)=> orderFirstLetter(textRefactor(a), textRefactor(b), textRefactor(param))).slice(0,maxPropals)
+                : ressourceList.filter((d) => textRefactor(d).includes(textRefactor(param))).sort((a,b)=> textRefactor(b) < textRefactor(a)).sort((a, b)=> orderFirstLetter(textRefactor(a), textRefactor(b), textRefactor(param))).slice(0,maxPropals)
             : []
         )
     }
@@ -52,7 +52,7 @@ export default ({value, setter, placeholder, user, authSession, required=false})
     return (
             <div className="group flex flex-col justify-center relative w-full">
                 <InputText
-                    id="floating_outlined_room"
+                    id="floating_outlined_ressource"
                     type="email"
                     pattern=".+@epfl\.ch"
                     title="example@epfl.ch"

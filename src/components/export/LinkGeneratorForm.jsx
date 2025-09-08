@@ -14,8 +14,8 @@ export default ({setPopupOpen, data}) =>{
 
     const checkIfWanted = (key)=>{
         switch(key){
-            case "room":
-                return wantedRoom;
+            case "ressource":
+                return wantedRessource;
             case "start":
             case "end":
                 return wantedPeriod;
@@ -28,7 +28,7 @@ export default ({setPopupOpen, data}) =>{
     }
 
     const [isAutoDownload, setIsAutoDownload] = useState(false);
-    const [wantedRoom, setWantedRoom] = useState(true);
+    const [wantedRessource, setWantedRessource] = useState(true);
     const [wantedPeriod, setWantedPeriod] = useState(true);
     const [wantedFilename, setWantedFilename] = useState(true);
     const [wantedExtension, setWantedExtension] = useState(true);
@@ -43,11 +43,11 @@ export default ({setPopupOpen, data}) =>{
 
     const selectValues = [
         {
-            id: "room",
-            name: translationHandler("room"),
-            disabledCondition: !data.room,
-            value: wantedRoom,
-            setter: setWantedRoom
+            id: "ressource",
+            name: translationHandler("ressource"),
+            disabledCondition: !data.ressource,
+            value: wantedRessource,
+            setter: setWantedRessource
         },
         {
             id: "period",
@@ -73,7 +73,7 @@ export default ({setPopupOpen, data}) =>{
         {
             id: "download",
             name: translationHandler("autoDownload"),
-            disabledCondition: !wantedRoom,
+            disabledCondition: !wantedRessource,
             value: isAutoDownload,
             setter: setIsAutoDownload
         },
@@ -82,12 +82,12 @@ export default ({setPopupOpen, data}) =>{
     //Handler to reset checkbox of auto download if one of other checkbox is missing.
     useEffect(()=>{
         setLink(createLink());
-        setWantedRoom(wantedRoom && !selectValues.filter((x)=> x.id=="room")[0].disabledCondition)
+        setWantedRessource(wantedRessource && !selectValues.filter((x)=> x.id=="ressource")[0].disabledCondition)
         setWantedPeriod(wantedPeriod && !selectValues.filter((x)=> x.id=="period")[0].disabledCondition)
         setWantedFilename(wantedFilename && !selectValues.filter((x)=> x.id=="filename")[0].disabledCondition)
         setWantedExtension(wantedExtension && !selectValues.filter((x)=> x.id=="extension")[0].disabledCondition)
         setIsAutoDownload(isAutoDownload && !selectValues.filter((x)=> x.id=="download")[0].disabledCondition)
-    },[wantedRoom, wantedPeriod, wantedFilename, wantedExtension, isAutoDownload])
+    },[wantedRessource, wantedPeriod, wantedFilename, wantedExtension, isAutoDownload])
 
 
     useEffect(()=>{

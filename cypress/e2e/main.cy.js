@@ -1,7 +1,7 @@
 const describeTestAuthAndBeforeAuth = require('./func/Disconnected/Auth/Describe/testAuthAndBeforeAuth')
 const itTestLinkGenerator = require('./func/Connected/Form/Button/LinkGenerator/It/testLinkGenerator')
 const itTestReset = require('./func/Connected/Form/Button/Reset/It/testReset')
-const describeTestRoom = require('./func/Connected/Form/Room/Describe/testRoom')
+const describeTestRessource = require('./func/Connected/Form/Ressource/Describe/testRessource')
 const describeTestDate = require('./func/Connected/Form/Date/Describe/testDate')
 const describeTestFilename = require('./func/Connected/Form/Filename/Describe/testFilename')
 const describeTestExtension = require('./func/Connected/Form/Extension/Describe/testExtension')
@@ -44,8 +44,8 @@ describe('Welcome page connected (form)', () => {
     cy.url({ decode: true }).should('contain', Cypress.env("SITE_NAME"))
   })
 
-  it('Check default values : room', () => {
-    cy.get("input#floating_outlined_room").then(val => expect(val).to.be.empty)
+  it('Check default values : ressource', () => {
+    cy.get("input#floating_outlined_ressource").then(val => expect(val).to.be.empty)
   })
 
   it('Check default values : date', () => {
@@ -83,7 +83,7 @@ describe('Welcome page connected (filling form and url test)', () => {
     })
   })
 
-  describeTestRoom()
+  describeTestRessource()
   describeTestDate()
   describeTestFilename()
   describeTestExtension()

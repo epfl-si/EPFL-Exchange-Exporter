@@ -2,7 +2,7 @@ export default () => {
   describe('Field : Extension', () => {
     beforeEach(() => {
       //Write correct syntax email address
-      cy.get("input#floating_outlined_room").type("aaa@epfl.ch");
+      cy.get("input#floating_outlined_ressource").type("aaa@epfl.ch");
 
       //Write correct date
       cy.get("input#datepickerInput").click();

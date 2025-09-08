@@ -17,11 +17,11 @@ const APICall = async (request, token, type='get', body, contentType) => {
 }
 
 const getEvents = async (params) => {
-  const { room, start, end, session, accessToken } = params;
+  const { ressource, start, end, session, accessToken } = params;
 
   const token = accessToken || session.accessToken;
 
-  let request = `https://graph.microsoft.com/v1.0/users/${room || session.user.email}/calendarView?startDateTime=${start}&endDateTime=${end}&select=subject,organizer,start,end&top=1000`;
+  let request = `https://graph.microsoft.com/v1.0/users/${ressource || session.user.email}/calendarView?startDateTime=${start}&endDateTime=${end}&select=subject,organizer,start,end&top=1000`;
 
   // let response = await fetch(request, {
   //   method: 'get',
@@ -55,7 +55,7 @@ export const getEchangeEventsBusy = async(option) => {
   const request = 'https://graph.microsoft.com/v1.0/me/calendar/getSchedule';
   const token = option.accessToken || option.session.accessToken;
   let body = {
-    "schedules": [option.room],
+    "schedules": [option.ressource],
     "startTime": {
       "dateTime": `${option.start}T00:00:00`,
       "timeZone": "W. Europe Standard Time"
@@ -73,7 +73,7 @@ export const getEchangeEventsBusy = async(option) => {
       debut: d.start.dateTime,
       fin: d.end.dateTime,
       raison: d.status,
-      email: option.room,
+      email: option.ressource,
     }
   ));
   return { data: data };

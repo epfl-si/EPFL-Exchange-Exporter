@@ -67,13 +67,13 @@ const downloadFile = async(data) =>{
     let { authSession, filename, extension, startDate, endDate, userSearch, setIsLoading, website } = data;
 
     const option = {
-        room: userSearch,
+        ressource: userSearch,
         start: startDate,
         end: endDate,
         session: authSession
     }
     // const response = await getEvents(option);
-    let response = await fetch(`${website}/api/export?room=${option.room}&start=${option.start}&end=${option.end}`, {
+    let response = await fetch(`${website}/api/export?ressource=${option.ressource}&start=${option.start}&end=${option.end}`, {
         method: 'GET',
         headers: new Headers({
             'Authorization': `Bearer ${option.session.accessToken}`

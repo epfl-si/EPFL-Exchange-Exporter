@@ -69,7 +69,7 @@ export default ({authSession}) => {
 
   const checkIfWanted = (key)=>{
     switch(key){
-        case "room":
+        case "ressource":
             return userSearch;
         case "start":
           return startDate;
@@ -110,7 +110,7 @@ export default ({authSession}) => {
 
     //redefine link
     let data = {
-      room: userSearch,
+      ressource: userSearch,
       start: startDate ? startD : startDate,
       end: endDate ? endD : endDate,
       filename: fileName,
@@ -124,7 +124,7 @@ export default ({authSession}) => {
   useEffect(()=>{
     let startDate = searchParams.get("start");
     let endDate = searchParams.get("end");
-    let room = searchParams.get("room");
+    let ressource = searchParams.get("ressource");
     let filename = searchParams.get("filename");
     let extension = searchParams.get("extension");
 
@@ -145,8 +145,8 @@ export default ({authSession}) => {
       setEndDate(endDate);
     }
 
-    if (room){
-      setUserSearch(room);
+    if (ressource){
+      setUserSearch(ressource);
     }
 
     if (filename){
@@ -217,7 +217,7 @@ export default ({authSession}) => {
       className="flex flex-col m-auto bg-[#EEEEEE] p-10 gap-10 rounded-xl">
 
         <div className="flex justify-center">
-          <SearchBar value={userSearch} setter={setUserSearch} placeholder={translationHandler("room")} user={authSession?.user?.email || ""} authSession={authSession} required={true}/>
+          <SearchBar value={userSearch} setter={setUserSearch} placeholder={translationHandler("ressource")} user={authSession?.user?.email || ""} authSession={authSession} required={true}/>
         </div>
 
         <div>
@@ -241,7 +241,7 @@ export default ({authSession}) => {
           isMobile ?
           // <div className={`grid w-full gap-6 grid-cols-[auto_65%_auto] ${isMobile ? "[&>*]:size-10 [&>*]:p-0 [&>*]:m-auto [&>*]:justify-center" : ""}`}>
           <div className={`grid w-full grid-cols-[auto_65%_auto] gap-2`}>
-            <LinkGeneratorButton label={translationHandler("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
+            <LinkGeneratorButton label={translationHandler("linkGenerator")} data={{ressource: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
             <ExportDownloadButton ref={downloadButtonRef} isLastMissing={userSearch && startDate && endDate && fileName} isClickedSetter={setIsClicked} label={translationHandler("download")}/>
             <ExportResetButton
             label={translationHandler("reset")}
@@ -267,7 +267,7 @@ export default ({authSession}) => {
             :
             <>
               <div className={`grid w-full gap-6 grid-cols-2 ${isMobile ? "[&>*]:size-10 [&>*]:p-0 [&>*]:m-auto [&>*]:justify-center" : ""}`}>
-                <LinkGeneratorButton label={translationHandler("linkGenerator")} data={{room: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
+                <LinkGeneratorButton label={translationHandler("linkGenerator")} data={{ressource: userSearch, start: startDate ? dayjs(startDate).format("YYYY-MM-DD") : "", end: endDate ? dayjs(endDate).format("YYYY-MM-DD") : "", filename: fileName, extension: exportExt}}/>
                 <ExportResetButton
                 label={translationHandler("reset")}
                 setter={(val)=>{setAlertboxChoices(val); setIsCheck(true)}}

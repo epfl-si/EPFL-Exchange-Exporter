@@ -1,12 +1,12 @@
 {
   "HomePage": {
     "eeee-title": "Qu'est-ce que le EEEE ?",
-    "eeee-paragraph": "EEEE est l'abrévation de EPFL Exchange Events Exporter. Cette application est utilisée afin de retourner tous les évènements de calendrier des salles de conférence, à l'intérieur d'un fichier de donnée tels qu'un csv, json...",
+    "eeee-paragraph": "EEEE est l'abrévation de EPFL Exchange Events Exporter. Cette application est utilisée afin de retourner tous les évènements de calendrier des ressources de conférence, à l'intérieur d'un fichier de donnée tels qu'un csv, json...",
     "guid-title": "Comment l'utiliser ?",
     "guid-paragraph": "Pour l'utiliser, tu dois tout d'abord te connecter à ton compte microsoft @epfl, et ensuite, remplir le formulaire d'exportation"
   },
   "Form": {
-    "room": "Email de salle",
+    "ressource": "Email de ressource",
     "start": "Début",
     "period": "Période",
     "end": "Fin",
@@ -97,11 +97,11 @@
       "endpoints":{
         "/export":{
           "GET":{
-            "title": "Obtenir les réservations d'une salle dans la période donnée",
+            "title": "Obtenir les réservations d'une ressource dans la période donnée",
             "params":{
-              "room":{
-                "title": "salle",
-                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à l'adresse email de la salle dont vous souhaite y exporter les réservations, avec comme suffixe {acceptedSynthax}."
+              "ressource":{
+                "title": "ressource",
+                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à l'adresse email de la ressource dont vous souhaite y exporter les réservations, avec comme suffixe {acceptedSynthax}."
               },
               "start":{
                 "title": "début",

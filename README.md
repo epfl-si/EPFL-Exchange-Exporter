@@ -2,7 +2,7 @@
 
 ## What is EEEE ?
 
-EEEE stand for EPFL Exchange Events Exporter. This app is used to return all calendars event of conference room, inside a data file as csv, json...
+EEEE stand for EPFL Exchange Events Exporter. This app is used to return all calendars event of ressources (conference room, materials..), inside a data file as csv, json...
 
 ## What does technologies uses ?
 
