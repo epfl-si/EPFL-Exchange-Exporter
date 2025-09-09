@@ -39,7 +39,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
     const [code, setCode] = useState(`{"message" : "${translationHandler("return.placeholder")}"}`);
     const [isLoading, setIsLoading] = useState(false);
     const [params, setParams] = useState([]);
-    const [endpointUrl, setEndpointUrl] = useState("/export?ressource=inn011@epfl.ch&start=2025-07-01&end=2025-07-11");
+    const [endpointUrl, setEndpointUrl] = useState("/export");
     const [paramsKeyValue, setParamsKeyValue] = useState([]);
     const [headersKeyValue, setHeadersKeyValue] = useState([]);
     const [website, setWebsite] = useState("");
