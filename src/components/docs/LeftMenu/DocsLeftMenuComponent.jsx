@@ -41,7 +41,7 @@ export default ({ doc, data, color }) => {
                     case "errors":
                         return(
                             <>
-                                <ol className="max-w-full break-words ml-6 fixed">
+                                <ol className="max-w-full break-words ml-6 fixed justify-center">
                                 {
                                     data.map(err => {
                                     return (
@@ -56,7 +56,7 @@ export default ({ doc, data, color }) => {
                         )
                     default:
                         return (
-                            <ol className="max-w-full break-words ml-6 fixed">
+                            <ol className="max-w-full break-words ml-6 fixed justify-center">
                             {
                                 data.map(endpoint => {
                                 return (

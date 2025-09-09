@@ -129,37 +129,27 @@
         "errCredentials":{
           "title": "Connection not etablished",
           "message": "Authentication error, please connecting you to your account.",
-          "explanation": "This error may occured when credentials is wrong or is missing. Credentials could be a username (email) and password or simply an accessToken from Graph API."
+          "explanation": "This error may occurs when credentials is wrong or is missing. Credentials could be a username (email) and password or simply an accessToken from Graph API."
         },
         "errParameters":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
+          "title": "Parameters error",
+          "message": "Arguments error, please check `parameter name` parameters and try again.",
+          "explanation": "This error occurs when parameters in the request is missing or don't respect type / synthax."
         },
         "errTooMuchData":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
-        },
-        "errNoData":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
-        },
-        "errUserNoData":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
+          "title": "Too much data",
+          "message": "Your request can't be completed. The range between the start and end dates contains more events that the API can manage. `quantity` are returned and the max is 1000",
+          "explanation": "This error occurs when the range between your start date and end date contains more than 1000 events."
         },
         "errUserAccessMissing":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
+          "title": "Missing rights",
+          "message": "`Unpredictable, error returned by EWS API`",
+          "explanation": "This error occurs when you don't have the rights to access the requested ressource."
         },
         "errEWSRequest":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
+          "title": "EWS request errors",
+          "message": "`Unpredictable, error returned by EWS API`",
+          "explanation": "Error returned by EWS API, please refer to official EWS documentations."
         }
       }
     }

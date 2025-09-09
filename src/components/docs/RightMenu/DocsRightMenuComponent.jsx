@@ -11,7 +11,7 @@ export default ({ doc, color }) => {
     const [allDocs, setAllDocs] = useState(data.documentations);
 
     return (
-        <div className="hidden sm:block">
+        <div className="hidden sm:flex sm:justify-center">
             <div className="fixed">
                 <span>{translationHandler("title")}</span>
                 <ol>

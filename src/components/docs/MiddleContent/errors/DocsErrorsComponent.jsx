@@ -2,11 +2,11 @@ import Link from "next/link";
 
 export default ({ errors, translationHandler }) => {
     return (
-        <div>
+        <div className="pl-8 pr-8 border-l-2 border-r-2 border-black border-opacity-20">
         {
-            errors.map(err => {
+            errors.map((err, index) => {
                 return (
-                    <div key={err.code} ref={err.ref}>
+                    <div key={err.code} ref={err.ref} className={index != errors.length - 1 ? "border-b-2 mb-2" : ""}>
                         <Link id={err.code} className="font-bold text-2xl hover:after:content-['_#'] hover:cursor-pointer my-4 hover:underline" href={`#${err.code}`}>{err.code}</Link>
                         <div className="m-4">
                             <h4 className="text-xl font-bold italic">{translationHandler(`errors.title`)}</h4>

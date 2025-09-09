@@ -84,11 +84,9 @@
   ],
   "errors":[
     {"code": "errCredentials", "categories": "connection"},
+    {"code": "errEWSRequest", "categories": "ews"},
     {"code": "errParameters", "categories": "request"},
     {"code": "errTooMuchData", "categories": "data"},
-    {"code": "errNoData", "categories": "data"},
-    {"code": "errUserNoData", "categories": "data"},
-    {"code": "errUserAccessMissing", "categories": "rights"},
-    {"code": "errEWSRequest", "categories": "ews"}
+    {"code": "errUserAccessMissing", "categories": "rights"}
   ]
 }

@@ -101,14 +101,14 @@
             "params":{
               "ressource":{
                 "title": "ressource",
-                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à l'adresse email de la ressource dont vous souhaite y exporter les réservations, avec comme suffixe {acceptedSynthax}."
+                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à l'adresse email de la ressource dont vous souhaitez y exporter les réservations, avec comme suffixe {acceptedSynthax}."
               },
               "start":{
-                "title": "début",
+                "title": "start",
                 "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à la date de début de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
               },
               "end":{
-                "title": "fin",
+                "title": "end",
                 "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à la date de fin de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
               },
               "authorization":{
@@ -132,34 +132,24 @@
           "explanation": "Cette erreur peut survenir quand les informations d'authentification sont manquantes ou erronées. Les informations d'authentifications peuvent être  le nom d'utilisateur (email) et le mot de passe, ou simplement l'accessToken provenant de Graph API."
         },
         "errParameters":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
+          "title": "Paramètres erreur",
+          "message": "Erreur d'arguments, Veillez à vérifier le paramètre `nom du paramètre` et réessayer.",
+          "explanation": "Cette erreur survint lorsqu'un paramètres de la requête est manquants ou bien lorsqu'il est incorrect."
         },
         "errTooMuchData":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
-        },
-        "errNoData":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
-        },
-        "errUserNoData":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
+          "title": "Trop de données",
+          "message": "Votre requête n'a pas pu être complétée. La période entre la date de début et la date de fin contiens plus d'évènements que l'API peut gérer. `quantité` ont été retournés, et 1000 est le maximum.",
+          "explanation": "Cette erreur survint lorsque la requête demandée demande un nombre de ressource trop élevé pour l'API EWS / Graph, et elle ne peut donc pas retourner les infos, ce qui retourne cette erreur."
         },
         "errUserAccessMissing":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
+          "title": "Droits utilisateur manquant",
+          "message": "`Imprévisible, erreur retournée par l'API EWS`",
+          "explanation": "Cette erreur survint lorsque vous ne possédez pas les droits requis pour accéder à la ressource demandée."
         },
         "errEWSRequest":{
-          "title": "WIP",
-          "message": "WIP",
-          "explanation": "WIP"
+          "title": "Erreur de requête EWS",
+          "message": "`Imprévisible, erreur retournée par l'API EWS`",
+          "explanation": "Cette erreur survint lorsqu'une erreur est retournée par EWS. Veuillez vous basez sur leur documentation afin d'obtenir de plus claires informations."
         }
       }
     }
