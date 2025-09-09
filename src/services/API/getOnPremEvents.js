@@ -88,9 +88,10 @@ const getCalendarItems = async (items) => {
     return obj;
   }, {})
 
-
+  console.log(items)
+  console.log(items.length)
   items = formateEWSJSONResult(items
-    .map(d => !idArray.includes(d["t:ItemId"][0]["$"].Id) ? ({ ...d, ["t:Organizer"]: d["t:Organizer"].map(x => ({ ...x, ["t:Mailbox"]: x["t:Mailbox"].map((d2 => ({ ...d2, "t:EmailAddress": ["private email"] }))) })), "t:Subject": ["private subject"] }) : itemsNormalObject[d["t:ItemId"][0]["$"].Id] )
+    .map(d => !idArray.includes(d["t:ItemId"][0]["$"].Id) ? ({ ...d, ["t:Organizer"]: ( d["t:Organizer"] ? d["t:Organizer"].map(x => ({ ...x, ["t:Mailbox"]: x["t:Mailbox"].map((d2 => ({ ...d2, "t:EmailAddress": ["private email"] }))) })) : [{"t:Mailbox":[{"t:EmailAddress": ["private email"]}]}]), "t:Subject": ["private subject"] }) : itemsNormalObject[d["t:ItemId"][0]["$"].Id] )
     .map((d) => Object.keys(d)
       .filter((x) => { return !["itemid"].includes(x.replace("t:", "").toLowerCase()) })
       .reduce((obj, key) => {
