@@ -1,0 +1,23 @@
+name: Add votes to issue
+on:
+  issues:
+    types:
+      - opened
+jobs:
+  add_emoji:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          gh api \
+            -X POST \
+            $ISSUE_URL/reactions \
+            -f content='+1' \
+            -H "Accept: application/vnd.github+json"
+          gh api \
+            -X POST \
+            $ISSUE_URL/reactions \
+            -f content='-1' \
+            -H "Accept: application/vnd.github+json"
