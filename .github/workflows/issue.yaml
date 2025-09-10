@@ -7,7 +7,14 @@ jobs:
   add_emoji:
     runs-on: ubuntu-latest
     steps:
-      - env:
+      - name: Checkout (if needed)
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub CLI
+        uses: cli/cli-action@v2
+
+      - name: Add 👍 and 👎 reaction to the issue
+        env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
         run: |
