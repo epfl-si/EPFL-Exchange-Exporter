@@ -59,7 +59,11 @@ export async function GET(request) {
   data = Object.keys(data).includes("error") ?
     {
       status: "fail",
-      ...data
+      error: {
+        ...data.error,
+        url: `${headersReq.get('X-Forwarded-Proto')}://${headersReq.get('host')}/docs/api/errors#${data.error.code}`,
+      },
+      ...data.error = ""
     }
     :
     {
