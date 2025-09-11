@@ -42,17 +42,30 @@ export async function GET(request) {
 
   const isArgsCorrect = checkArgsValidity(option);
 
+  let data = {};
+
   if (!isArgsCorrect.state) {
-    const error = {
+    data = {
       error: {
         code: "errParameters",
         message: `Arguments error, please check '${isArgsCorrect.cause}' parameters and try again.`
       }
     }
-    return NextResponse.json(error);
+  }
+  else {
+    data = await getEvents(option);
   }
 
-  const data = await getEvents(option);
+  data = Object.keys(data).includes("error") ?
+    {
+      status: "fail",
+      ...data
+    }
+    :
+    {
+      status: "success",
+      ...data
+    };
 
   return NextResponse.json(data);
 }
