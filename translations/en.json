@@ -149,7 +149,12 @@
         "errEWSRequest":{
           "title": "EWS request errors",
           "message": "`Unpredictable, error returned by EWS API`",
-          "explanation": "Error returned by EWS API, please refer to official EWS documentations."
+          "explanation": "This error occurs when error is returned by EWS API. Please refer to official EWS documentations."
+        },
+        "errInvalidUser":{
+          "title": "Ressource error",
+          "message": "The requested user `ressource` is invalid.",
+          "explanation": "This error occurs when requested ressource doesn't exist or is wrong."
         }
       }
     }

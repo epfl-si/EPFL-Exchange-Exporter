@@ -150,6 +150,11 @@
           "title": "Erreur de requête EWS",
           "message": "`Imprévisible, erreur retournée par l'API EWS`",
           "explanation": "Cette erreur survint lorsqu'une erreur est retournée par EWS. Veuillez vous basez sur leur documentation afin d'obtenir de plus claires informations."
+        },
+        "errInvalidUser":{
+          "title": "Erreur de ressource",
+          "message": "L'utilisateur demandé `ressource` est invalide.",
+          "explanation": "Cette erreur survint lorsque la ressource demandée n'existe pas ou est incorrecte."
         }
       }
     }

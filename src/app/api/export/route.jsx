@@ -56,6 +56,10 @@ export async function GET(request) {
     data = await getEvents(option);
   }
 
+  if (data.error.code == "ErrorInvalidUser") {
+    data.error.code = "errInvalidUser";
+  }
+
   data = Object.keys(data).includes("error") ?
     {
       status: "fail",
