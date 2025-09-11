@@ -10,21 +10,18 @@ jobs:
       - name: Checkout (if needed)
         uses: actions/checkout@v4
 
-      - name: Setup GitHub CLI
-        uses: cli/cli-action@v2
-
       - name: Add 👍 and 👎 reaction to the issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_URL: ${{ github.event.issue.url }}
         run: |
           gh api \
-            -X POST \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
             $ISSUE_URL/reactions \
-            -f content='+1' \
-            -H "Accept: application/vnd.github+json"
+            -f 'content=+1'
           gh api \
-            -X POST \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
             $ISSUE_URL/reactions \
-            -f content='-1' \
-            -H "Accept: application/vnd.github+json"
+            -f 'content=-1'
