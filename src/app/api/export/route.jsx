@@ -57,7 +57,8 @@ export async function GET(request) {
   }
 
   if (data.error.code == "ErrorInvalidUser") {
-    data.error.code = "errInvalidUser";
+    data.error.code = "errInvalidRessource";
+    data.error.message = data.error.message.replaceAll("user", "ressource");
   }
 
   data = Object.keys(data).includes("error") ?

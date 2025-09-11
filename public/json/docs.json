@@ -84,7 +84,7 @@
   ],
   "errors":[
     {"code": "errParameters", "categories": "request"},
-    {"code": "errInvalidUser", "categories": "request"},
+    {"code": "errInvalidRessource", "categories": "request"},
     {"code": "errCredentials", "categories": "connection"},
     {"code": "errEWSRequest", "categories": "ews"},
     {"code": "errTooMuchData", "categories": "data"},
