@@ -15,13 +15,15 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_URL: ${{ github.event.issue.url }}
         run: |
+          set +e
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             $ISSUE_URL/reactions \
-            -f 'content=+1'
+            -f 'content=+1' >/dev/null
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             $ISSUE_URL/reactions \
-            -f 'content=-1'
+            -f 'content=-1' >/dev/null
+          set -e
