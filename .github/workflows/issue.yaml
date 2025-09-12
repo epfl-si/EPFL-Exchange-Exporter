@@ -48,10 +48,10 @@ jobs:
           set +e
 
           echo "Get title of the issue"
-          echo "title=$(gh issue view $ISSUE_URL --json title)" >> $GITHUB_OUTPUT
+          title=$(gh issue view $ISSUE_URL --json title)
 
           echo "Get body of the issue"
-          echo "body=$(gh issue view $ISSUE_URL --json body)" >> $GITHUB_OUTPUT
+          body=$(gh issue view $ISSUE_URL --json body)
 
           if [[ ${title,,} = *"docs"* ]] || [[ ${title,,} = *"documentation"* ]] || \
           [[ ${body,,} = *"docs"* ]] || [[ ${body,,} = *"documentation"* ]]; then
@@ -70,7 +70,7 @@ jobs:
       - name: Assign me to the issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_URL: /repos/${{ github.event.issue.github.repository }}/issues/${{ github.event.issue.number }}/assignees
           GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
         run: |
           set +e
