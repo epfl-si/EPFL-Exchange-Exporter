@@ -68,3 +68,8 @@ After that, when all dependencies are installed, you can do  this command to run
 ```bash
 npm run dev
 ```
+
+# Icons used
+Icons used here comes from:
+- [LordIcon](https://lordicon.com/) (used for popup icons)
+- [Freepik](https://www.freepik.com/) (used for others icons)

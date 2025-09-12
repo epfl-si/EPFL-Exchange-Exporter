@@ -16,14 +16,74 @@ jobs:
           ISSUE_URL: ${{ github.event.issue.url }}
         run: |
           set +e
+
+          echo "Add 👍"
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             $ISSUE_URL/reactions \
             -f 'content=+1' >/dev/null
+
+          echo "Add 👎"
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             $ISSUE_URL/reactions \
             -f 'content=-1' >/dev/null
+
+          set -e
+
+  add_labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (if needed)
+        uses: actions/checkout@v4
+
+      - name: Add labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.url }}
+          ISSUE_ID: ${{ github.event.issue.id }}
+          GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
+        run: |
+          set +e
+
+          echo "Get title of the issue"
+          echo "title=$(gh issue view $ISSUE_ID --json title)" >> $GITHUB_OUTPUT
+
+          echo "Get body of the issue"
+          echo "body=$(gh issue view $ISSUE_ID --json body)" >> $GITHUB_OUTPUT
+
+          if [[ ${title,,} = *"docs"* ]] || [[ ${title,,} = *"documentation"* ]] || \
+          [[ ${body,,} = *"docs"* ]] || [[ ${body,,} = *"documentation"* ]]; then
+            echo "Add documentation tag"
+            gh issue edit $ISSUE_ID --add-label "documentation"
+          fi
+
+          set -e
+
+  assign_me:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (if needed)
+        uses: actions/checkout@v4
+
+      - name: Assign me to the issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.url }}
+          GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
+        run: |
+          set +e
+
+          echo "Add issue actor to assignees list if missing"
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            $ISSUE_URL/assignees \
+            --input - <<< '{
+            "assignees": [
+              $GH_ASSIGNED_TO
+            ] >/dev/null
+
           set -e
