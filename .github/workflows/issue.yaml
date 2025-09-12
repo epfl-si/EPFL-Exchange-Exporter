@@ -42,7 +42,7 @@ jobs:
       - name: Add labels
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_URL: ${{ github.event.issue.url }}
+          ISSUE_URL: ${{ github.event.issue.number }}
           GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
         run: |
           set +e
@@ -70,7 +70,7 @@ jobs:
       - name: Assign me to the issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_URL: ${{ github.event.issue.url }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
           GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
         run: |
           set +e
@@ -82,7 +82,7 @@ jobs:
             $ISSUE_URL/assignees \
             --input - <<< '{
             "assignees": [
-              $GH_ASSIGNED_TO
+              "$GH_ASSIGNED_TO"
             ]}' >/dev/null
 
           set -e
