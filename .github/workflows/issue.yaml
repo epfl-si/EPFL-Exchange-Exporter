@@ -59,6 +59,24 @@ jobs:
             gh issue edit $ISSUE_URL --add-label "documentation"
           fi
 
+          if [[ ${title,,} = *"error"* ]] || [[ ${title,,} = *"bug"* ]] || [[ ${title,,} = *"glitch"* ]] || \
+          [[ ${body,,} = *"error"* ]] || [[ ${body,,} = *"bug"* ]] || [[ ${body,,} = *"glitch"* ]]; then
+            echo "Add bug tag"
+            gh issue edit $ISSUE_URL --add-label "bug"
+          fi
+
+          if [[ ${title,,} = *"backend"* ]] || [[ ${title,,} = *"API"* ]] || [[ ${title,,} = *"server"* ]] || [[ ${title,,} = *"back-end"* ]] || \
+          [[ ${body,,} = *"backend"* ]] || [[ ${body,,} = *"API"* ]] || [[ ${body,,} = *"server"* ]] || [[ ${body,,} = *"back-end"* ]]; then
+            echo "Add API tag"
+            gh issue edit $ISSUE_URL --add-label "API"
+          fi
+
+          if [[ ${title,,} = *"page"* ]] || [[ ${title,,} = *"frontend"* ]] || [[ ${title,,} = *"UI"* ]] || [[ ${title,,} = *"UX"* ]] || [[ ${title,,} = *"front-end"* ]] || \
+          [[ ${body,,} = *"page"* ]] || [[ ${body,,} = *"frontend"* ]] || [[ ${body,,} = *"UI"* ]] || [[ ${body,,} = *"UX"* ]] || [[ ${body,,} = *"front-end"* ]]; then
+            echo "Add frontend tag"
+            gh issue edit $ISSUE_URL --add-label "frontend"
+          fi
+
           set -e
 
   assign_me:
