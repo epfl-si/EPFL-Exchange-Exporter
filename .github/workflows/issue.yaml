@@ -46,10 +46,10 @@ jobs:
           GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
         run: |
           echo "Get title of the issue"
-          title=$(gh issue view $ISSUE_NUMBER --json title)
+          title=$(gh issue view $ISSUE_NUMBER --json title | tr '[:upper:]' '[:lower:])
 
           echo "Get body of the issue"
-          body=$(gh issue view $ISSUE_NUMBER --json body)
+          body=$(gh issue view $ISSUE_NUMBER --json body | tr '[:upper:]' '[:lower:])
 
           if [[ ${title,,} = *"docs"* ]] || [[ ${title,,} = *"documentation"* ]] || \
           [[ ${body,,} = *"docs"* ]] || [[ ${body,,} = *"documentation"* ]]; then
@@ -63,14 +63,14 @@ jobs:
             gh issue edit $ISSUE_NUMBER --add-label "bug"
           fi
 
-          if [[ ${title,,} = *"backend"* ]] || [[ ${title,,} = *"API"* ]] || [[ ${title,,} = *"server"* ]] || [[ ${title,,} = *"back-end"* ]] || \
-          [[ ${body,,} = *"backend"* ]] || [[ ${body,,} = *"API"* ]] || [[ ${body,,} = *"server"* ]] || [[ ${body,,} = *"back-end"* ]]; then
+          if [[ ${title,,} = *"backend"* ]] || [[ ${title,,} = *"api"* ]] || [[ ${title,,} = *"server"* ]] || [[ ${title,,} = *"back-end"* ]] || \
+          [[ ${body,,} = *"backend"* ]] || [[ ${body,,} = *"api"* ]] || [[ ${body,,} = *"server"* ]] || [[ ${body,,} = *"back-end"* ]]; then
             echo "Add API tag"
             gh issue edit $ISSUE_NUMBER --add-label "API"
           fi
 
-          if [[ ${title,,} = *"page"* ]] || [[ ${title,,} = *"frontend"* ]] || [[ ${title,,} = *"UI"* ]] || [[ ${title,,} = *"UX"* ]] || [[ ${title,,} = *"front-end"* ]] || \
-          [[ ${body,,} = *"page"* ]] || [[ ${body,,} = *"frontend"* ]] || [[ ${body,,} = *"UI"* ]] || [[ ${body,,} = *"UX"* ]] || [[ ${body,,} = *"front-end"* ]]; then
+          if [[ ${title,,} = *"page"* ]] || [[ ${title,,} = *"frontend"* ]] || [[ ${title,,} = *"ui"* ]] || [[ ${title,,} = *"ux"* ]] || [[ ${title,,} = *"front-end"* ]] || \
+          [[ ${body,,} = *"page"* ]] || [[ ${body,,} = *"frontend"* ]] || [[ ${body,,} = *"ui"* ]] || [[ ${body,,} = *"ux"* ]] || [[ ${body,,} = *"front-end"* ]]; then
             echo "Add frontend tag"
             gh issue edit $ISSUE_NUMBER --add-label "Frontend"
           fi
