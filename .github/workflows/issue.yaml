@@ -13,7 +13,7 @@ jobs:
       - name: Add 👍 and 👎 reaction to the issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_URL: ${{ github.event.issue.url }}
+          ISSUE_NUMBER: ${{ github.event.issue.url }}
         run: |
           set +e
 
@@ -21,14 +21,14 @@ jobs:
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
-            $ISSUE_URL/reactions \
+            $ISSUE_NUMBER/reactions \
             -f 'content=+1' >/dev/null
 
           echo "Add 👎"
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
-            $ISSUE_URL/reactions \
+            $ISSUE_NUMBER/reactions \
             -f 'content=-1' >/dev/null
 
           set -e
@@ -42,42 +42,38 @@ jobs:
       - name: Add labels
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_URL: ${{ github.event.issue.number }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
         run: |
-          set +e
-
           echo "Get title of the issue"
-          title=$(gh issue view $ISSUE_URL --json title)
+          title=$(gh issue view $ISSUE_NUMBER --json title)
 
           echo "Get body of the issue"
-          body=$(gh issue view $ISSUE_URL --json body)
+          body=$(gh issue view $ISSUE_NUMBER --json body)
 
           if [[ ${title,,} = *"docs"* ]] || [[ ${title,,} = *"documentation"* ]] || \
           [[ ${body,,} = *"docs"* ]] || [[ ${body,,} = *"documentation"* ]]; then
             echo "Add documentation tag"
-            gh issue edit $ISSUE_URL --add-label "documentation"
+            gh issue edit $ISSUE_NUMBER --add-label "documentation"
           fi
 
           if [[ ${title,,} = *"error"* ]] || [[ ${title,,} = *"bug"* ]] || [[ ${title,,} = *"glitch"* ]] || \
           [[ ${body,,} = *"error"* ]] || [[ ${body,,} = *"bug"* ]] || [[ ${body,,} = *"glitch"* ]]; then
             echo "Add bug tag"
-            gh issue edit $ISSUE_URL --add-label "bug"
+            gh issue edit $ISSUE_NUMBER --add-label "bug"
           fi
 
           if [[ ${title,,} = *"backend"* ]] || [[ ${title,,} = *"API"* ]] || [[ ${title,,} = *"server"* ]] || [[ ${title,,} = *"back-end"* ]] || \
           [[ ${body,,} = *"backend"* ]] || [[ ${body,,} = *"API"* ]] || [[ ${body,,} = *"server"* ]] || [[ ${body,,} = *"back-end"* ]]; then
             echo "Add API tag"
-            gh issue edit $ISSUE_URL --add-label "API"
+            gh issue edit $ISSUE_NUMBER --add-label "API"
           fi
 
           if [[ ${title,,} = *"page"* ]] || [[ ${title,,} = *"frontend"* ]] || [[ ${title,,} = *"UI"* ]] || [[ ${title,,} = *"UX"* ]] || [[ ${title,,} = *"front-end"* ]] || \
           [[ ${body,,} = *"page"* ]] || [[ ${body,,} = *"frontend"* ]] || [[ ${body,,} = *"UI"* ]] || [[ ${body,,} = *"UX"* ]] || [[ ${body,,} = *"front-end"* ]]; then
             echo "Add frontend tag"
-            gh issue edit $ISSUE_URL --add-label "frontend"
+            gh issue edit $ISSUE_NUMBER --add-label "Frontend"
           fi
-
-          set -e
 
   assign_me:
     runs-on: ubuntu-latest
@@ -88,19 +84,12 @@ jobs:
       - name: Assign me to the issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_URL: /repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/assignees
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
         run: |
           set +e
 
           echo "Add issue actor to assignees list if missing"
-          gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            $ISSUE_URL/assignees \
-            --input - <<< '{
-            "assignees": [
-              "$GH_ASSIGNED_TO"
-            ]}' >/dev/null
+          gh issue edit $ISSUE_NUMBER --add-assignee $GH_ASSIGNED_TO
 
           set -e
