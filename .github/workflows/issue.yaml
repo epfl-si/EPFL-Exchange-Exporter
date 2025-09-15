@@ -70,7 +70,7 @@ jobs:
       - name: Assign me to the issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_URL: /repos/${{ github.event.issue.github.repository }}/issues/${{ github.event.issue.number }}/assignees
+          ISSUE_URL: /repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/assignees
           GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
         run: |
           set +e
