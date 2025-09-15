@@ -56,7 +56,7 @@ export async function GET(request) {
     data = await getEvents(option);
   }
 
-  if (data.error.code == "ErrorInvalidUser") {
+  if (data.error?.code == "ErrorInvalidUser") {
     data.error.code = "errInvalidRessource";
     data.error.message = data.error.message.replaceAll("user", "ressource");
   }
