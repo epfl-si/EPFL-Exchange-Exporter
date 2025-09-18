@@ -3,6 +3,15 @@ import { parseString } from "xml2js";
 import Event from "@/class/EventClass";
 import { RewriteKeyValue } from "./ConvertSelectKeyValue";
 
+import { changeUTC } from "../dateRefactor";
+
+// import dayjs from "dayjs";
+// import utc from "dayjs/plugin/utc";
+// import timezone from "dayjs/plugin/timezone";
+
+// dayjs.extend(utc)
+// dayjs.extend(timezone)
+
 export const callPostAPI = async(req) => {
   const response = await fetch(process.env.AUTH_EWS_SERVICE_ENDPOINT, {
     method: 'POST',
@@ -55,6 +64,10 @@ const getCalendarItems = async (items) => {
 
     const res = await callPostAPI(xmlRequest);
     parseString(res.data, function (err, result) {
+      console.log("log");
+      console.log(result["s:Envelope"]["s:Body"][0]["m:GetItemResponse"]);
+      console.log(result["s:Envelope"]["s:Body"]);
+      console.log("log");
       dataTemp = result["s:Envelope"]["s:Body"][0]
       ["m:GetItemResponse"]
       [0]
@@ -102,7 +115,11 @@ const getCalendarItems = async (items) => {
     .sort((d1, d2) => new Date(d2.start) - new Date(d1.start)))
     .map(x => ({ ...x, organizer: x.organizer["t:Mailbox"][0]["t:EmailAddress"][0] }))
     .map(x => x.organizer.includes("/O=") ? ({ ...x, organizer: "private email", subject: "private subject"}) : x)
-    .map((d) => new Event(d.start, d.end, d.subject, d.organizer))
+    // .map((d) => new Event(d.start, d.end, d.subject, d.organizer))
+    .map((d) => new Event(changeUTC(d.start), changeUTC(d.end), d.subject, d.organizer))
+    // .map((d) => new Event(dayjs(d.start).tz('Europe/Zurich').format('YYYY-MM-DDTHH:mm:ss[Z]'), dayjs(d.end).tz('Europe/Zurich').format('YYYY-MM-DDTHH:mm:ss[Z]'), d.subject, d.organizer))
+    // .map((d) => new Event(dayjs(d.start).add(2, 'hour'), dayjs(d.end).add(2, 'hour'), d.subject, d.organizer))
+    // .map((d) => new Event(dayjs.tz(d.start, 'Europe/Zurich').format(), dayjs.tz(d.end, 'Europe/Zurich').format(), d.subject, d.organizer))
 
   return { data: items};
 }

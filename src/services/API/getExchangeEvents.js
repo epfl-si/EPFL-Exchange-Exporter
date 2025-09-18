@@ -1,6 +1,12 @@
 import { changeFormat, changeUTC } from "@/services/dateRefactor";
 import Event from "@/class/EventClass";
 import { RewriteKeyValue } from "./ConvertSelectKeyValue";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const APICall = async (request, token, type='get', body, contentType) => {
   let response = await fetch(request, {
@@ -22,7 +28,7 @@ const getEvents = async (params) => {
 
   const token = accessToken || session.accessToken;
 
-  let request = `https://graph.microsoft.com/v1.0/users/${ressource || session.user.email}/calendarView?startDateTime=${start}&endDateTime=${end}&select=subject,organizer,start,end&top=1000`;
+  let request = `https://graph.microsoft.com/v1.0/users/${ressource || session.user.email}/calendarView?startDateTime=${start}&endDateTime=${dayjs(end).add(1, "days").format("YYYY-MM-DD")}&select=subject,organizer,start,end&top=1000`;
 
   // let response = await fetch(request, {
   //   method: 'get',
@@ -38,7 +44,8 @@ const getEvents = async (params) => {
   if (!response?.error){
     let data = response.value
     .sort((d1, d2)=> new Date(d2.start.dateTime) - new Date(d1.start.dateTime))
-    .map(d =>(new Event(changeFormat(changeUTC(d.start.dateTime, 1)), changeFormat(changeUTC(d.end.dateTime, 1)), d.subject || "sujet privé", d.organizer?.emailAddress.address || "email privé")));
+    .map(d =>(new Event(changeUTC(changeUTC(d.start.dateTime)), changeUTC(changeUTC(d.end.dateTime)), d.subject || "sujet privé", d.organizer?.emailAddress.address || "email privé")));
+    // .map(d =>(new Event(dayjs(d.start.dateTime).toISOString(), dayjs(d.end.dateTime), d.subject || "sujet privé", d.organizer?.emailAddress.address || "email privé")));
 
     data = RewriteKeyValue(data, select);
 
@@ -73,8 +80,10 @@ export const getEchangeEventsBusy = async(option) => {
   // return { data: response };
   let data = response.value[0].scheduleItems.map(d => (
     {
-      debut: d.start.dateTime,
-      fin: d.end.dateTime,
+      debut: changeUTC(changeUTC(d.start.dateTime)),
+      fin: changeUTC(changeUTC(d.end.dateTime)),
+      // debut: d.start.dateTime,
+      // fin: d.end.dateTime,
       raison: d.status,
       email: option.ressource,
     }
