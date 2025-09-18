@@ -1,6 +1,7 @@
 import { parseString } from "xml2js";
 
 import Event from "@/class/EventClass";
+import { RewriteKeyValue } from "./ConvertSelectKeyValue";
 
 export const callPostAPI = async(req) => {
   const response = await fetch(process.env.AUTH_EWS_SERVICE_ENDPOINT, {
@@ -88,8 +89,8 @@ const getCalendarItems = async (items) => {
     return obj;
   }, {})
 
-  console.log(items)
-  console.log(items.length)
+  // console.log(items)
+  // console.log(items.length)
   items = formateEWSJSONResult(items
     .map(d => !idArray.includes(d["t:ItemId"][0]["$"].Id) ? ({ ...d, ["t:Organizer"]: ( d["t:Organizer"] ? d["t:Organizer"].map(x => ({ ...x, ["t:Mailbox"]: x["t:Mailbox"].map((d2 => ({ ...d2, "t:EmailAddress": ["private email"] }))) })) : [{"t:Mailbox":[{"t:EmailAddress": ["private email"]}]}]), "t:Subject": ["private subject"] }) : itemsNormalObject[d["t:ItemId"][0]["$"].Id] )
     .map((d) => Object.keys(d)
@@ -107,7 +108,7 @@ const getCalendarItems = async (items) => {
 }
 
 export default async (params) => {
-  const { ressource, start, end } = params;
+  const { ressource, start, end, select } = params;
 
   const isoStart = (new Date(start)).toISOString();
   const isoEnd = (new Date((new Date(end)).setUTCHours(23, 59, 59, 999))).toISOString();
@@ -175,7 +176,9 @@ export default async (params) => {
     data = data["t:Items"][0]["t:CalendarItem"];
     let items = await getCalendarItems(data)
 
-    return { data: items.data};
+    let allEvents = RewriteKeyValue(items.data, select);
+
+    return { data: allEvents};
   } catch (error) {
     console.error('Error making EWS request:', error);
     return {

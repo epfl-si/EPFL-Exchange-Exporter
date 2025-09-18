@@ -36,6 +36,7 @@ export async function GET(request) {
     ressource: searchParamsReq.get("ressource"),
     start: searchParamsReq.get("start"),
     end: searchParamsReq.get("end"),
+    ...(searchParamsReq.has("select")) && {select: searchParamsReq.get("select")},
     ...(headersReq.has("Authorization")) && {accessToken: headersReq.get("Authorization").replace("Bearer ", "")},
     ...(!headersReq.has("Authorization")) && {session: session}
   }

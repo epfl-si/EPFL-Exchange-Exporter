@@ -1,5 +1,6 @@
 import { changeFormat, changeUTC } from "@/services/dateRefactor";
 import Event from "@/class/EventClass";
+import { RewriteKeyValue } from "./ConvertSelectKeyValue";
 
 const APICall = async (request, token, type='get', body, contentType) => {
   let response = await fetch(request, {
@@ -17,7 +18,7 @@ const APICall = async (request, token, type='get', body, contentType) => {
 }
 
 const getEvents = async (params) => {
-  const { ressource, start, end, session, accessToken } = params;
+  const { ressource, start, end, session, accessToken, select } = params;
 
   const token = accessToken || session.accessToken;
 
@@ -38,6 +39,8 @@ const getEvents = async (params) => {
     let data = response.value
     .sort((d1, d2)=> new Date(d2.start.dateTime) - new Date(d1.start.dateTime))
     .map(d =>(new Event(changeFormat(changeUTC(d.start.dateTime, 1)), changeFormat(changeUTC(d.end.dateTime, 1)), d.subject || "sujet privé", d.organizer?.emailAddress.address || "email privé")));
+
+    data = RewriteKeyValue(data, select);
 
     return data;
   }

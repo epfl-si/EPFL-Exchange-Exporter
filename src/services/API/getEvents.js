@@ -1,8 +1,13 @@
 import getEventCount from "../getEventCount";
 import getOnPremEvents from "./getOnPremEvents";
 import { getExchangeEvents, getEchangeEventsBusy } from "./getExchangeEvents";
+import ConvertSelectKeyValue from "./ConvertSelectKeyValue";
 
 export default async (option) => {
+  // console.log(option.select)
+  if (option.select) {
+    option.select = ConvertSelectKeyValue(option.select);
+  }
   const resultJSON = await getEventCount(option);
   if (resultJSON?.error) {
     switch (resultJSON.error.code) {

@@ -1,5 +1,6 @@
 import textRefactor from "./textRefactor";
 import DownloadData from "@/class/downloadDataClass";
+import { ExportedEvent } from "@/class/EventClass";
 
 let noData = "no data"
 let muchData = "too much data"
@@ -87,11 +88,13 @@ const downloadFile = async(data) =>{
     }
 
     if (!response?.error) {
+        console.log(response.data)
         let options = {
             filename: filename,
             extension: extension,
-            data: response.data
+            data: response.data.map(d => new ExportedEvent(d))
         }
+        console.log(data.data)
         return createFile(options);
     }
     else{
