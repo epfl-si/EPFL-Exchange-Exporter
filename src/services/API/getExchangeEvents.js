@@ -1,9 +1,9 @@
 import { changeFormat, changeUTC } from "@/services/dateRefactor";
 import Event from "@/class/EventClass";
 import { RewriteKeyValue } from "./ConvertSelectKeyValue";
-import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import dayjs from "dayjs";
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -68,11 +68,11 @@ export const getEchangeEventsBusy = async(option) => {
     "schedules": [option.ressource],
     "startTime": {
       "dateTime": `${option.start}T00:00:00`,
-      "timeZone": "W. Europe Standard Time"
+      "timeZone": "America/Caracas"
     },
     "endTime": {
       "dateTime": `${option.end}T23:59:59`,
-      "timeZone": "W. Europe Standard Time"
+      "timeZone": "America/Caracas"
     },
     "availabilityViewInterval": 60
   }
@@ -80,8 +80,10 @@ export const getEchangeEventsBusy = async(option) => {
   // return { data: response };
   let data = response.value[0].scheduleItems.map(d => (
     {
-      debut: changeUTC(changeUTC(d.start.dateTime)),
-      fin: changeUTC(changeUTC(d.end.dateTime)),
+      // debut: changeUTC(changeUTC(d.start.dateTime)),
+      // fin: changeUTC(changeUTC(d.end.dateTime)),
+      debut: changeUTC(d.start.dateTime.split(".")[0] + "Z"),
+      fin: changeUTC(d.end.dateTime.split(".")[0] + "Z"),
       // debut: d.start.dateTime,
       // fin: d.end.dateTime,
       raison: d.status,
