@@ -2,7 +2,7 @@ export default () => {
   describe('Field : Filename', () => {
     beforeEach(() => {
       //Write correct syntax email address
-      cy.get("input#floating_outlined_ressource").type("aaa@epfl.ch");
+      cy.get("input#floating_outlined_resource").type("aaa@epfl.ch");
 
       //Write correct date
       cy.get("input#datepickerInput").click();
@@ -26,13 +26,13 @@ export default () => {
       let dateFieldValue = ""
       let dateFieldPlaceholder = ""
       let dateFieldPlaceholderChar = ""
-      let ressource = ""
+      let resource = ""
       cy.get("#datepickerInput").invoke("val").then(val => { dateFieldValue = val; return dateFieldValue })
-      cy.get("#floating_outlined_ressource").invoke("val").then(val => { ressource = val; return ressource })
+      cy.get("#floating_outlined_resource").invoke("val").then(val => { resource = val; return resource })
       cy.get("#datepickerInput").invoke("attr", "placeholder").then(val => { dateFieldPlaceholder = val; dateFieldPlaceholderChar = val.replaceAll("DD/MM/YYYY", "").replaceAll(" ", ""); return dateFieldPlaceholder }) //   DD/MM/YYYY ~ DD/MM/YYYY
       cy.then(() => {
         const [start, end] = dateFieldValue.replaceAll(" ", "").split(dateFieldPlaceholderChar).map((date) => date.split("/").reverse().join("-"))
-        cy.get("#floating_outlined").invoke("val").should("eq", ["exportation", "meetings", ressource.split('@')[0], "from", start, "to", end].join("_"))
+        cy.get("#floating_outlined").invoke("val").should("eq", ["exportation", "meetings", resource.split('@')[0], "from", start, "to", end].join("_"))
       })
     })
     it("Test cross to delete and value in url query string", () => {

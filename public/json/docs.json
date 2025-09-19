@@ -22,15 +22,15 @@
       "values": [
         {
           "method": "GET",
-          "endpoint": "?ressource={ressource}&start={start}&end={end}",
+          "endpoint": "?resource={resource}&start={start}&end={end}",
           "isOpen": "true",
           "params": {
             "open": "{",
             "close": "}",
             "values": [
               {
-                "key": "ressource",
-                "name": "ressource",
+                "key": "resource",
+                "name": "resource",
                 "placeholder": "example@epfl.ch",
                 "required": "true",
                 "type": "string",
@@ -84,7 +84,7 @@
   ],
   "errors":[
     {"code": "errParameters", "categories": "request"},
-    {"code": "errInvalidRessource", "categories": "request"},
+    {"code": "errInvalidResource", "categories": "request"},
     {"code": "errCredentials", "categories": "connection"},
     {"code": "errEWSRequest", "categories": "ews"},
     {"code": "errTooMuchData", "categories": "data"},

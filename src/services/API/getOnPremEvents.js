@@ -125,7 +125,7 @@ const getCalendarItems = async (items) => {
 }
 
 export default async (params) => {
-  const { ressource, start, end, select } = params;
+  const { resource, start, end, select } = params;
 
   const isoStart = (new Date(start)).toISOString();
   const isoEnd = (new Date((new Date(end)).setUTCHours(23, 59, 59, 999))).toISOString();
@@ -154,7 +154,7 @@ export default async (params) => {
         <m:ParentFolderIds>
           <t:DistinguishedFolderId Id="calendar">
             <t:Mailbox>
-              <t:EmailAddress>${ressource}</t:EmailAddress>
+              <t:EmailAddress>${resource}</t:EmailAddress>
             </t:Mailbox>
           </t:DistinguishedFolderId>
         </m:ParentFolderIds>

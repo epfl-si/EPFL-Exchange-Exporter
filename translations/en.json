@@ -1,12 +1,12 @@
 {
   "HomePage": {
     "eeee-title": "What is EEEE ?",
-    "eeee-paragraph": "EEEE stand for EPFL Exchange Events Exporter. This app is used to return all calendars event of conference ressource, inside a data file as csv, json...",
+    "eeee-paragraph": "EEEE stand for EPFL Exchange Events Exporter. This app is used to return all calendars event of conference resource, inside a data file as csv, json...",
     "guid-title": "How to use ?",
     "guid-paragraph": "To use it, you need first to connect to your @epfl microsoft account, and next, to complete the export form"
   },
   "Form": {
-    "ressource": "Email ressource",
+    "resource": "Email resource",
     "start": "Begin",
     "period": "Period",
     "end": "End",
@@ -97,11 +97,11 @@
       "endpoints":{
         "/export":{
           "GET":{
-            "title": "Get ressource's reservations during provided period",
+            "title": "Get resource's reservations during provided period",
             "params":{
-              "ressource":{
-                "title": "ressource",
-                "explanation": "The field {name} is a {type} in a {format} format. This field correspond to the email address's ressource which you want to export reservations, with {acceptedSynthax} as suffix."
+              "resource":{
+                "title": "resource",
+                "explanation": "The field {name} is a {type} in a {format} format. This field correspond to the email address's resource which you want to export reservations, with {acceptedSynthax} as suffix."
               },
               "start":{
                 "title": "start",
@@ -144,17 +144,17 @@
         "errUserAccessMissing":{
           "title": "Missing rights",
           "message": "`Unpredictable, error returned by EWS API`",
-          "explanation": "This error occurs when you don't have the rights to access the requested ressource."
+          "explanation": "This error occurs when you don't have the rights to access the requested resource."
         },
         "errEWSRequest":{
           "title": "EWS request errors",
           "message": "`Unpredictable, error returned by EWS API`",
           "explanation": "This error occurs when error is returned by EWS API. Please refer to official EWS documentations."
         },
-        "errInvalidRessource":{
-          "title": "Ressource error",
-          "message": "The requested ressource `ressource` is invalid.",
-          "explanation": "This error occurs when requested ressource doesn't exist or is wrong."
+        "errInvalidResource":{
+          "title": "Resource error",
+          "message": "The requested resource `resource` is invalid.",
+          "explanation": "This error occurs when requested resource doesn't exist or is wrong."
         }
       }
     }

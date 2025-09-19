@@ -1,10 +1,10 @@
 export default async(data) => {
-  const { ressource, start, end, session, accessToken } = data;
+  const { resource, start, end, session, accessToken } = data;
 
   const startDate = start ? new Date(new Date(start).setHours(1)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(0)).setHours(1)).toISOString();
   const endDate = end ? new Date(new Date(end).setHours(23)).toISOString() : new Date(new Date(new Date(Date.now()).setDate(27)).setHours(1)).toISOString();
 
-  let result = await fetch(`https://graph.microsoft.com/v1.0/users/${ressource || session.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&count=true&top=1&select=id`, {
+  let result = await fetch(`https://graph.microsoft.com/v1.0/users/${resource || session.user.email}/calendarView?startDateTime=${startDate}&endDateTime=${endDate}&count=true&top=1&select=id`, {
       method: 'get',
       headers: new Headers({
           'Authorization': `Bearer ${accessToken || session.accessToken}`

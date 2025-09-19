@@ -5,8 +5,8 @@ export default () => {
       cy.get("button#ResetButton").click()
       cy.get("input#ChoicesConfirmButton").click()
 
-      //Fill ressource
-      cy.get("input#floating_outlined_ressource").type("aaa@epfl.ch");
+      //Fill resource
+      cy.get("input#floating_outlined_resource").type("aaa@epfl.ch");
 
       //Fill date
       cy.get("input#datepickerInput").click();
@@ -56,8 +56,8 @@ export default () => {
       cy.get('#errorMsg', { timeout: 10000 }).should('not.exist');
     })
 
-    describe("Test ressource", () => {
-      it("test ressource : wrong email", () => {
+    describe("Test resource", () => {
+      it("test resource : wrong email", () => {
         cy.wait(100)
       })
     })
@@ -75,9 +75,9 @@ export default () => {
         cy.get('.md\\:w-auto > .bg-red-500').click(); //Confirmer la sélection
       })
       it("test date : no data", () => {
-        //Make period without data ?ressource=${process.env.JEST_RESSOURCE_ENTRA}&start=2000-02-07&end=2001-12-19
-        cy.get("input#floating_outlined_ressource").clear();
-        cy.get("input#floating_outlined_ressource").type(Cypress.env("CYPRESS_RESSOURCE"));
+        //Make period without data ?resource=${process.env.JEST_REsource_ENTRA}&start=2000-02-07&end=2001-12-19
+        cy.get("input#floating_outlined_resource").clear();
+        cy.get("input#floating_outlined_resource").type(Cypress.env("CYPRESS_REsource"));
         cy.get("input#datepickerInput").click();
         cy.wait(100);
         cy.get(':nth-child(1) > .border > .flex > :nth-child(2) > .w-full').click() //Clique sur l'année de début

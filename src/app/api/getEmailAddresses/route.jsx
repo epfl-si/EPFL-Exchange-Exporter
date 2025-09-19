@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 
-import getEmailRessource from "@/services/API/getEmailRessource";
+import getEmailResource from "@/services/API/getEmailResource";
 
 export async function GET(request) {
   let session = await auth();
@@ -16,7 +16,7 @@ export async function GET(request) {
     return NextResponse.json(error);
   }
 
-  const data = await getEmailRessource();
+  const data = await getEmailResource();
 
   return NextResponse.json({ data: data });
 }

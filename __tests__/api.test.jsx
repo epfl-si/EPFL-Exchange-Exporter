@@ -12,8 +12,8 @@ const formatDate = "YYYY-MM-DD";
 
 const params = [
   {
-    name: "ressource",
-    value: process.env.JEST_RESSOURCE
+    name: "resource",
+    value: process.env.JEST_RESOURCE
   },
   {
     name: "start",
@@ -81,7 +81,7 @@ const checkWrongArgs = async (method, header = false) => {
   let pms = params
   for (let param of params) {
     switch (param.name) {
-      case "ressource":
+      case "resource":
         pms = pms.map((x) => x.name == param.name ? { name: x.name, value: "isfose@example.com" } : x)
         checkWrongArg(pms, method, header)
         break;
@@ -156,7 +156,7 @@ describe("API POST", () => {
 
     test(`check required headers (correct token) and microsoft entra id address`, async () => {
       //Change credentials params to add microsoft entra ID address
-      let localParams = params.map((x) => x.name == "ressource" ? { name: x.name, value: process.env.JEST_RESSOURCE_ENTRA } : x)
+      let localParams = params.map((x) => x.name == "resource" ? { name: x.name, value: process.env.JEST_RESOURCE_ENTRA } : x)
 
       //Check with real credentials
       data = await callAPI(`${exportEndpoint}?${localParams.map((x) => `${x.name}=${x.value}`).join('&')}`, "POST", header)
@@ -173,7 +173,7 @@ describe("API POST", () => {
     //Check When user doesn't exists
     test(`request : no user`, async () => {
       //Check with real credentials
-      data = await callAPI(`${exportEndpoint}?ressource=skjfesofjmsef@epfl.ch&start=2000-02-07&end=2001-12-19`, "POST", header)
+      data = await callAPI(`${exportEndpoint}?resource=skjfesofjmsef@epfl.ch&start=2000-02-07&end=2001-12-19`, "POST", header)
 
       //Check if get correct error
       expect(data).toHaveProperty("error.code", "ErrorInvalidUser")
@@ -182,7 +182,7 @@ describe("API POST", () => {
     //Check When no data exists
     test(`request : no data`, async () => {
       //Check with real credentials
-      data = await callAPI(`${exportEndpoint}?ressource=${process.env.JEST_RESSOURCE_ENTRA}&start=2000-02-07&end=2001-12-19`, "POST", header)
+      data = await callAPI(`${exportEndpoint}?resource=${process.env.JEST_RESOURCE_ENTRA}&start=2000-02-07&end=2001-12-19`, "POST", header)
 
       //Check if get correct error
       expect(data).toHaveProperty("error.code", "errNoData")
@@ -191,7 +191,7 @@ describe("API POST", () => {
     //Check When range too high
     test(`request : too high range`, async () => {
       //Check with real credentials
-      data = await callAPI(`${exportEndpoint}?ressource=${process.env.JEST_RESSOURCE}&start=2000-02-07&end=2025-12-19`, "POST", header)
+      data = await callAPI(`${exportEndpoint}?resource=${process.env.JEST_RESOURCE}&start=2000-02-07&end=2025-12-19`, "POST", header)
 
       //Check if get correct error
       expect(data).toHaveProperty("error.code", "errUserAccessMissing")
@@ -202,7 +202,7 @@ describe("API POST", () => {
     //Check When no data exists
     test(`request : no data`, async () => {
       //Check with real credentials
-      data = await callAPI(`${exportEndpoint}?ressource=${process.env.JEST_RESSOURCE}&start=2000-02-07&end=2001-12-19`, "POST", header)
+      data = await callAPI(`${exportEndpoint}?resource=${process.env.JEST_RESOURCE}&start=2000-02-07&end=2001-12-19`, "POST", header)
 
       //Check if get correct error
       expect(data).toHaveProperty("error.code", "errUserNoData")
@@ -211,7 +211,7 @@ describe("API POST", () => {
     //Check When range too high
     test(`request : too high range`, async () => {
       //Check with real credentials
-      data = await callAPI(`${exportEndpoint}?ressource=${process.env.JEST_RESSOURCE_ENTRA}&start=2000-02-07&end=2025-12-19`, "POST", header)
+      data = await callAPI(`${exportEndpoint}?resource=${process.env.JEST_RESOURCE_ENTRA}&start=2000-02-07&end=2025-12-19`, "POST", header)
 
       //Check if get correct error
       expect(data).toHaveProperty(

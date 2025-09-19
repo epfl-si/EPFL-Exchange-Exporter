@@ -11,7 +11,7 @@ export async function GET(request) {
   const searchParamsReq = request.nextUrl.searchParams;
   const headersReq = await headers();
 
-  const missingArgs = checkArgsMissing(searchParamsReq, ["ressource", "start", "end"]);
+  const missingArgs = checkArgsMissing(searchParamsReq, ["resource", "start", "end"]);
   if (missingArgs.state == "error") {
     return NextResponse.json(missingArgs.value);
   }
@@ -33,7 +33,7 @@ export async function GET(request) {
   }
 
   let option = {
-    ressource: searchParamsReq.get("ressource"),
+    resource: searchParamsReq.get("resource"),
     start: searchParamsReq.get("start"),
     end: searchParamsReq.get("end"),
     ...(searchParamsReq.has("select")) && {select: searchParamsReq.get("select")},
@@ -58,8 +58,8 @@ export async function GET(request) {
   }
 
   if (data.error?.code == "ErrorInvalidUser") {
-    data.error.code = "errInvalidRessource";
-    data.error.message = data.error.message.replaceAll("user", "ressource");
+    data.error.code = "errInvalidResource";
+    data.error.message = data.error.message.replaceAll("user", "resource");
   }
 
   data = Object.keys(data).includes("error") ?

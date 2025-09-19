@@ -2,7 +2,7 @@ export default () => {
   describe('Field : Date', () => {
     beforeEach(() => {
       //Write correct syntax email address
-      cy.get("input#floating_outlined_ressource").type("aaa@epfl.ch");
+      cy.get("input#floating_outlined_resource").type("aaa@epfl.ch");
     })
     afterEach(() => {
       switch(Cypress.currentTest.title) {

@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "EEEE - EPFL Exchange Events Exporter",
-  description: "A CSV exporter for EPFL ressources events",
+  description: "A CSV exporter for EPFL resources events",
 };
 
 export default async function LocaleLayout({

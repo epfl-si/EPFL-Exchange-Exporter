@@ -17,8 +17,8 @@ module.exports = defineConfig({
       ENTRA_PASSWORD: process.env.CYPRESS_MICROSOFT_ENTRA_ID_PASSWORD,
       COOKIE_NAME: process.env.CYPRESS_COOKIE_NAME,
       SITE_NAME: process.env.CYPRESS_BASE_URL,
-      CYPRESS_RESSOURCE: process.env.JEST_RESSOURCE,
-      CYPRESS_RESSOURCE_ENTRA: process.env.JEST_RESSOURCE_ENTRA
+      CYPRESS_RESOURCE: process.env.JEST_RESOURCE,
+      CYPRESS_RESOURCE_ENTRA: process.env.JEST_RESOURCE_ENTRA
     },
   },
 });

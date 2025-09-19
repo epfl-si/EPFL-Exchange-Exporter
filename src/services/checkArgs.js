@@ -29,8 +29,8 @@ export const checkArgsValidity = (option) => {
   // console.log(!dayjs(option.end, 'YYYY-MM-DD', false).isValid())
   // console.log("#################################################")
 
-  //Check email ressource format
-  let isArgsWrong = checkEmailValidity(option.ressource);
+  //Check email resource format
+  let isArgsWrong = checkEmailValidity(option.resource);
   //Check date format (start)
   isArgsWrong =
     isArgsWrong.state == true ?
@@ -52,6 +52,6 @@ export const checkArgsValidity = (option) => {
 
 export const checkEmailValidity = (email) => {
   let emailDomain = "epfl.ch"
-  let isArgsWrong = email.includes(`@${emailDomain}`) && email.split("@")[email.split("@").length - 1] == emailDomain && email.split("@").length - 1 == 1 ? { state: true, cause: "ressource" } : { state: false, cause: "ressource" };
+  let isArgsWrong = email.includes(`@${emailDomain}`) && email.split("@")[email.split("@").length - 1] == emailDomain && email.split("@").length - 1 == 1 ? { state: true, cause: "resource" } : { state: false, cause: "resource" };
   return isArgsWrong;
 }
