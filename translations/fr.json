@@ -6,7 +6,7 @@
     "guid-paragraph": "Pour l'utiliser, tu dois tout d'abord te connecter à ton compte microsoft @epfl, et ensuite, remplir le formulaire d'exportation"
   },
   "Form": {
-    "ressource": "Email de ressource",
+    "resource": "Email de ressource",
     "start": "Début",
     "period": "Période",
     "end": "Fin",
