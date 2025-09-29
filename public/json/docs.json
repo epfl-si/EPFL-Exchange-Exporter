@@ -22,7 +22,7 @@
       "values": [
         {
           "method": "GET",
-          "endpoint": "?resource={resource}&start={start}&end={end}",
+          "endpoint": "?resource={resource}&start={start}&end={end}&select={select}",
           "isOpen": "true",
           "params": {
             "open": "{",
@@ -60,6 +60,15 @@
                 "acceptedSynthax": [
                   "YYYY-MM-DD"
                 ]
+              },
+              {
+                "key": "select",
+                "name": "select",
+                "placeholder": "subject,start,end,email:organizer",
+                "required": "false",
+                "type": "string",
+                "format": "json",
+                "keyArray": ["start", "end", "subject", "email"]
               }
             ]
           },

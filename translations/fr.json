@@ -99,17 +99,27 @@
           "GET":{
             "title": "Obtenir les réservations d'une ressource dans la période donnée",
             "params":{
-              "ressource":{
+              "resource":{
                 "title": "ressource",
-                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à l'adresse email de la ressource dont vous souhaitez y exporter les réservations, avec comme suffixe {acceptedSynthax}."
+                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ est {isRequired, select, true {requis} other {optionnel}}, et correspond à l'adresse email de la ressource dont vous souhaitez y exporter les réservations, avec comme suffixe {acceptedSynthax}."
               },
               "start":{
                 "title": "start",
-                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à la date de début de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
+                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ est {isRequired, select, true {requis} other {optionnel}}, et correspond à la date de début de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
               },
               "end":{
                 "title": "end",
-                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ correspond à la date de fin de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
+                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ est {isRequired, select, true {requis} other {optionnel}}, et correspond à la date de fin de la période des données à exporter, avec {acceptedSynthax} comme syntaxe."
+              },
+              "select":{
+                "title": "select",
+                "explanation": "Le champ {name} est un {type} dans le format {format}. Ce champ est {isRequired, select, true {requis} other {optionnel}}, et correspond au gestionnaire de clé. Dans ce champ, il faut écrire seulement les clés que l'on souhaite afficher ou renommer. Chaque clés sont séparées par des virgules (,) et pour renommer une clé, il suffit d'ajouter deux points (:) entre le nom original de la clé, et le nom souhaité pour cette requête. La liste des noms originaux des clés disponibles sont les suivantes :",
+                "keyArrayExplanation": {
+                  "start": "La date et l'heure du début de l'événement",
+                  "end": "La date et l'heure de fin de l'événement",
+                  "subject": "Le nom de l'événement",
+                  "email": "L'adresse email de l'organisateur de l'événement"
+                }
               },
               "authorization":{
                 "title": "Authorization",
