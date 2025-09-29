@@ -144,7 +144,7 @@
         "errParameters":{
           "title": "Paramètres erreur",
           "message": "Erreur d'arguments, Veillez à vérifier le paramètre `nom du paramètre` et réessayer.",
-          "explanation": "Cette erreur survint lorsqu'un paramètres de la requête est manquants ou bien lorsqu'il est incorrect."
+          "explanation": "Cette erreur survint lorsqu'un paramètres de la requête est incorrect."
         },
         "errTooMuchData":{
           "title": "Trop de données",
@@ -161,10 +161,15 @@
           "message": "`Imprévisible, erreur retournée par l'API EWS`",
           "explanation": "Cette erreur survint lorsqu'une erreur est retournée par EWS. Veuillez vous basez sur leur documentation afin d'obtenir de plus claires informations."
         },
-        "errInvalidRessource":{
+        "errInvalidResource":{
           "title": "Erreur de ressource",
-          "message": "La ressource demandée `ressource` est invalide.",
+          "message": "La ressource demandée `resource` est invalide.",
           "explanation": "Cette erreur survint lorsque la ressource demandée n'existe pas ou est incorrecte."
+        },
+        "errMissingArgs":{
+          "title": "Paramètres manquants",
+          "message": "Paramètre suivants manquants : `argument`",
+          "explanation": "Cette erreur survint lorsque un paramètre obligatoire est manquant."
         }
       }
     }

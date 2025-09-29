@@ -144,7 +144,7 @@
         "errParameters":{
           "title": "Parameters error",
           "message": "Arguments error, please check `parameter name` parameters and try again.",
-          "explanation": "This error occurs when parameters in the request is missing or don't respect type / synthax."
+          "explanation": "This error occurs when parameters in the request is wrong."
         },
         "errTooMuchData":{
           "title": "Too much data",
@@ -165,6 +165,11 @@
           "title": "Resource error",
           "message": "The requested resource `resource` is invalid.",
           "explanation": "This error occurs when requested resource doesn't exist or is wrong."
+        },
+        "errMissingArgs":{
+          "title": "Paramètres manquants",
+          "message": "Missing following argument : `argument`",
+          "explanation": "This error occurs when a required parameters is missing."
         }
       }
     }

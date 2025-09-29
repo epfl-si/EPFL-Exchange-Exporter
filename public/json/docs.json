@@ -92,6 +92,7 @@
     }
   ],
   "errors":[
+    {"code": "errMissingArgs", "categories": "request"},
     {"code": "errParameters", "categories": "request"},
     {"code": "errInvalidResource", "categories": "request"},
     {"code": "errCredentials", "categories": "connection"},
