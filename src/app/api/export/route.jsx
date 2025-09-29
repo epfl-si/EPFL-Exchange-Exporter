@@ -6,6 +6,8 @@ import { checkArgsMissing, checkArgsValidity } from "@/services/checkArgs";
 
 import getEvents from "@/services/API/getEvents";
 
+import APIReturnClass from "@/class/APIReturnClass";
+
 export async function GET(request) {
 
   const searchParamsReq = request.nextUrl.searchParams;
@@ -13,7 +15,7 @@ export async function GET(request) {
 
   const missingArgs = checkArgsMissing(searchParamsReq, ["resource", "start", "end"]);
   if (missingArgs.state == "error") {
-    return NextResponse.json(missingArgs.value);
+    return NextResponse.json(new APIReturnClass(missingArgs.value, headersReq));
   }
 
   let session = "";
@@ -28,7 +30,7 @@ export async function GET(request) {
           message: "Credentials error, please connecting you to your account."
         }
       }
-      return NextResponse.json(error);
+      return NextResponse.json(new APIReturnClass(error, headersReq));
     }
   }
 
@@ -62,20 +64,7 @@ export async function GET(request) {
     data.error.message = data.error.message.replaceAll("user", "resource");
   }
 
-  data = Object.keys(data).includes("error") ?
-    {
-      status: "fail",
-      error: {
-        ...data.error,
-        url: `${headersReq.get('X-Forwarded-Proto')}://${headersReq.get('host')}/docs/api/errors#${data.error.code}`,
-      },
-      ...data.error = ""
-    }
-    :
-    {
-      status: "success",
-      ...data
-    };
+  data = new APIReturnClass(data, headersReq);
 
   return NextResponse.json(data);
 }
