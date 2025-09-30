@@ -91,7 +91,12 @@
           "values": "Valeurs"
         },
         "button":{
-          "label": "Lancer"
+          "launch": {
+            "label": "Lancer"
+          },
+          "reset": {
+            "label": "Réinitialiser"
+          }
         }
       },
       "endpoints":{

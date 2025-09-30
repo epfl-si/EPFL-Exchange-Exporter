@@ -91,7 +91,12 @@
           "values": "Values"
         },
         "button":{
-          "label": "execute"
+          "launch": {
+            "label": "Execute"
+          },
+          "reset": {
+            "label": "Reset"
+          }
         }
       },
       "endpoints":{
