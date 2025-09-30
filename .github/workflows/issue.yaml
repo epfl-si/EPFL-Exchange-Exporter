@@ -74,22 +74,3 @@ jobs:
             echo "Add frontend tag"
             gh issue edit $ISSUE_NUMBER --add-label "Frontend"
           fi
-
-  assign_me:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout (if needed)
-        uses: actions/checkout@v4
-
-      - name: Assign me to the issue
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          GH_ASSIGNED_TO: FlizzerMDX # ${{github.actor}}
-        run: |
-          set +e
-
-          echo "Add issue actor to assignees list if missing"
-          gh issue edit $ISSUE_NUMBER --add-assignee $GH_ASSIGNED_TO
-
-          set -e
