@@ -26,9 +26,9 @@ const Footer = () => {
     const translationHandler = useTranslations("Footer");
 
     return (
-        <footer className="bg-white flex justify-center items-center gap-2 text-xl ml-6 mr-6 m-2 min-h-10 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] z-[19]">
+        <footer className="bg-white flex justify-center items-center gap-2 text-xl mx-6 m-2 min-h-10 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] z-[19]">
             {/* Icon by Freepik */}
-            {today?.event?.isEvent ? <img className="absolute size-12 left-0 bottom-0 mb-[2px] ml-6" src={events[today.event.name].src} /> : <></>}
+            {today?.event?.isEvent ? <img className="absolute left-0 size-12 mb-[2px] ml-6 select-none" src={events[today.event.name].src} draggable="false" /> : <></>}
             <Link href="/docs" className="hover:text-[#FF0000]">
                 Documentations
             </Link>
