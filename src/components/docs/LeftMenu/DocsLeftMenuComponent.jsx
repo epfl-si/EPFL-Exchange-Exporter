@@ -16,11 +16,11 @@ export default ({ doc, data, color }) => {
         );
         let dataInScreen = datasInScreen.sort(d => d.ref.current.getBoundingClientRect().bottom).reverse()[0];
 
-        data.forEach(d => { d.refLateralMenu.current.classList.remove(`bg-[var(--custom-color)]`); d.refLateralMenu.current.classList.remove("font-bold"); d.refLateralMenu.current.classList.remove("text-white") });
+        data.forEach(d => { d.refLateralMenu.current.classList.remove(`border-l-[var(--custom-color)]`); d.refLateralMenu.current.classList.remove("font-bold"); d.refLateralMenu.current.classList.add("border-l-gray-400");});
 
-        dataInScreen.refLateralMenu.current.classList.add(`bg-[var(--custom-color)]`);
+        dataInScreen.refLateralMenu.current.classList.remove("border-l-gray-400");
+        dataInScreen.refLateralMenu.current.classList.add(`border-l-[var(--custom-color)]`);
         dataInScreen.refLateralMenu.current.classList.add("font-bold");
-        dataInScreen.refLateralMenu.current.classList.add("text-white");
         };
 
         if (highlightAtLaunch) {
@@ -45,8 +45,8 @@ export default ({ doc, data, color }) => {
                                 {
                                     data.map(err => {
                                     return (
-                                        <li key={err.code} ref={err.refLateralMenu} style={{ '--custom-color': color }} className={`overflow-hidden hover:underline border-l-2 pl-1 border-l-[var(--custom-color)]`}>
-                                            <Link href={`#${err.code}`}>{err.code}</Link>
+                                        <li key={err.code} ref={err.refLateralMenu} style={{ '--custom-color': color }} className={`overflow-hidden border-l-2 border-l-[var(--custom-color)]`}>
+                                            <Link href={`#${err.code}`} className="group"><div className="group-hover:bg-gray-300 pl-1">{err.code}</div></Link>
                                         </li>
                                     )
                                     })
@@ -60,8 +60,8 @@ export default ({ doc, data, color }) => {
                             {
                                 data.map(endpoint => {
                                 return (
-                                    <li key={endpoint.endpoint} ref={endpoint.refLateralMenu} style={{ '--custom-color': color }} className={`overflow-hidden hover:underline border-l-2 pl-1 border-l-[var(--custom-color)]`}>
-                                        <Link href={`#${endpoint.endpoint.replace("/", "")}`}>{endpoint.endpoint}</Link>
+                                    <li key={endpoint.endpoint} ref={endpoint.refLateralMenu} style={{ '--custom-color': color }} className={`overflow-hidden border-l-2 border-l-[var(--custom-color)]`}>
+                                        <Link href={`#${endpoint.endpoint.replace("/", "")}`} className="group"><div className="group-hover:bg-gray-300 pl-1">{endpoint.endpoint}</div></Link>
                                     </li>
                                 )
                                 })

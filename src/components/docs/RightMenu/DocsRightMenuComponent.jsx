@@ -18,8 +18,8 @@ export default ({ doc, color }) => {
                     {
                         allDocs.map(docs => {
                             return (
-                                <li key={docs.titleId} style={{ '--custom-color': color }} className={`overflow-hidden border-l-2 pl-1 border-l-[var(--custom-color)] ${docs.titleId == doc ? `text-white font-bold bg-[var(--custom-color)]` : ""}`}>
-                                    <Link className="hover:underline" href={docs.href}>{translationHandler(docs.titleId)}</Link>
+                                <li key={docs.titleId} style={{ '--custom-color': color }} className={`overflow-hidden border-l-2 ${docs.titleId == doc ? `font-bold border-l-[var(--custom-color)]` : "border-l-gray-400"}`}>
+                                    <Link className="group" href={docs.href}><div className="group-hover:bg-gray-300 pl-1">{translationHandler(docs.titleId)}</div></Link>
                                 </li>
                             )
                         })
