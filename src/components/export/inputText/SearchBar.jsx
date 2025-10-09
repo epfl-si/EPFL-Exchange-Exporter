@@ -67,7 +67,7 @@ export default ({value, setter, placeholder, user, authSession, required=false})
                 ${propals.length > 0 ? "border-b border-l border-r border-[#B51F1F] rounded-b-lg" : ""}
                 hidden select-none`}>
                     {propals.map((p) =>
-                        <li key={Math.round(Math.random() * 3011)}
+                        <li key={p}
                         tabIndex={0}
                         onClick={(e) => handleClickedPropals(e)}
                         onKeyDown={(e)=> {closingHandler(e) ? (handleClickedPropals(e)) : ("")}}
