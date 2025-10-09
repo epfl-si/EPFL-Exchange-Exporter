@@ -8,7 +8,7 @@ import { useState } from "react";
 export default () => {
   const [isLogin, setIsLogin] = useState(false);
   const translationHandler = useTranslations("SignIn");
-  3001
+  const translationLoadingHandler = useTranslations("Loading");
   return (
     <>
       <button onClick={() => {setIsLogin(true); connect();}} className="hover:text-[#FF0000] hover:cursor-pointer" id="LoginButton">
@@ -16,7 +16,7 @@ export default () => {
       </button>
       {
         isLogin ?
-          <Loading/>
+          <Loading label={translationLoadingHandler("connect")}/>
         :
           <></>
       }

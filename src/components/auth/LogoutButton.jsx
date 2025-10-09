@@ -10,6 +10,7 @@ import AlertBox from "../tasks/AlertBox";
 export default ({imageUrl, session}) =>{
 
   const translationHandler = useTranslations("SignOut");
+  const translationLoadingHandler = useTranslations("Loading");
 
   const [isCheck, setIsCheck] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +68,7 @@ export default ({imageUrl, session}) =>{
       }
       {
         isLogout ?
-          <Loading/>
+          <Loading label={translationLoadingHandler("connect")}/>
         :
           <></>
       }
