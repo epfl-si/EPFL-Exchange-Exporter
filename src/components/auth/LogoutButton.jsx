@@ -5,6 +5,8 @@ import Loading from "../tasks/Loading";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
+import Image from 'next/image'
+
 import AlertBox from "../tasks/AlertBox";
 
 export default ({imageUrl, session}) =>{
@@ -29,9 +31,12 @@ export default ({imageUrl, session}) =>{
         <summary className="list-none [&::-webkit-details-marker]:hidden rounded-3xl w-10 h-10">
             {
               session?.user?.image ?
-                <img
-                className="rounded-3xl w-10 h-10 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] hover:cursor-pointer"
-                src={imageUrl || session?.user?.image}/>
+                <Image
+                className="rounded-3xl shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] hover:cursor-pointer"
+                width={40}
+                height={40}
+                alt="user icon"
+                src={imageUrl || session?.user?.image} />
               :
                 <div className="rounded-3xl w-10 h-10 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] hover:cursor-pointer">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="2 2 20 20" strokeWidth="1" stroke="currentColor" className="size-10">

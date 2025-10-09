@@ -10,6 +10,8 @@ import warningImg from "/public/img/warning.gif";
 import { useTranslations } from "use-intl";
 import { useEffect, useState } from "react";
 
+import Image from 'next/image'
+
 
 export default ({data}) =>{
 
@@ -40,11 +42,14 @@ export default ({data}) =>{
             <span className="text-left font-bold">{data.title}</span>
             : <></>
           }
-          <img
-          draggable={false}
-          src={warningImg.src}
-          alt="icon from lordicon"
-          className="w-32 ml-auto mr-auto mt-5"/>
+          <Image
+              draggable={false}
+              src={warningImg.src}
+              alt="icon from lordicon"
+              className="ml-auto mr-auto mt-5"
+              width={128}
+              height={128}
+            />
           <span>{data.choices.label}</span>
           <div className="flex justify-around">
             {
@@ -67,17 +72,20 @@ export default ({data}) =>{
               <span className="text-left font-bold">{data.title}</span>
               : <></>
             }
-            <img
-            draggable={false}
-            src={
-              textRefactor(data.state).includes("check") ?
-              checkImg.src
-              : textRefactor(data.state).includes("warn") ?
-              warningImg.src
-              : infoImg.src
-            }
-            alt="icon from lordicon"
-            className="w-32 ml-auto mr-auto mt-5"/>
+            <Image
+              draggable={false}
+              src={
+                textRefactor(data.state).includes("check") ?
+                checkImg.src
+                : textRefactor(data.state).includes("warn") ?
+                warningImg.src
+                : infoImg.src
+              }
+              alt="icon from lordicon"
+              className="ml-auto mr-auto mt-5"
+              width={128}
+              height={128}
+            />
             <span id={data.errorName == "DownloadSuccess" ? data.errorName : "errorMsg"}>{errorMsg}</span>
             <div className="flex justify-end">
               <input

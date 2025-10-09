@@ -8,6 +8,8 @@ import easter from '/public/img/easter.gif'
 import hlwn from '/public/img/hlwn.gif'
 import { useEffect, useState } from "react";
 
+import Image from 'next/image'
+
 import packageConfig from '../../../package.json' with { type: 'json' };
 
 const Footer = () => {
@@ -19,8 +21,6 @@ const Footer = () => {
     useEffect(() => {
         const api = async () => {
             const dateResponse = await fetch("/api/today").then((res) => res.json());
-            console.log(dateResponse);
-            console.log(dateResponse.event);
             setToday(dateResponse);
         }
         api();
@@ -32,7 +32,12 @@ const Footer = () => {
         <footer className="bg-white flex justify-between items-center gap-2 text-xl mx-6 px-2 m-2 min-h-10 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] z-[19]">
             <div className="size-12 select-none">
                 {/* Icon by Freepik */}
-                {today?.event?.isEvent ? <img src={events[today.event.name].src} draggable="false" /> : <div></div>}
+                {
+                    today?.event?.isEvent ?
+                        <Image src={events[today.event.name].src} width={48} height={48} draggable="false" alt="Event Icon" />
+                    :
+                        <div></div>
+                }
             </div>
             <div className="[&>*]:mx-1">
                 <Link href="/docs" className="hover:text-[#FF0000]">

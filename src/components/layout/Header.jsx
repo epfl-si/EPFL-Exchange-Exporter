@@ -10,6 +10,8 @@ import LogoutButton from "../auth/LogoutButton";
 import LangSwitcher from "../utilities/LangSwitcher";
 import { usePathname } from "@/i18n/navigation";
 
+import Image from 'next/image'
+
 const Header = () =>{
 
     const [session, setSession] = useState("");
@@ -44,7 +46,7 @@ const Header = () =>{
         <header className="bg-white flex justify-between items-center gap-4 text-xl min-h-20 shadow-[0_3px_1px_-2px_#0003,_0_2px_2px_#00000024,_0_1px_5px_#0000001f] p-4 text-black z-30">
             <div className="flex pl-2">
                 <Link href={"/"} className="content-center">
-                    <img src="https://www.epfl.ch/wp-content/themes/wp-theme-2018/assets/svg/epfl-logo.svg" className="w-28 sm:border-r sm:border-r-[#c1c1c1] pr-4"/>
+                    <Image src="https://www.epfl.ch/wp-content/themes/wp-theme-2018/assets/svg/epfl-logo.svg" className="sm:border-r sm:border-r-[#c1c1c1] pr-4" width={112} height={112} alt="EPFL Icon"/>
                 </Link>
                 <Link href={"/"} className="text-2xl hover:text-[#FF0000] hover:cursor-pointer pl-2 ml-1 sm:block hidden">
                     <h1>

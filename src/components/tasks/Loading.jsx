@@ -1,10 +1,12 @@
 import loader from "/public/img/loader.gif";
 import BackgroundTasks from "./BackgroundTasks";
 
+import Image from 'next/image'
+
 export default ({label}) =>{
     return (
       <BackgroundTasks>
-        <img id="loadingImg" className="w-24 h-24" src={loader.src} draggable={false}/>
+        <Image id="loadingImg" src={loader.src} draggable={false} width={96} height={96} alt="Loading Icon"/>
         <span className="text-center w-36 text-lg font-bold">{label}</span>
       </BackgroundTasks>
     );
