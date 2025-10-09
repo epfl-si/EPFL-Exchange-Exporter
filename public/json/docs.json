@@ -92,12 +92,13 @@
     }
   ],
   "errors":[
-    {"code": "errMissingArgs", "categories": "request"},
-    {"code": "errParameters", "categories": "request"},
-    {"code": "errInvalidResource", "categories": "request"},
-    {"code": "errCredentials", "categories": "connection"},
-    {"code": "errEWSRequest", "categories": "ews"},
-    {"code": "errTooMuchData", "categories": "data"},
-    {"code": "errUserAccessMissing", "categories": "rights"}
+    {"code": "errMissingArgs", "categories": "request", "status": "info"},
+    {"code": "errParameters", "categories": "request", "status": "info"},
+    {"code": "errInvalidResource", "categories": "request", "status": "warning"},
+    {"code": "errCredentials", "categories": "connection", "status": "warning"},
+    {"code": "errEWSRequest", "categories": "ews", "status": "warning"},
+    {"code": "errTooMuchData", "categories": "data", "status": "info"},
+    {"code": "errTooHighRange", "categories": "data", "status": "info"},
+    {"code": "errUserAccessMissing", "categories": "rights", "status": "info"}
   ]
 }

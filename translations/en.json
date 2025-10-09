@@ -29,12 +29,15 @@
     "errPeriodEndBeforeStart": "Incorrect dates. The end date is before the start date.",
     "errPeriodInvalid": "Incorrect dates.",
     "errUserUnavailable": "Incorrect user or user calendar inaccessible.",
+    "errInvalidResource": "Incorrect resource or resource calendar inaccessible.",
     "ErrorInvalidUser": "Incorrect user or user calendar inaccessible.",
     "errUserDisabled": "Incorrect user.",
     "errNoUser": "The user does not exist.",
     "errUserNoData": "No data exists in the period provided.",
     "errUserAccessMissing": "You don't have required rights to access this calendar.",
+    "errTooHighRange": "The specified view range exceeds the maximum range of two years.",
     "errTooMuchData": "There is too much data in the provided period: {nb}. The maximum allowed is 1000.",
+    "errParameters": "Missing or wrong fields.",
     "errTokenExpired": "Access token expired. Refresh the page or log in again."
   },
   "LogOutPage":{
@@ -160,6 +163,11 @@
           "title": "Missing rights",
           "message": "`Unpredictable, error returned by EWS API`",
           "explanation": "This error occurs when you don't have the rights to access the requested resource."
+        },
+        "errTooHighRange":{
+          "title": "Too High period range",
+          "message": "The specified view range exceeds the maximum range of two years.",
+          "explanation": "This error occurs when the range between start date and end date is too high."
         },
         "errEWSRequest":{
           "title": "EWS request errors",

@@ -30,11 +30,14 @@
     "errPeriodInvalid": "Dates incorrectes.",
     "errUserUnavailable": "Utilisateur incorrect ou calendrier de l'utilisateur inacessible.",
     "ErrorInvalidUser": "Utilisateur incorrect.",
+    "errInvalidResource": "Ressource incorrecte ou calendrier de la ressource inaccessible.",
     "errUserDisabled": "Utilisateur incorrect, son adresse n'est pas une adresse active.",
     "errNoUser": "L'utilisateur n'existe pas.",
     "errUserNoData": "Aucune données n'existent dans la période fournie.",
     "errUserAccessMissing": "Vous n'avez pas les droits requis pour acccéder à ce calendrier.",
+    "errTooHighRange": "La période de temps séléctionnée est trop grande.",
     "errTooMuchData": "Il y a trop de données dans la période fournie: {nb}. Le maximum autorisé est 1000.",
+    "errParameters": "Champs manquants ou incorrects.",
     "errTokenExpired": "Jeton d'accès expiré. Rafraîchissez la page ou reconnectez-vous."
   },
   "LogOutPage":{
@@ -160,6 +163,11 @@
           "title": "Droits utilisateur manquant",
           "message": "`Imprévisible, erreur retournée par l'API EWS`",
           "explanation": "Cette erreur survint lorsque vous ne possédez pas les droits requis pour accéder à la ressource demandée."
+        },
+        "errTooHighRange":{
+          "title": "Durée trop élevée",
+          "message": "La période définie dépasse la période maximale de 2 ans.",
+          "explanation": "Cette erreur survint lorsque la période séléctionnée pour la requête, est trop élevée pour que l'API la prenne en charge."
         },
         "errEWSRequest":{
           "title": "Erreur de requête EWS",

@@ -4,8 +4,8 @@
 - [Summary](#summary)
   - [❓ What is EEEE ?](#-what-is-eeee-)
   - [🦾 What does technologies uses ?](#-what-does-technologies-uses-)
-    - [⚛︎➡️ Next.js](#︎️-nextjs)
-    - [༄ Tailwind CSS](#-tailwind-css)
+    - [⚛️➡️ Next.js](#️️-nextjs)
+    - [🌊 Tailwind CSS](#-tailwind-css)
     - [🆔 NextAuth.js](#-nextauthjs)
     - [🈵 NextIntl.js](#-nextintljs)
   - [⚙️ CONFIGURATION](#️-configuration)
@@ -13,9 +13,9 @@
     - [📥 INSTALLATION](#-installation)
   - [🛠️ DEVELOPMENT](#️-development)
     - [▶️ RUN IN DEVELOPMENT](#️-run-in-development)
-    - [Mutli-lang](#mutli-lang)
-      - [Modify existing text](#modify-existing-text)
-      - [Add a new language](#add-a-new-language)
+    - [🈳 Mutli-lang](#-mutli-lang)
+      - [✏️ Modify existing text](#️-modify-existing-text)
+      - [➕ Add a new language](#-add-a-new-language)
   - [🚀 DEPLOY IN TEST / PROD](#-deploy-in-test--prod)
     - [✉️ MAKEFILE](#️-makefile)
     - [📮 SOPSIBLE](#-sopsible)
@@ -27,11 +27,11 @@ EEEE stand for EPFL Exchange Events Exporter. This app is used to return all cal
 
 ## 🦾 What does technologies uses ?
 
-### ⚛︎➡️ Next.js
+### ⚛️➡️ Next.js
 Next.js is an open-source framework, powered by ⚛︎ React.js and node.js.
 [Next Documentation here](https://nextjs.org/docs)
 
-### ༄ Tailwind CSS
+### 🌊 Tailwind CSS
 Tailwind CSS is a CSS framework for rapidly building modern websites without ever leaving your HTML.
 [Tailwind CSS Documentation here](https://tailwindcss.com/docs)
 
@@ -108,15 +108,15 @@ After that, when all dependencies are installed, you can do  this command to run
 npm run dev
 ```
 
-### Mutli-lang
+### 🈳 Mutli-lang
 
-#### Modify existing text
+#### ✏️ Modify existing text
 
 To modify exiting text, you need to go to the [translations/](translations/) folder, select the file in the language you wanna change the text, and edit it.
 >[!TIP]
 >Filename is defined with the country code 2 letters of the language
 
-#### Add a new language
+#### ➕ Add a new language
 
 There is multiple steps to add a new language (here, we will take german) :
 

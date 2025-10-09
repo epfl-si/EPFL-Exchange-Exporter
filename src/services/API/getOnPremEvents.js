@@ -179,7 +179,7 @@ export default async (params) => {
 
     // Check if the request occured an error
     if (data["$"]["ResponseClass"] != "Success") {
-      return { error: { code: "errUserAccessMissing", message: data["m:MessageText"][0] } }
+      return { error: { code: "errTooHighRange", message: data["m:MessageText"][0] } }
     }
 
     data = data["m:RootFolder"][0]
