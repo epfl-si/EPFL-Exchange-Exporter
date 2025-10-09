@@ -14,6 +14,7 @@ const Footer = () => {
 
     const [today, setToday] = useState("");
     const [events, setEvents] = useState({ xmas: xmas, easter: easter, hlwn: hlwn });
+    const [repo, setRepo] = useState("https://github.com/epfl-si/EPFL-Exchange-Exporter");
 
     useEffect(() => {
         const api = async () => {
@@ -37,13 +38,13 @@ const Footer = () => {
                 <Link href="/docs" className="hover:text-[#FF0000]">
                     Documentations
                 </Link>
-                <a href="https://github.com/epfl-si/EPFL-Exchange-Exporter/" target="_blank" className="hover:text-[#FF0000]" id="SourceCode">
+                <a href={`${repo}/`} target="_blank" className="hover:text-[#FF0000]" id="SourceCode">
                     {translationHandler("source")}
                 </a>
             </div>
-            <span>
+            <Link href={`${repo}/releases/tag/v${packageConfig.version}`} target="_blank" className="hover:text-[#FF0000]">
                 v{packageConfig.version}
-            </span>
+            </Link>
         </footer>
     );
 };
