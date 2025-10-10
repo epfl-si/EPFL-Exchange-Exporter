@@ -15,7 +15,8 @@ export async function GET(request) {
 
   const missingArgs = checkArgsMissing(searchParamsReq, ["resource", "start", "end"]);
   if (missingArgs.state == "error") {
-    return NextResponse.json(new APIReturnClass(missingArgs.value, headersReq));
+    const APIReturn = new APIReturnClass(missingArgs.value, headersReq);
+    return NextResponse.json(APIReturn, { status: APIReturn.status.code });
   }
 
   let session = "";
@@ -30,7 +31,8 @@ export async function GET(request) {
           message: "Credentials error, please connecting you to your account."
         }
       }
-      return NextResponse.json(new APIReturnClass(error, headersReq));
+      const APIReturn = new APIReturnClass(error, headersReq);
+      return NextResponse.json(APIReturn, { status: APIReturn.status.code });
     }
   }
 
@@ -65,6 +67,8 @@ export async function GET(request) {
   }
 
   data = new APIReturnClass(data, headersReq);
-
+  if (data.status != "success") {
+    return NextResponse.json(data, {status: data.status.code});
+  }
   return NextResponse.json(data);
 }

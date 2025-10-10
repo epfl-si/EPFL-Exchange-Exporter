@@ -85,20 +85,79 @@
                 ]
               }
             ]
+          },
+          "return":{
+
           }
         }
       ],
-      "return": ""
+      "status":["success", "info", "warning"]
     }
   ],
   "errors":[
-    {"code": "errMissingArgs", "categories": "request", "status": "info"},
-    {"code": "errParameters", "categories": "request", "status": "info"},
-    {"code": "errInvalidResource", "categories": "request", "status": "warning"},
-    {"code": "errCredentials", "categories": "connection", "status": "warning"},
-    {"code": "errEWSRequest", "categories": "ews", "status": "warning"},
-    {"code": "errTooMuchData", "categories": "data", "status": "info"},
-    {"code": "errTooHighRange", "categories": "data", "status": "info"},
-    {"code": "errUserAccessMissing", "categories": "rights", "status": "info"}
+    {
+      "code": "errMissingArgs",
+      "categories": "request",
+      "status":{
+        "code": 400,
+        "name": "info"
+        }
+      },
+    {
+      "code": "errParameters",
+      "categories": "request",
+      "status":{
+        "code": 400,
+        "name": "info"
+        }
+      },
+    {
+      "code": "errInvalidResource",
+      "categories": "request",
+      "status":{
+        "code": 400,
+        "name": "warning"
+        }
+      },
+    {
+      "code": "errCredentials",
+      "categories": "connection",
+      "status":{
+        "code": 401,
+        "name": "warning"
+        }
+      },
+    {
+      "code": "errEWSRequest",
+      "categories": "ews",
+      "status":{
+        "code": 500,
+        "name": "warning"
+        }
+      },
+    {
+      "code": "errTooMuchData",
+      "categories": "data",
+      "status":{
+        "code": 500,
+        "name": "info"
+        }
+      },
+    {
+      "code": "errTooHighRange",
+      "categories": "data",
+      "status":{
+        "code": 400,
+        "name": "info"
+        }
+      },
+    {
+      "code": "errUserAccessMissing",
+      "categories": "rights",
+      "status":{
+        "code": 403,
+        "name": "info"
+        }
+      }
   ]
 }
