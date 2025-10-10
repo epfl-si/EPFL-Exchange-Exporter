@@ -116,7 +116,7 @@
       "categories": "request",
       "status":{
         "code": 400,
-        "name": "warning"
+        "name": "info"
         }
       },
     {

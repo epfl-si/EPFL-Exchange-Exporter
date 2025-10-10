@@ -87,6 +87,13 @@
       "headers":{
         "title": "Headers"
       },
+      "status":{
+        "title": "Status of request",
+        "description": "There is multiples status: ",
+        "success": "'success', which is returned when request run correctly.",
+        "info": "'info', which is returned when request give an error, due to bad request (wrong dates, wrong resources...).",
+        "warning": "'warning', which is returned when request give an error, due to something which block the request (wrong or missing credentials, server error...)."
+      },
       "console":{
         "title": "Console",
         "table":{

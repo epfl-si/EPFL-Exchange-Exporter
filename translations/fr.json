@@ -87,6 +87,13 @@
       "headers":{
         "title": "En-tête"
       },
+      "status":{
+        "title": "Statut de requête",
+        "description": "Il y a plusieurs statut: ",
+        "success": "'success', qui est retournée lorsque la requête a fonctionnée correctement.",
+        "info": "'info', qui est retournée lorsque la requête retour une erreur de requête du côté du client (mauvaises dates, mauvaises ressources...).",
+        "warning": "'warning', qui est retournée lorsqu'un élément empêche la requête d'aboutir (identifiants de connexion manquants, erreur serveur...)."
+      },
       "console":{
         "title": "Terminal",
         "table":{

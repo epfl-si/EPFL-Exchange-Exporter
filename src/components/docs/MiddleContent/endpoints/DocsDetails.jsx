@@ -45,6 +45,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
     const [website, setWebsite] = useState("");
     const [id, setId] = useState("");
     const [separatorId, setSeparatorId] = useState("_");
+    const [statusRequests, setStatusRequests] = useState(endpoint.status);
 
     useEffect(() => {
         // const paramsLabel = [...ep.params.matchAll(/[&?](.*?)=/gm)].map((entry) => ({ [entry[0]]: entry[1] }));
@@ -139,6 +140,29 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                                         :
                                             <></>
                                     }
+                                </div>
+                    </section>
+                    <section>
+                        <h4 className="bg-white bg-opacity-70 p-3 font-bold shadow-[0_1px_2px_#0000001a]">
+                            {translationHandler("status.title")}
+                                </h4>
+                                <div className="m-2">
+                                    <span>
+                                        {translationHandler("status.description")}
+                                    </span>
+                                    <ul className="list-disc ml-8 my-4">
+                                        {
+                                        statusRequests ?
+                                            statusRequests.map(status => {
+                                                return (
+                                                    // <span key={p.key}>{p.key}</span>
+                                                    <li key={status}>{translationHandler(`status.${status}`)}</li>
+                                                )
+                                            })
+                                        :
+                                            <></>
+                                        }
+                                    </ul>
                                 </div>
                     </section>
                     <section>
