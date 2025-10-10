@@ -54,9 +54,8 @@ const createFile = (params) => {
     createDownload(fileData, fileName, fileType);
     return new DownloadData(
         {
-            state : "check",
-            errorName : "DownloadSuccess",
-            rewrite : true
+            state: { name: "check" },
+            errorName : "DownloadSuccess"
         });
 }
 
@@ -92,7 +91,9 @@ const downloadFile = async(data) =>{
             data: response.data.map(d => new ExportedEvent(d))
         }
         console.log(data.data)
-        return createFile(options);
+        const file = createFile(options)
+        setIsLoading(false);
+        return file;
     }
     else{
         setIsLoading(false);
@@ -100,8 +101,7 @@ const downloadFile = async(data) =>{
             {
                 state : response.status,
                 error : response.error,
-                errorName : response.error.code,
-                rewrite : false
+                errorName : response.error.code
             });
     }
 }

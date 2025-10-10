@@ -1,8 +1,8 @@
 export default class DownloadData{
-    constructor({state="", title="", label="", value="", isExpired="", rewrite="", error="", errorName=""}){
+    constructor({state="", title="", label="", value="", isExpired="", error="", errorName=""}){
         this.alertbox =
         {
-            state: state,
+            status: state,
             title: title,
             label: label,
             button :
@@ -10,10 +10,10 @@ export default class DownloadData{
                 value: value
             }
         };
-        this.state =
+        this.status =
         {
-            isExpired: isExpired,
-            rewrite: rewrite
+            ...state,
+            isExpired: isExpired
         };
         this.error = error;
         this.errorName = errorName;

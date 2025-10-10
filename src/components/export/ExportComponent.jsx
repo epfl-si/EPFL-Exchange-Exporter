@@ -191,8 +191,9 @@ export default ({authSession}) => {
         setDownloadError(downloadData.error);
         setDownloadErrorName(downloadData.errorName);
 
-        if (downloadData.state.isExpired){
-          setAlertState(downloadData.alertbox.state);
+        if (downloadData.alertbox.status  || downloadData.status.isExpired) {
+          console.log("downloadData.status.isExpired")
+          setAlertState(downloadData.alertbox.status);
           setAlertTitle(downloadData.alertbox.title);
           setAlertLabel(downloadData.alertbox.label);
           setAlertButtonValue(downloadData.alertbox.button.value);
@@ -200,19 +201,8 @@ export default ({authSession}) => {
           setIsCheck(true);
         }
 
-        if (downloadData.state.rewrite){
-          setIsReset(true);
-          resetData();
-        }
-
-        if (downloadData.alertbox.state && !downloadData.state.isExpired){
-          setAlertState(downloadData.alertbox.state);
-          setAlertTitle(downloadData.alertbox.title);
-          setAlertLabel(downloadData.alertbox.label);
-          setAlertButtonValue(downloadData.alertbox.button.value);
-
-          setIsCheck(true);
-        }
+        console.log("downloadData.status")
+        console.log(downloadData.status)
       }}
       className="flex flex-col m-auto bg-[#EEEEEE] p-10 gap-10 rounded-xl">
 
@@ -305,7 +295,7 @@ export default ({authSession}) => {
         isCheck ?
         <AlertBox data={
           {
-            state: alertState,
+            status: alertState,
             title: alertTitle,
             label: alertLabel,
             error: downloadError,

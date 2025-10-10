@@ -32,6 +32,9 @@ export default ({data}) =>{
   })
 
   const [errorMsg, setErrorMsg] = useState(!data.choices ? getTranslateErrorMsg(data.error, data.errorName) : "");
+  console.log("dataaaaaaaa")
+  console.log(data)
+  console.log(data.status?.name)
 
   return (
     <BackgroundTasks>
@@ -75,9 +78,9 @@ export default ({data}) =>{
             <Image
               draggable={false}
               src={
-                textRefactor(data.state).includes("check") ?
+                textRefactor(data.status?.name).includes("check") ?
                 checkImg.src
-                : textRefactor(data.state).includes("warn") ?
+                : textRefactor(data.status?.name).includes("warn") ?
                 warningImg.src
                 : infoImg.src
               }
