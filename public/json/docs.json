@@ -86,9 +86,16 @@
               }
             ]
           },
-          "return":{
-
-          }
+          "return":[
+            {
+              "id": "success",
+              "code": "{\"status\": {\"code\": 200,\"name\": \"success\"},\"data\": [{\"start\": \"2025-11-11T09:00:00Z\",\"end\": \"2025-11-11T10:00:00Z\",\"subject\": \"Subject name\",\"email\": \"email@example.com\"}]}"
+            },
+            {
+              "id": "fail",
+              "code": "{\"status\": {\"code\": 400,\"name\": \"info\"},\"error\": {\"code\": \"errTooHighRange\",\"message\": \"The specified view range exceeds the maximum range of two years.\",\"url\": \"http://localhost:3000/docs/api/errors#errTooHighRange\"}}"
+            }
+          ]
         }
       ],
       "status":["success", "info", "warning"]

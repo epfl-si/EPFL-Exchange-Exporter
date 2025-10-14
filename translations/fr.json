@@ -140,6 +140,14 @@
                 "title": "Authorization",
                 "explanation": "Le champ {name} est un {type}. Ce champ correspond à votre accessToken, commençant par {acceptedSynthax}. Ce champ n'est obligatoire que si vous effectuez une requête autre que depuis ce navigateur où vous êtes connecté."
               }
+            },
+            "return":{
+              "success":{
+                "title": "Retour de l'API (Succès)"
+              },
+              "fail":{
+                "title": "Retour de l'API (Erreur)"
+              }
             }
           }
         }

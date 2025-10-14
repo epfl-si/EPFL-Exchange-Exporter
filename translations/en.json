@@ -140,6 +140,14 @@
                 "title": "Authorization",
                 "explanation": "The field {name} is a {type} in a {format} format. This field is {isRequired, select, true {required} other {optional}}, and correspond to your accessToken, started with {acceptedSynthax}. This field is required only if you call this endpoint outside this web browser where you're connected to this page."
               }
+            },
+            "return":{
+              "success":{
+                "title": "API Return (Success)"
+              },
+              "fail":{
+                "title": "API Return (Error)"
+              }
             }
           }
         }

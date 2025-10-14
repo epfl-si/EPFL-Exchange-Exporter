@@ -7,6 +7,8 @@ import CopyButton from "../../../utilities/CopyButton";
 import EndpointParameters from "./EndpointParameters";
 import DocsParamsExplanation from "./DocsParamsExplanation";
 
+import { themes } from 'prism-react-renderer';
+
 import { useTranslations } from "next-intl";
 
 const getMethodStyle = (method, opacity) => {
@@ -145,26 +147,58 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                     <section>
                         <h4 className="bg-white bg-opacity-70 p-3 font-bold shadow-[0_1px_2px_#0000001a]">
                             {translationHandler("status.title")}
+                        </h4>
+                        <div className="m-2">
+                            <span>
+                                {translationHandler("status.description")}
+                            </span>
+                            <ul className="list-disc ml-8 my-4">
+                                {
+                                statusRequests ?
+                                    statusRequests.map(status => {
+                                        return (
+                                            // <span key={p.key}>{p.key}</span>
+                                            <li key={status}>{translationHandler(`status.${status}`)}</li>
+                                        )
+                                    })
+                                :
+                                    <></>
+                                }
+                            </ul>
+                        </div>
+                    </section>
+                    {/* <section>
+                        <h4 className="bg-white bg-opacity-70 p-3 font-bold shadow-[0_1px_2px_#0000001a]">
+                            {translationHandler("return.error.title")}
+                        </h4>
+                        <div className="m-2">
+                            <span>
+                                {translationHandler("status.description")}
+                            </span>
+                            <ul className="list-disc ml-8 my-4">
+                                {
+                                    endpoint.return
+                                }
+                            </ul>
+                        </div>
+                    </section> */}
+                    {
+                        ep.return.map(r =>
+                            <section key={r.id}>
+                                <h4 className="bg-white bg-opacity-70 p-3 font-bold shadow-[0_1px_2px_#0000001a]">
+                                    {translationHandler(`endpoints.${endpoint.endpoint}.${ep.method}.return.${r.id}.title`)}
                                 </h4>
                                 <div className="m-2">
-                                    <span>
-                                        {translationHandler("status.description")}
-                                    </span>
-                                    <ul className="list-disc ml-8 my-4">
-                                        {
-                                        statusRequests ?
-                                            statusRequests.map(status => {
-                                                return (
-                                                    // <span key={p.key}>{p.key}</span>
-                                                    <li key={status}>{translationHandler(`status.${status}`)}</li>
-                                                )
-                                            })
-                                        :
-                                            <></>
-                                        }
-                                    </ul>
+                                    {/* <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.gruvboxMaterialLight} /> */}
+                                    {/* <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.jettwaveLight} /> */}
+                                    {/* <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.nightOwlLight} /> */}
+                                    {/* <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.oneLight} /> */}
+                                    {/* <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.ultramin} /> */}
+                                    <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.vsLight} disabledScroll={true} maxHeight={"auto"} copyButton={false} />
                                 </div>
-                    </section>
+                            </section>
+                        )
+                    }
                     <section>
                         <h4 className="bg-white bg-opacity-70 p-3 font-bold shadow-[0_1px_2px_#0000001a]">
                             {translationHandler("console.title")}
