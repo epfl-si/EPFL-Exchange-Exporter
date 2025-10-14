@@ -67,7 +67,7 @@ export async function GET(request) {
   }
 
   data = new APIReturnClass(data, headersReq);
-  if (data.status != "success") {
+  if (data.status.name != "success") {
     return NextResponse.json(data, {status: data.status.code});
   }
   return NextResponse.json(data);

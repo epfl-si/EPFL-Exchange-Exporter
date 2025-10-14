@@ -14,7 +14,10 @@ export default class {
       }
     }
     else {
-      this.status = "success";
+      this.status = {
+        code: 200,
+        name: "success"
+      };
       this.data = data.data;
     }
   }
