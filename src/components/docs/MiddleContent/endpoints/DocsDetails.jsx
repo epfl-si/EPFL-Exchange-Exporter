@@ -194,7 +194,7 @@ export default ({ endpoint, ep, rootTranslationId, endpointTranslationPath }) =>
                                     {/* <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.nightOwlLight} /> */}
                                     {/* <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.oneLight} /> */}
                                     {/* <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.ultramin} /> */}
-                                    <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.vsLight} disabledScroll={true} maxHeight={"auto"} copyButton={false} />
+                                    <CodeBlock code={r.code} language="json" bg="transparent" theme={themes.vsLight} disabledScroll={true} maxHeight={"auto"} shadowless={true} copyButton={false} />
                                 </div>
                             </section>
                         )
