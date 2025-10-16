@@ -4,7 +4,8 @@ export default ({link, copyColor, confirmColor}) =>{
 
     const [isCopy, setIsCopy] = useState(false);
 
-    const copyToClipboard = () =>{
+    const copyToClipboard = (e) => {
+        e.preventDefault(); e.stopPropagation();
         if (!isCopy){
             navigator.clipboard.writeText(link);
             setIsCopy(true);
@@ -16,7 +17,7 @@ export default ({link, copyColor, confirmColor}) =>{
 
     return (
         <>
-            <button id="CopyButton" className={`flex justify-center items-center ${ isCopy ? "cursor-default" : ""}`} type="button" onClick={() => {copyToClipboard()}}>
+            <button id="CopyButton" className={`flex justify-center items-center ${ isCopy ? "cursor-default" : ""}`} type="button" onClick={(e) => {copyToClipboard(e)}}>
                 {
                     !isCopy ?
                         <div className="animate-[ping_.19s_forwards_reverse]">

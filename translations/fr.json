@@ -38,7 +38,8 @@
     "errTooHighRange": "La période de temps séléctionnée est trop grande.",
     "errTooMuchData": "Il y a trop de données dans la période fournie: {nb}. Le maximum autorisé est 1000.",
     "errParameters": "Champs manquants ou incorrects.",
-    "errTokenExpired": "Jeton d'accès expiré. Rafraîchissez la page ou reconnectez-vous."
+    "errTokenExpired": "Jeton d'accès expiré. Rafraîchissez la page ou reconnectez-vous.",
+    "errEWSRequest": "Erreur Serveur"
   },
   "LogOutPage":{
     "title": "Vous avez bien été déconnecté"

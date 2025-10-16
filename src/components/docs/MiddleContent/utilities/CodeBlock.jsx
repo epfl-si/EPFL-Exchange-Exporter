@@ -5,9 +5,6 @@ import { CodeBlock } from "react-code-block";
 
 export default ({ code, language = "js", id, bg, disabledScroll=false, maxHeight, copyButton=true, shadowless=false, ...attributes }) => {
     const prettyCode = JSON.stringify(JSON.parse(code), null, 2);
-    console.log(bg);
-    console.log(bg ? true : false);
-    console.log(bg);
     return (
         // https://react-code-block.netlify.app/usage#showing-line-numbers
         <div className="flex relative rounded-xl" id={id}>

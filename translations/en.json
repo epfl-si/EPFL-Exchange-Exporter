@@ -38,7 +38,8 @@
     "errTooHighRange": "The specified view range exceeds the maximum range of two years.",
     "errTooMuchData": "There is too much data in the provided period: {nb}. The maximum allowed is 1000.",
     "errParameters": "Missing or wrong fields.",
-    "errTokenExpired": "Access token expired. Refresh the page or log in again."
+    "errTokenExpired": "Access token expired. Refresh the page or log in again.",
+    "errEWSRequest": "Server Error"
   },
   "LogOutPage":{
     "title": "You have been disconnected"
