@@ -2,30 +2,36 @@
 
 <!-- Put after theses lines, ctrl + shift + p and write "Markdown" and click to "Markdwon all ine one" extension -->
 - [Summary](#summary)
-  - [❓ What is EEEE ?](#-what-is-eeee-)
-  - [🦾 What does technologies uses ?](#-what-does-technologies-uses-)
+  - [❓ WHAT IS EEEE ?](#-what-is-eeee-)
+  - [🦾 WHICH TECHNOLOGIES DOES IT USES ?](#-which-technologies-does-it-uses-)
     - [⚛️➡️ Next.js](#️️-nextjs)
     - [🌊 Tailwind CSS](#-tailwind-css)
     - [🆔 NextAuth.js](#-nextauthjs)
     - [🈵 NextIntl.js](#-nextintljs)
+  - [📋 PREREQUISITES](#-prerequisites)
   - [⚙️ CONFIGURATION](#️-configuration)
     - [🔏 Environment file](#-environment-file)
-    - [📥 INSTALLATION](#-installation)
+    - [📥 Installation](#-installation)
   - [🛠️ DEVELOPMENT](#️-development)
-    - [▶️ RUN IN DEVELOPMENT](#️-run-in-development)
+    - [▶️ Run in development](#️-run-in-development)
     - [🈳 Mutli-lang](#-mutli-lang)
       - [✏️ Modify existing text](#️-modify-existing-text)
       - [➕ Add a new language](#-add-a-new-language)
   - [🚀 DEPLOY IN TEST / PROD](#-deploy-in-test--prod)
-    - [✉️ MAKEFILE](#️-makefile)
-    - [📮 SOPSIBLE](#-sopsible)
+    - [✉️ Makefile](#️-makefile)
+    - [📮 Sopsible](#-sopsible)
+    - [👣 Steps to follow](#-steps-to-follow)
+      - [🎯 Push all changes to main](#-push-all-changes-to-main)
+      - [🏷️ Change version](#️-change-version)
+      - [💉 Deploy in test](#-deploy-in-test)
+      - [💉 Deploy in prod](#-deploy-in-prod)
 - [🖼️ Icons used](#️-icons-used)
 
-## ❓ What is EEEE ?
+## ❓ WHAT IS EEEE ?
 
 EEEE stand for EPFL Exchange Events Exporter. This app is used to return all calendars event of resources (conference room, equipments..), inside a data file as csv and json. There is also an API to get theses informations in JSON format too, with more flexibility.
 
-## 🦾 What does technologies uses ?
+## 🦾 WHICH TECHNOLOGIES DOES IT USES ?
 
 ### ⚛️➡️ Next.js
 Next.js is an open-source framework, powered by ⚛︎ React.js and node.js.
@@ -43,7 +49,11 @@ Next-auth is an open-source authentication librabry designed for next.js. Its go
 Next-intl is an internationalization library designed for next.js. Its goal here is to let user chose his favorite language among proposed.
 [NextIntl.js Documentation here](https://next-intl.dev/docs/getting-started)
 
+## 📋 PREREQUISITES
 
+1. Rights to group `epfl_sopec` in **keybase**, to access to secrets.
+2. Clone this repository and [sopec repository](https://github.com/epfl-si/sopec)
+3. Access to quay
 
 ## ⚙️ CONFIGURATION
 
@@ -78,7 +88,7 @@ with :
 
 **AUTH_EWS_SERVICE_ENDPOINT** : the **service endpoint** of **on premise** app
 
-### 📥 INSTALLATION
+### 📥 Installation
 
 After configuring, now you can start this application by the command below :
 
@@ -100,7 +110,7 @@ npm install
 
 ## 🛠️ DEVELOPMENT
 
-### ▶️ RUN IN DEVELOPMENT
+### ▶️ Run in development
 
 After that, when all dependencies are installed, you can do  this command to run this app :
 
@@ -139,9 +149,9 @@ There is multiple steps to add a new language (here, we will take german) :
 For this project, some feature has been created or is used to improve the deployment:
 - [A Makefile](#✉️-makefile) (to change version of package.json and package-lock.json, and commit / push in gitHub)
 - A Workflow (to create a release, create a docker image with version and push the docker image to quay)
-- [A Script](#📮-sopsible) (deploy th app with iamge of the version selected, in test or prod)
+- [A Script](#📮-sopsible) (deploy the app with image of the version selected, in test or prod)
 
-### ✉️ MAKEFILE
+### ✉️ Makefile
 With this makefile, you can change the version depend to type of change, and you can if you want git add, commit or push automaticaly. There is multiple type of command where all here :
 
 - `help` => **get help guide**
@@ -163,7 +173,7 @@ With this makefile, you can change the version depend to type of change, and you
 - `mjc` => **major commit**
 - `mjp` => **major push**
 
-If you push or commit with one of theses command (ptc, ptp, mnc...), the commit message are the following :
+If you push or commit with one of theses command (ptc, ptp, mnc...), the commit message are the following (file format) :
 ```
 [version] bump to v$(version)
 
@@ -183,8 +193,53 @@ To:        v$(version)
 >[!WARNING]
 > If you write manually the version, please take care about version. Write version like `X.X.X`, so for example `1.11.11`, but no `01.12` or no `1.11.11-test`. It is important because the makefile need to get 3 values (numeric only, integer values) separated with dots, to manage version with previous parameters.
 
-### 📮 SOPSIBLE
+### 📮 Sopsible
 Sopsible is a script from [SOPEC REPO](https://github.com/epfl-si/sopec), to deploy app image in test or prod.
+
+### 👣 Steps to follow
+
+#### 🎯 Push all changes to main
+
+>[!NOTE]
+>If you are in a branch, push to your branch and merge it to the main branch.
+
+#### 🏷️ Change version
+
+Now, do a commit following this documentation
+
+#### 💉 Deploy in test
+
+1. Go to Sopsible project. If you don't have it locally, clone the repository with the link just above.
+
+>[!TIP]
+> If you already have it, check if you are already updated with the command below :
+> ```bash
+> git pull
+> ```
+
+In `roles/eeee/vars/main.yml`, change the version with the new version of app that previously defined
+
+To deploy in test:
+```bash
+./sopsible -t eeee --test
+```
+
+#### 💉 Deploy in prod
+
+1. Go to Sopsible project. If you don't have it locally, clone the repository with the link just above.
+
+>[!TIP]
+> If you already have it, check if you are already updated with the command below :
+> ```bash
+> git pull
+> ```
+
+In `roles/eeee/vars/main.yml`, change the version with the new version of app that previously defined
+
+To deploy in prod:
+```bash
+./sopsible -t eeee --prod
+```
 
 # 🖼️ Icons used
 Icons used here comes from:
