@@ -51,6 +51,7 @@ export default ({data}) =>{
               className="ml-auto mr-auto mt-5"
               width={128}
               height={128}
+              unoptimized
             />
           <span>{data.choices.label}</span>
           <div className="flex justify-around">

@@ -34,7 +34,7 @@ const Footer = () => {
                 {/* Icon by Freepik */}
                 {
                     today?.event?.isEvent ?
-                        <Image src={events[today.event.name].src} width={48} height={48} draggable="false" alt="Event Icon" />
+                        <Image src={events[today.event.name].src} width={48} height={48} draggable="false" alt="Event Icon" unoptimized/>
                     :
                         <div></div>
                 }
