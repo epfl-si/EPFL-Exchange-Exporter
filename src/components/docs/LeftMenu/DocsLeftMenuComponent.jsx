@@ -31,7 +31,6 @@ export default ({ doc, data, color }) => {
         window.addEventListener("scroll", onScroll);
 
         return () => window.removeEventListener("scroll", onScroll);
-        console.log(data);
     }, []);
 
     return (

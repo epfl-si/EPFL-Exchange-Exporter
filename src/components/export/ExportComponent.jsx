@@ -192,7 +192,6 @@ export default ({authSession}) => {
         setDownloadErrorName(downloadData.errorName);
 
         if (downloadData.alertbox.status  || downloadData.status.isExpired) {
-          console.log("downloadData.status.isExpired")
           setAlertState(downloadData.alertbox.status);
           setAlertTitle(downloadData.alertbox.title);
           setAlertLabel(downloadData.alertbox.label);
@@ -200,9 +199,6 @@ export default ({authSession}) => {
 
           setIsCheck(true);
         }
-
-        console.log("downloadData.status")
-        console.log(downloadData.status)
       }}
       className="flex flex-col m-auto bg-[#EEEEEE] p-10 gap-10 rounded-xl">
 

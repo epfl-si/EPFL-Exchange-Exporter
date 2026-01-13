@@ -21,7 +21,6 @@ export default ({data}) =>{
   const [showError, setShowError] = useState(false);
 
   const getTranslateErrorMsg = (error, errorName, errorCount) => {
-    console.log(errorName);
     return errorName == "errTooMuchData" ? translationHandler(errorName, {nb: errorCount || error.split('.')[2].split(" ").filter((x) => x != "")[0]}) : translationHandler(errorName);
   }
 
@@ -35,10 +34,6 @@ export default ({data}) =>{
   })
 
   const [errorMsg, setErrorMsg] = useState(!data.choices ? getTranslateErrorMsg(data.error, data.errorName) : "");
-  console.log("dataaaaaaaa")
-  console.log(data)
-  console.log(data.status?.name)
-  console.log(data.status?.code)
 
   return (
     <BackgroundTasks>

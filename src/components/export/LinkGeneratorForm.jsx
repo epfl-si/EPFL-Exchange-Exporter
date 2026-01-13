@@ -122,9 +122,9 @@ export default ({setPopupOpen, data}) =>{
                         {
                             selectValues.map(sv =>
                                 <label htmlFor={sv.id} className={`rounded-lg h-full ${selectValues[selectValues.length - 1].id == sv.id && selectValues.length % 2 == 1 ? "col-start-1 col-end-3" : ""}`} key={sv.id}>
-                                    <input className="peer hidden" id={`${sv.id}Invisible`} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={() => { sv.setter(v => !v);  console.log(sv.value)}}/>
+                                    <input className="peer hidden" id={`${sv.id}Invisible`} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={() => { sv.setter(v => !v);}}/>
                                     <div className="flex items-center peer-disabled:text-gray-400 bg-white peer-enabled:hover:bg-gray-100 border w-full h-full p-2 peer-checked:border-[#FF0000] rounded-lg">
-                                        <input className="peer accent-red-600" id={sv.id} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={()=>{ sv.setter(v => !v);  console.log(sv.value)}}/>
+                                        <input className="peer accent-red-600" id={sv.id} type="checkbox" disabled={sv.disabledCondition} checked={sv.value} onChange={()=>{ sv.setter(v => !v);}}/>
                                         <span className="peer-disabled:text-gray-400 ml-1">{sv.name}</span>
                                     </div>
                                 </label>

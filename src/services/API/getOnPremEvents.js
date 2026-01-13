@@ -64,10 +64,6 @@ const getCalendarItems = async (items) => {
 
     const res = await callPostAPI(xmlRequest);
     parseString(res.data, function (err, result) {
-      console.log("log");
-      console.log(result["s:Envelope"]["s:Body"][0]["m:GetItemResponse"]);
-      console.log(result["s:Envelope"]["s:Body"]);
-      console.log("log");
       dataTemp = result["s:Envelope"]["s:Body"][0]
       ["m:GetItemResponse"]
       [0]

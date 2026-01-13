@@ -17,9 +17,6 @@ const APICall = async (request, token, type='get', body, contentType) => {
       ...(contentType && { "Content-Type": contentType })
     })
   }).then((r) => { return r.json() });
-  console.log(request);
-  console.log(JSON.stringify(body));
-  console.log(response);
   return response;
 }
 
@@ -37,9 +34,7 @@ const getEvents = async (params) => {
   //   })
   // }).then((r) => { return r.json() });
 
-  console.log("a");
   let response = await APICall(request, token);
-  console.log("b");
 
   if (!response?.error){
     let data = response.value
