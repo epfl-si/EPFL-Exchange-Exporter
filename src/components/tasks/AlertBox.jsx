@@ -25,7 +25,7 @@ export default ({data}) =>{
   }
 
   useEffect(()=>{
-    const handleKeyDown = (e) =>{
+    const handleKeyDown = (e) => {
       if (e.keyCode== 27){
         data.button.setter(false);
       }

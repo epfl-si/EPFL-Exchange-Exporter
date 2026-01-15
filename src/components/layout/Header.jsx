@@ -3,12 +3,10 @@
 import Link from "next/link";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 
 import LoginButton from "../auth/LoginButton";
 import LogoutButton from "../auth/LogoutButton";
 import LangSwitcher from "../utilities/LangSwitcher";
-import { usePathname } from "@/i18n/navigation";
 
 import Image from 'next/image'
 
@@ -16,8 +14,6 @@ const Header = () =>{
 
     const [session, setSession] = useState("");
     const [imageUrl, setImageUrl] = useState("");
-
-    const pathname = usePathname();
 
     useEffect(() =>{
         const api = async() =>{
