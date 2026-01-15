@@ -8,9 +8,9 @@ const log = async (type, data) => {
     type,
     ip,
     ...data,
-    datetime: (new Date()).toISOString(),
+    timestamp: (new Date()).toISOString(),
   }
-  console.log(data);
+  console.info(JSON.stringify(data));
 }
 
 export const logExport = async (data) => {

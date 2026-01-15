@@ -15,14 +15,12 @@ export default async function middleware(req) {
 	const { pathname } = req.nextUrl;
 	const search = req.nextUrl.search;
   const endpoint = pathname + search;
-  const url = req.headers.get("x-forwarded-proto") + "://" + req.headers.get("host") + endpoint
-	const ip = req.headers.get("x-forwarded-for") || null;
+  const url = req.headers.get("x-forwarded-proto") + "://" + req.headers.get("host") + endpoint;
 
   const session = await auth();
   const user = session?.user;
   delete user?.image;
   const log = {
-    ip,
     user: session?.user,
     url,
   };
