@@ -199,6 +199,11 @@
           "title": "Paramètres manquants",
           "message": "Paramètre suivants manquants : `argument`",
           "explanation": "Cette erreur survint lorsque un paramètre obligatoire est manquant."
+        },
+        "InvalidAuthenticationToken":{
+          "title": "Jeton d'authentification Invalid",
+          "message": "Le jeton d'authentification a expiré",
+          "explanation": "Cette erreur survint lorsque le jeton d'authentification donné en paramètre de votre requête est expiré. Il faut le remplacer par un jeton d'authentification dont la date d'expiration n'est pas atteinte."
         }
       }
     }

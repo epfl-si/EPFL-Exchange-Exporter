@@ -109,7 +109,7 @@
         "code": 400,
         "name": "info"
         }
-      },
+    },
     {
       "code": "errParameters",
       "categories": "request",
@@ -117,7 +117,7 @@
         "code": 400,
         "name": "info"
         }
-      },
+    },
     {
       "code": "errInvalidResource",
       "categories": "request",
@@ -125,7 +125,7 @@
         "code": 400,
         "name": "info"
         }
-      },
+    },
     {
       "code": "errCredentials",
       "categories": "connection",
@@ -133,7 +133,7 @@
         "code": 401,
         "name": "warning"
         }
-      },
+    },
     {
       "code": "errEWSRequest",
       "categories": "ews",
@@ -141,7 +141,7 @@
         "code": 500,
         "name": "warning"
         }
-      },
+    },
     {
       "code": "errTooMuchData",
       "categories": "data",
@@ -149,7 +149,7 @@
         "code": 500,
         "name": "info"
         }
-      },
+    },
     {
       "code": "errTooHighRange",
       "categories": "data",
@@ -165,6 +165,14 @@
         "code": 403,
         "name": "info"
         }
-      }
+    },
+    {
+      "code": "InvalidAuthenticationToken",
+      "categories": "connection",
+      "status":{
+        "code": 401,
+        "name": "warning"
+        }
+    }
   ]
 }

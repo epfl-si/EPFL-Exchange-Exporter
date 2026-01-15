@@ -196,9 +196,14 @@
           "explanation": "This error occurs when requested resource doesn't exist or is wrong."
         },
         "errMissingArgs":{
-          "title": "Paramètres manquants",
+          "title": "Missing parameters",
           "message": "Missing following argument : `argument`",
           "explanation": "This error occurs when a required parameters is missing."
+        },
+        "InvalidAuthenticationToken":{
+          "title": "Invalid Authentication Token",
+          "message": "Token is expired",
+          "explanation": "This error occurs when provided token in a request is expired. Replace it by another one with an older expiration date."
         }
       }
     }
