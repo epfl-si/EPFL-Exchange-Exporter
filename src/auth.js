@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import MicrosoftEntraID from "@auth/core/providers/microsoft-entra-id";
+import { logAuth } from "./services/logs";
 
 
 /**
@@ -93,6 +94,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
 
       return session
+    },
+    async signIn({ user, account, profile, email, credentials }) {
+      const usr = {...user};
+      delete usr.image;
+      delete usr.name;
+      const log = {
+        user: usr,
+      };
+      logAuth("signin", log);
+      return true
     },
   },
   secret: process.env.AUTH_SECRET

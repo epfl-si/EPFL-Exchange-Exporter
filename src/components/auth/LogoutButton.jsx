@@ -62,7 +62,7 @@ export default ({imageUrl, session}) =>{
                           },
                           {
                             value : translationHandler("signoutAccept"),
-                            setter : (state)=>{setIsCheck(state); setIsLogout(true); disconnect();}
+                            setter : (state)=>{setIsCheck(state); setIsLogout(true); disconnect(session);}
                           }
                         ]
                       }
