@@ -3,6 +3,7 @@ import DownloadData from "@/class/downloadDataClass";
 import { ExportedEvent } from "@/class/EventClass";
 
 import { logExport } from "./logs";
+import { usePathname } from "next/navigation";
 
 const getCSV = (data)=>{
 
@@ -114,6 +115,7 @@ const downloadFile = async(data) =>{
             options: optionsLog,
             // options: options.filter(option => !option.setLoadingLabel && !option.setIsLoading && !option.website),
             response,
+            url: data.url,
         };
         logExport(logData);
         return file;
