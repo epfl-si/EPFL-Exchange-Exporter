@@ -7,15 +7,29 @@ import { checkArgsMissing, checkArgsValidity } from "@/services/checkArgs";
 import getEvents from "@/services/API/getEvents";
 
 import APIReturnClass from "@/class/APIReturnClass";
+import { logAPI } from "@/services/logs";
+
+const log = (data, request, header) => {
+  const paramsQuery = request.nextUrl.searchParams.entries().reduce((result, paramKeyValue, index) => result += `${index == 0 ? '?' : '&'}${paramKeyValue[0]}=${paramKeyValue[1]}`, ''); //Empty string at the end is the initial value used for .reduce(). Without this, first element of array will not be impacted by reducer.
+  const url = `${header.get('X-Forwarded-Proto')}://${header.get('host')}${request?.nextUrl?.pathname}${paramsQuery}`;
+  const response = {
+    response: { ...data },
+    url
+  }
+  logAPI(response);
+}
 
 export async function GET(request) {
 
   const searchParamsReq = request.nextUrl.searchParams;
   const headersReq = await headers();
 
+  let data = {};
+
   const missingArgs = checkArgsMissing(searchParamsReq, ["resource", "start", "end"]);
   if (missingArgs.state == "error") {
     const APIReturn = new APIReturnClass(missingArgs.value, headersReq);
+    log(APIReturn, request, headersReq);
     return NextResponse.json(APIReturn, { status: APIReturn.status.code });
   }
 
@@ -32,6 +46,7 @@ export async function GET(request) {
         }
       }
       const APIReturn = new APIReturnClass(error, headersReq);
+      log(APIReturn, request, headersReq);
       return NextResponse.json(APIReturn, { status: APIReturn.status.code });
     }
   }
@@ -46,8 +61,6 @@ export async function GET(request) {
   }
 
   const isArgsCorrect = checkArgsValidity(option);
-
-  let data = {};
 
   if (!isArgsCorrect.state) {
     data = {
@@ -68,7 +81,11 @@ export async function GET(request) {
 
   data = new APIReturnClass(data, headersReq);
   if (data.status.name != "success") {
+    log(data, request, headersReq);
     return NextResponse.json(data, {status: data.status.code});
   }
+  const len = data.data.length;
+  const logData = {data: `${len} event${len > 1 ? 's' : ''} returned.`}
+  log(logData, request, headersReq);
   return NextResponse.json(data);
 }

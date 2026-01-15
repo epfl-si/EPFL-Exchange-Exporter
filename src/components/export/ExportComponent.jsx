@@ -20,6 +20,7 @@ import { useTranslations } from "next-intl";
 import dayjs from "dayjs";
 import ExportResetButton from "./buttons/ExportResetButton";
 import { useMediaQuery } from "react-responsive";
+import { logAction } from "@/services/logs";
 
 export default ({authSession}) => {
 
@@ -83,8 +84,13 @@ export default ({authSession}) => {
     return true;
   }
 
-  const resetData = ()=>{
+  const resetData = () => {
     router.replace('/', undefined, { shallow: true });
+    const resource = userSearch;
+    const start = startDate;
+    const end = endDate;
+    const filename = fileName;
+    const extension= exportExt;
     setIsClicked(false);
     setIsLoading(false);
     setExportExt("");
@@ -93,6 +99,24 @@ export default ({authSession}) => {
     setStartDate(null);
     setEndDate(null);
     setUserSearch("");
+    const options = {
+      resource,
+      start,
+      end,
+      filename,
+      extension,
+    }
+    const result = {
+      options,
+      action_type: "form_reset",
+    };
+    const usr = authSession?.user;
+    delete usr.image;
+    const data = {
+      user: usr,
+      ...result,
+    }
+    logAction(data);
   }
 
   useEffect(()=>{
@@ -184,7 +208,8 @@ export default ({authSession}) => {
             setLoadingLabel : setLoadingLabel,
             setIsLoading: setIsLoading,
             isFrontend: true,
-            website: window.location.protocol + "//" + window.location.host
+            website: window.location.protocol + "//" + window.location.host,
+            url: window.href
         }
         );
 
