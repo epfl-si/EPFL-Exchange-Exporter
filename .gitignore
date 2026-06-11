@@ -34,14 +34,15 @@ yarn-error.log*
 .env
 .env.local
 
+# log files
+**/*.log
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-
 
 # SSL
 *.crt

@@ -1,6 +1,7 @@
 import { NextIntlClientProvider, Locale, hasLocale } from 'next-intl';
 import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
+import { routing } from '@/i18n/routing';
+import PageTracker from '@/components/utilities/page-tracker';
 
 import { SessionProvider } from 'next-auth/react';
 
@@ -37,11 +38,15 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <script defer src={process.env.UMAMI_URL_SCRIPT} data-website-id={process.env.UMAMI_WEBSITE_ID}></script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex flex-col`}
         >
         <SessionProvider>
           <NextIntlClientProvider>
+            <PageTracker/>
             <Header/>
               {children}
             <Footer/>
