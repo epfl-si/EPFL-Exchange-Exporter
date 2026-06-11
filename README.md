@@ -19,12 +19,16 @@
       - [➕ Add a new language](#-add-a-new-language)
   - [🚀 DEPLOY IN TEST / PROD](#-deploy-in-test--prod)
     - [✉️ Makefile](#️-makefile)
-    - [📮 Sopsible](#-sopsible)
     - [👣 Steps to follow](#-steps-to-follow)
       - [🎯 Push all changes to main](#-push-all-changes-to-main)
       - [🏷️ Change version](#️-change-version)
-      - [💉 Deploy in test](#-deploy-in-test)
-      - [💉 Deploy in prod](#-deploy-in-prod)
+      - [Deployment prerequies](#deployment-prerequies)
+      - [💉 Deployment](#-deployment)
+  - [READ LOGS](#read-logs)
+    - [Console View](#console-view)
+      - [Get log content (console)](#get-log-content-console)
+      - [Read log content (live)](#read-log-content-live)
+      - [Export log file](#export-log-file)
 - [🖼️ Icons used](#️-icons-used)
 
 ## ❓ WHAT IS EEEE ?
@@ -193,9 +197,6 @@ To:        v$(version)
 >[!WARNING]
 > If you write manually the version, please take care about version. Write version like `X.X.X`, so for example `1.11.11`, but no `01.12` or no `1.11.11-test`. It is important because the makefile need to get 3 values (numeric only, integer values) separated with dots, to manage version with previous parameters.
 
-### 📮 Sopsible
-Sopsible is a script from [SOPEC REPO](https://github.com/epfl-si/sopec), to deploy app image in test or prod.
-
 ### 👣 Steps to follow
 
 #### 🎯 Push all changes to main
@@ -207,38 +208,64 @@ Sopsible is a script from [SOPEC REPO](https://github.com/epfl-si/sopec), to dep
 
 Now, do a commit following this documentation
 
-#### 💉 Deploy in test
+#### Deployment prerequies
 
-1. Go to Sopsible project. If you don't have it locally, clone the repository with the link just above.
+1. Clone [sopec](https://github.com/epfl-si/sopec) repository if it's not already done
+2. Change version of EEEE in [`apps/eeee/base/web.yaml`](https://github.com/epfl-si/sopec) file, to the new version (line content is **image: quay-its.epfl.ch/svc0176/eeee:<version>**)
+3. Push changes
 
->[!TIP]
-> If you already have it, check if you are already updated with the command below :
-> ```bash
-> git pull
-> ```
+#### 💉 Deployment
 
-In `roles/eeee/vars/main.yml`, change the version with the new version of app that previously defined
+1. Go to ArgoCD [test](https://go.epfl.ch/osat) or [prod](https://go.epfl.ch/osa)
+2. Connect with OpenShift -> ldap-idp account
+3. Select **openshift-gitops/sopec-eeee**
+4. Click on **sync** button
+>[!NOTE]
+> If auto sync is enables, you can only click on **refresh** button
 
-To deploy in test:
-```bash
-./sopsible -t eeee --test
+## READ LOGS
+
+To read logs in local, just open `logs/data.log` file (created by the app).
+To access EEEE's logs in test or prod, you need to use one of these solution.
+
+### Console View
+
+1. Login to OpenShift in console with the command below.
+```sh
+# Log in OpenShift Cluster (TEST)
+oc login --web --server=https://api.ocpitst0001.xaas.epfl.ch:6443
+
+# Log in OpenShift Cluster (PROD)
+oc login --web --server=https://api.ocpitsp0001.xaas.epfl.ch:6443
+```
+2. Follow login steps in your favorite navigator (Firefox, or other)
+3. Change to select the correct project with the command below.
+```sh
+# Select project (TEST)
+oc project svc0176t-isas-fsd
+
+# Select project (PROD)
+oc project svc0176p-isas-fsd
 ```
 
-#### 💉 Deploy in prod
+There is multiples ways to read logs, as following.
 
-1. Go to Sopsible project. If you don't have it locally, clone the repository with the link just above.
+#### Get log content (console)
 
->[!TIP]
-> If you already have it, check if you are already updated with the command below :
-> ```bash
-> git pull
-> ```
+```sh
+kubectl exec -it $(oc get pods -o name | grep pod/eeee) -- cat logs/data.log
+```
 
-In `roles/eeee/vars/main.yml`, change the version with the new version of app that previously defined
+#### Read log content (live)
 
-To deploy in prod:
-```bash
-./sopsible -t eeee --prod
+```sh
+kubectl exec -it $(oc get pods -o name | grep pod/eeee) -- watch cat logs/data.log
+```
+
+#### Export log file
+
+```sh
+kubectl exec -it $(oc get pods -o name | grep pod/eeee) -- cat logs/data.log > eeee_export.log
 ```
 
 # 🖼️ Icons used
