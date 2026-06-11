@@ -1,6 +1,6 @@
 "use server";
 
-import { promises as fs } from 'fs';
+import { promises as fs, existsSync } from 'fs';
 
 import { headers } from "next/headers";
 
@@ -13,8 +13,18 @@ const log = async (type, data) => {
     timestamp: (new Date()).toISOString(),
   }
   const dataFormat = JSON.stringify(data);
+
   console.info(dataFormat);
-  await fs.appendFile(`${process.cwd()}/public/json/data.log`, dataFormat + "\n");
+
+  // Handle creation of log's folder and file if not exist
+  const folderPath = `${process.cwd()}/logs`;
+  const filePath = `${folderPath}/data.log`;
+
+  if (!existsSync(filePath)) {
+    fs.mkdir(folderPath)
+    fs.open(filePath, 'w')
+  }
+  await fs.appendFile(filePath, dataFormat + "\n");
 }
 
 export const logExport = async (data) => {
